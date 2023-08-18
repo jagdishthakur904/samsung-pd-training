@@ -8,4 +8,4 @@
  Getting started with the tools like, Prime Time, Design Compiler, yosys, iverilog, gtkview
  Below is the screenshot showing sucessful launch:
 
-<img width="1085" alt="yosys" src="[https://github.com/jagdishthakur904/samsung-pd-training-#day0/yosys.PNG](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/samsung-pd-training-%23day0/yosys.PNG)https://github.com/jagdishthakur904/samsung-pd-training/blob/master/samsung-pd-training-%23day0/yosys.PNG">
+<img width="1085" alt="yosys" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/samsung-pd-training-%23day0/yosys.PNG">
