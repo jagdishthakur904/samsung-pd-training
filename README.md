@@ -63,5 +63,5 @@ Design Compiler is a popular synthesis tool used in digital design and integrate
 <details>
 <summary> lc_shell </summary>
 
-<img width="1085" alt="DesignCompiler" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/samsung-pd-training-%23day0/lc_snapshot.png">
+<img width="1085" alt="DesignCompiler" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/samsung-pd-training-%23day0/lc_snapshot1.png">
 </details>
