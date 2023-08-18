@@ -10,7 +10,9 @@
 </details>
 <details>
 <summary> Yosys </summary>
-Yosys is an open-source framework for RTL (Register Transfer Level) synthesis and formal verification of digital circuits. Here are five key points about Yosys:
+Yosys is an open-source framework for RTL (Register Transfer Level) synthesis and formal verification of digital circuits.
+
+ Here are five key points about Yosys
  * Open-source framework for RTL synthesis and formal verification of digital circuits.
  * Operates primarily on Verilog designs, converting them into gate-level netlists.
  * Offers formal verification capabilities for equivalence checking between different circuit representations.
@@ -43,5 +45,23 @@ PrimeTime is a widely used static timing analysis (STA) tool in digital design.
 * Performs library characterization for accurate timing analysis.
 * Provides optimization guidance and supports advanced features like scenario analysis and power optimization.
 
-<img width="1085" alt="PrimeTime" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/samsung-pd-training-%23day0/pt_shell.PNG">
+<img width="1085" alt="PrimeTime" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/samsung-pd-training-%23day0/pt_snapshot.png">
+</details>
+<details>
+<summary> Design Compiler </summary>
+Design Compiler is a popular synthesis tool used in digital design and integrated circuit (IC) design flows.
+
+* Logic synthesis tool for digital and IC design.
+* Converts VHDL/Verilog to gate-level netlists.
+* Optimizes designs for performance, area, and power.
+* Supports hierarchical design and design reuse.
+* Considers user-defined constraints and performs timing analysis.
+
+<img width="1085" alt="DesignCompiler" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/samsung-pd-training-%23day0/dc_snapshot2.png">
+</details>
+
+<details>
+<summary> lc_shell </summary>
+
+<img width="1085" alt="DesignCompiler" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/samsung-pd-training-%23day0/lc_snapshot.png">
 </details>
