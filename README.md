@@ -76,3 +76,14 @@ IC Compiler II is a sophisticated tool aimed at addressing the challenges of mod
 * Advanced features: parallel optimization, machine learning, Fusion technologies, and integrated signoff capabilities for unmatched QoR and design convergence.
 <img width="1085" alt="ICC II" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/samsung-pd-training-%23day0/icc2_snapshot.png">
 </details>
+
+<summary> IVERILOG </summary>
+IVERILOG is an open-source Verilog simulation and synthesis tool
+
+* Open-source Verilog simulation and synthesis tool.
+* Enables simulation of Verilog designs with testbenches and test vectors.
+* Generates waveform output files for visualization.
+* Limited synthesis support for generating gate-level netlists.
+* Used for learning, research, and quick prototyping in digital design.
+
+</details>
