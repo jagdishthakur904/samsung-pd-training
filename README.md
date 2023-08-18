@@ -65,3 +65,14 @@ Design Compiler is a popular synthesis tool used in digital design and integrate
 
 <img width="1085" alt="DesignCompiler" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/samsung-pd-training-%23day0/lc_snapshot1.png">
 </details>
+<details>
+<summary> IC Compiler II </summary>
+IC Compiler II is a sophisticated tool aimed at addressing the challenges of modern IC design, emphasizing performance, power, area, and design closure efficiency while catering to various market verticals and process technologies.
+
+* Leading place and route tool for IC design.
+* Focus on top-notch Quality of Results (QoR).
+* Comprehensive capabilities: design planning, optimization, placement, routing, clock synthesis, compliance, and signoff.
+* Targets aggressive PPA goals for cutting-edge designs.
+* Advanced features: parallel optimization, machine learning, Fusion technologies, and integrated signoff capabilities for unmatched QoR and design convergence.
+<img width="1085" alt="ICC II" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/samsung-pd-training-%23day0/icc2_snapshot.png">
+</details>
