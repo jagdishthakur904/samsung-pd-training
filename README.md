@@ -61,9 +61,9 @@ Design Compiler is a popular synthesis tool used in digital design and integrate
 </details>
 
 <details>
-<summary> lc_shell </summary>
-
-<img width="1085" alt="DesignCompiler" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/samsung-pd-training-%23day0/lc_snapshot1.png">
+<summary> Library Compiler </summary>
+The Library Compiler tool from Synopsys captures ASIC libraries and translates them into Synopsys internal database format for physical synthesis or into VHDL format for simulation.
+<img width="1085" alt="LibraryCompiler" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/samsung-pd-training-%23day0/lc_snapshot1.png">
 </details>
 <details>
 <summary> IC Compiler II </summary>
