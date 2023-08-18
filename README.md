@@ -20,4 +20,28 @@ Yosys is an open-source framework for RTL (Register Transfer Level) synthesis an
 <img width="1085" alt="yosys" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/samsung-pd-training-%23day0/yosys.PNG">
 
 </details>
+<details>
+<summary> gtkwave </summary>
+GTKWave is a popular waveform viewer for digital simulation traces. Here are five key points about GTKWave:
 
+* Waveform viewer for digital simulation traces.
+* Open-source and freely available.
+* Supports various simulation formats like VCD and LXT2.
+* Offers interactive features for waveform analysis.
+* Compatible with Linux, macOS, and Windows.
+
+<img width="1085" alt="gtkwave" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/samsung-pd-training-%23day0/gtkwave.PNG">
+</details>
+
+<details>
+<summary> PrimeTime </summary>
+PrimeTime is a widely used static timing analysis (STA) tool in digital design.
+
+* Industry-standard static timing analysis (STA) tool.
+* Ensures designs meet timing requirements for proper operation.
+* Analyzes delays across logic gates, interconnects, and library cells.
+* Performs library characterization for accurate timing analysis.
+* Provides optimization guidance and supports advanced features like scenario analysis and power optimization.
+
+<img width="1085" alt="PrimeTime" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/samsung-pd-training-%23day0/pt_shell.PNG">
+</details>
