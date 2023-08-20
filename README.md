@@ -87,7 +87,8 @@ IVERILOG is an open-source Verilog simulation and synthesis tool
 * Used for learning, research, and quick prototyping in digital design.
 
 </details>
-## Day-1 Introduction to Verilog, RTL Design and Synthesis
+
+- ## Day-1 Introduction to Verilog, RTL Design and Synthesis
 <details>
 <summary>Introduction to Verilog RTL design and Synthesis</summary>
 
@@ -127,11 +128,11 @@ Here is the flow of frondend design:
  The syntax of the code is: iverilog RTL_design_code Testbench
  
 
-<img width="1085" alt="gtkwaveform" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/good_mux_iverilog.PNG">
+<img width="800" alt="gtkwaveform" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/good_mux_iverilog.PNG">
 RTL design code of the 2:1 MUX
-<img width="1085" alt="good_mux_design_code" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/good_mux_v.PNG">
+<img width="800" alt="good_mux_design_code" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/good_mux_v.PNG">
 Testbench for 2:1 MUX
-<img width="1085" alt="testbench" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/tb_good_mux_v.PNG">
+<img width="800" alt="testbench" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/tb_good_mux_v.PNG">
 
 </details>
 <details>
