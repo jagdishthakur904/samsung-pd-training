@@ -128,8 +128,10 @@ Here is the flow of frondend design:
  The syntax of the code is: iverilog RTL_design_code Testbench
  
 
-<img width="800" alt="gtkwaveform" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/good_mux_iverilog.PNG">
-RTL design code of the 2:1 MUX
+[gtkwaveform]("https://github.com/jagdishthakur904/samsung-pd-training/blob/master/good_mux_iverilog.PNG")
+
+*RTL design code of the 2:1 MUX*
+
 <img width="800" alt="good_mux_design_code" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/good_mux_v.PNG">
 Testbench for 2:1 MUX
 <img width="800" alt="testbench" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/tb_good_mux_v.PNG">
