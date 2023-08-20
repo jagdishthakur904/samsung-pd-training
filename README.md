@@ -175,34 +175,26 @@ In this lab, we were introduced to a tool that facilitates the process of synthe
 
 2. Proceed to load the RTL (Register Transfer Level) design code into the tool:
 
+	read_verilog <RTL_Design_file>
    
-   read_verilog <RTL_Design_file>
-   
-
    The RTL design code outlines the functional behavior of the 2:1 MUX.
 
 3. With the design code loaded, it's time to execute the synthesis process:
 
+   	synth -top <instance_name>
    
-   synth -top <instance_name>
-   
-
    This step transforms the RTL code into a gate-level netlist, laying the foundation for the subsequent stages.
 
 4. To generate the netlist, invoke the ABC tool while referencing the Liberty file:
 
-   ```
-   abc -liberty <path to the .lib file>
-   ```
-
+	abc -liberty <path to the .lib file>
+   
    The ABC tool applies logic optimization and further refines the netlist.
 
 5. The resulting netlist can be visualized in the form of a synthesized circuit using the command:
 
-   ```
-   show
-   ```
-
+	show
+   
    This command displays the circuit structure and connections in a graphical format.
 
 By following these steps, one can progress through reading the necessary files, synthesizing the design, and gaining insights into the synthesized circuit's structure.    
