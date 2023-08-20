@@ -130,14 +130,19 @@ Here is the flow of frondend design:
 <center>
 <img width="1085" alt="gtkwaveform" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/good_mux_iverilog.PNG">
 </center>
+
 **RTL design code of the 2:1 MUX**
+
 <center>
 <img width="600" alt="good_mux_dessign_code" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/good_mux_v.PNG">
 </center>
+
 **Testbench for 2:1 MUX**
+
 <center>
 <img width="600" alt="testbench" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/tb_good_mux_v.PNG">
 </center>
+
 </details>
 <details>
  <summary>Introduction to Yosys</summary>
@@ -208,14 +213,18 @@ By following these steps, one can progress through reading the necessary files, 
 </center>
 
 The Nestlist code 
+
 <center>
 <img width="925" alt="netlist" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/good_mux_netlist.PNG">
 </center>
+
 Simplified Netlist code 
+
 <center>
 <img width="825" alt="netlist" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/good_mux_netlist_simpl.PNG">
 </center>
-Also, I performed the above steps for the counter and the circuit structure is shown below
+
+Also, I performed the above steps for the counter, and the circuit structure is shown below
 
 <img width="1085" alt="netlist" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/good_counter.PNG">
 </details>
