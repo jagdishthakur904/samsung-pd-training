@@ -127,17 +127,17 @@ Here is the flow of frondend design:
  
  The syntax of the code is: iverilog RTL_design_code Testbench
  
-
+<center>
 <img width="1085" alt="gtkwaveform" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/good_mux_iverilog.PNG">
-
-*RTL design code of the 2:1 MUX*
-
+</center>
+**RTL design code of the 2:1 MUX**
+<center>
 <img width="600" alt="good_mux_dessign_code" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/good_mux_v.PNG">
-
-Testbench for 2:1 MUX
-
+</center>
+**Testbench for 2:1 MUX**
+<center>
 <img width="600" alt="testbench" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/tb_good_mux_v.PNG">
-
+</center>
 </details>
 <details>
  <summary>Introduction to Yosys</summary>
@@ -203,18 +203,18 @@ In this lab, we were introduced to a tool that facilitates the process of synthe
 By following these steps, one can progress through reading the necessary files, synthesizing the design, and gaining insights into the synthesized circuit's structure.    
 
 
-
-<img width="1085" alt="ckt" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/good_mux_show.PNG">
-
+<center>
+<img width="825" alt="ckt" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/good_mux_show.PNG">
+</center>
 
 The Nestlist code 
-
-<img width="1085" alt="netlist" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/good_mux_netlist.PNG">
-
+<center>
+<img width="925" alt="netlist" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/good_mux_netlist.PNG">
+</center>
 Simplified Netlist code 
-
-<img width="1085" alt="netlist" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/good_mux_netlist_simpl.PNG">
-
+<center>
+<img width="825" alt="netlist" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/good_mux_netlist_simpl.PNG">
+</center>
 Also, I performed the above steps for the counter and the circuit structure is shown below
 
 <img width="1085" alt="netlist" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/good_counter.PNG">
