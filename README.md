@@ -167,25 +167,25 @@ In this lab, we were introduced to a tool that facilitates the process of synthe
 1. Invoke the tool yosys
 1. Initiate by importing the necessary Liberty file using the following command:
 
-   ```
+   
    read_liberty -lib <path to the .lib file>
-   ```
+   
 
    This file contains essential information about cell libraries and their attributes.
 
 2. Proceed to load the RTL (Register Transfer Level) design code into the tool:
 
-   ```
+   
    read_verilog <RTL_Design_file>
-   ```
+   
 
    The RTL design code outlines the functional behavior of the 2:1 MUX.
 
 3. With the design code loaded, it's time to execute the synthesis process:
 
-   ```
+   
    synth -top <instance_name>
-   ```
+   
 
    This step transforms the RTL code into a gate-level netlist, laying the foundation for the subsequent stages.
 
