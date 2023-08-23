@@ -239,11 +239,13 @@ This lab walkthrough covers the utilization of the .lib files containing the enc
 
 Inside the .lib file, gate declarations are structured in a way that addresses the variations arising from factors such as manufacturing process, temperature fluctuations, and voltage levels.
 
-![Screenshot from 2023-08-09 17-09-04](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/246de5aa-04a8-4ee3-9220-458653f8dd5e)
+<center>
+	<img width="600" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/cell.PNG">
+</center>
 
 For the above example, for all the 32 cominations i.e 2^5 (5 is no.of variables), the delay, power and all the related parameters for each gate are mentioned.
 <center>
-<img width="600" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/cell.PNG">
+	<img width="600" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/internal_power.PNG">
 </center>
 
 This image displays the power consumtion comparision and the delay order for the different flavor of gates.
