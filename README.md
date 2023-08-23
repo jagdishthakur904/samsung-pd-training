@@ -2,6 +2,10 @@
 - [Day-0-Installation](#day-0-Installation)
 
 - [Day-1-Introduction to Verilog RTL design and Synthesis](#Day-1-Introduction-to-Verilog-RTL-design-and-Synthesis)
+
+- [Day-2-Timing libs,hierarchical,flat synthesis,efficient flop coding styles](#Day-2-Timing-libs-hierarchical-flat-synthesis-efficient-flop-coding-styles)
+
+
 - ## Day-0-Installation
 <details>
  <summary> Summary </summary>
@@ -216,7 +220,345 @@ Simplified Netlist code
 <img width="825" alt="netlist" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/good_mux_netlist_simpl.PNG">
 </center>
 
+
 Also, I performed the above steps for the counter, and the circuit structure is shown below
 
 <img width="1085" alt="netlist" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/good_counter.PNG">
+</details>
+
+
+# Day-2-Timing libs, hierarchical, flat synthesis, efficient flop coding styles
+<details>
+<summary>Introduction to timing .libs</summary>
+
+### LAB- Introduction to dot Lib
+This lab guides us through the .lib files where we have all the gates coded in. According to the below parameters the libraries will be characterized to model the variations.
+
+![lib1](https://user-images.githubusercontent.com/104454253/166105787-19a638a3-fe01-4fcf-828d-0b56a6acb8f7.JPG)
+
+With in the lib file, the gates are delared as follows to meet the variations due to process, temperatures and voltages.
+
+![Screenshot from 2023-08-09 17-09-04](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/246de5aa-04a8-4ee3-9220-458653f8dd5e)
+
+For the above example, for all the 32 cominations i.e 2^5 (5 is no.of variables), the delay, power and all the related parameters for each gate are mentioned.
+
+![Screenshot from 2023-08-09 17-08-37](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/293b0222-7471-4f5a-b626-910ad9e92d20)
+
+This image displays the power consumtion comparision.
+
+![lib5](https://user-images.githubusercontent.com/104454253/166107259-6fa398a4-2099-4da3-9b93-818c2c3f2404.JPG)
+
+Below image is the delay order for the different flavor of gates.
+
+![delay_libraries](https://user-images.githubusercontent.com/104454253/166187423-d21465e1-abc3-4ad0-a534-60f8e706ab6f.JPG)
+
+ </details>
+
+ <details>
+<summary> LAB- Hierarchical synthesis and flat synthesis </summary>
+
+**multiple_module**<br />
+
+	module sub_module2 (input a, input b, output y);
+		assign y = a | b;
+	endmodule
+	
+	module sub_module1 (input a, input b, output y);
+		assign y = a&b;
+	endmodule
+
+
+	module multiple_modules (input a, input b, input c , output y);
+	wire net1;
+	sub_module1 u1(.a(a),.b(b),.y(net1));  //net1 = a&b
+	sub_module2 u2(.a(net1),.b(c),.y(y));  //y = net1|c ,ie y = a&b + c;
+	endmodule
+
+This is the schematic as per the connections in the above module.
+
+![submodel](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/80bb4a1b-4fcd-42c9-8e8b-72ee65a625c1)
+
+However, the yosys synthesizer generates the following schematic instead of the above one and with in the submodules, the connections are made
+
+```
+$ yosys
+yosys> read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+yosys> read_verilog multiple_modules.v
+yosys> synth -top multiple_modules
+yosys> show multiple_modules 
+
+```
+![Screenshot from 2023-08-10 06-14-30](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/6a5fc933-a6b3-4b11-a19d-fcad8a5ccb43)
+
+The synthesizer considers the module hierarcy and does the mapping accordting to instantiation. Here is the hierarchical netlist code for the  multiple_modules:
+
+	module multiple_modules(a, b, c, y);
+		  input a;
+ 		 input b;
+ 		 input c;
+		  wire net1;
+ 		 output y;
+ 	  sub_module1 u1 (.a(a),.b(b),.y(net1) );
+	  sub_module2 u2 (.a(net1),.b(c),.y(y));
+	endmodule
+	
+	module sub_module1(a, b, y);
+ 	 wire _0_;
+ 	 wire _1_;
+ 	 wire _2_;
+ 	 input a;
+ 	 input b;
+ 	 output y;
+ 	 sky130_fd_sc_hd__and2_0 _3_ (.A(_1_),.B(_0_),.X(_2_));
+ 	 assign _1_ = b;
+ 	 assign _0_ = a;
+ 	 assign y = _2_;
+	endmodule
+
+	module sub_module2(a, b, y);
+  	wire _0_;
+ 	 wire _1_;
+ 	 wire _2_;
+  	input a;
+  	input b;
+ 	 output y;
+ 	 sky130_fd_sc_hd__lpflow_inputiso1p_1 _3_ (.A(_1_),.SLEEP(_0_),.X(_2_) );
+ 	 assign _1_ = b;
+ 	 assign _0_ = a;
+ 	 assign y = _2_;
+	endmodule
+
+Flattened netlist:
+
+In flattened netlist, the hierarcies are flattend out and there is single module i.e, gates are instantiated directly instead of sub_modules. Here is the flattened netlist code for the  multiple_modules:
+
+	module multiple_modules(a, b, c, y);
+ 		 wire _0_;
+  		 wire _1_;
+ 		 wire _2_;
+ 		 wire _3_;
+		 wire _4_;
+		 wire _5_;
+ 		 input a;
+ 		 input b;
+ 		 input c;
+ 		 wire net1;
+ 		 wire \u1.a ;
+		 wire \u1.b ;
+		 wire \u1.y ;
+		 wire \u2.a ;
+		 wire \u2.b ;
+ 		 wire \u2.y ;
+  		output y;
+ 		 sky130_fd_sc_hd__and2_0 _6_ (
+  		  .A(_1_),
+  		 .B(_0_),
+   		 .X(_2_)
+  		);
+ 		 sky130_fd_sc_hd__lpflow_inputiso1p_1 _7_ (
+  		  .A(_4_),
+ 		  .SLEEP(_3_),
+  		  .X(_5_)
+ 		 );
+ 		 assign _4_ = \u2.b ;
+ 		 assign _3_ = \u2.a ;
+ 		 assign \u2.y  = _5_;
+ 		 assign \u2.a  = net1;
+		 assign \u2.b  = c;
+ 		 assign y = \u2.y ;
+		 assign _1_ = \u1.b ;
+		 assign _0_ = \u1.a ;
+		 assign \u1.y  = _2_;
+		 assign \u1.a  = a;
+		 assign \u1.b  = b;
+ 		 assign net1 = \u1.y ;
+		endmodule
+
+The commands to get the hierarchical and flattened netlists is shown below:
+
+**yosys> write_verilog -noattr multiple_modules_hier.v**
+
+8. Executing Verilog backend.
+Dumping module `\multiple_modules'.
+Dumping module `\sub_module1'.
+Dumping module `\sub_module2'.
+
+**yosys> !gvim multiple_modules_hier.v**
+
+11. Shell command: gvim multiple_modules_hier.v
+
+**yosys> flatten**
+
+12. Executing FLATTEN pass (flatten design).
+Deleting now unused module sub_module1.
+Deleting now unused module sub_module2.
+<suppressed ~2 debug messages>
+
+**yosys> write_verilog -noattr multiple_modules_flat.v**
+
+13. Executing Verilog backend.
+Dumping module `\multiple_modules'.
+
+**yosys> !gvim multiple_modules_flat.v**
+
+14. Shell command: gvim multiple_modules_flat.v
+
+This is the synthyesized circuit for a flattened netlist. Here u1 and u2 are flattened and directly or gates are realized.
+
+![lab51](https://user-images.githubusercontent.com/104454253/166112988-1b02eea6-a6e8-4a7e-8eee-0772182f914f.JPG)
+
+Here is the synthesized circuit of sub_module1. We are also generating module level synthesis so that if there is a top module with multiple and same sub_modules, we can synthesize it once and can use and connect the same netlist multiple times in the top module netlist.
+
+Another reason to generate module level synthesis and then stictch them together is to avoid errors in a top module if its massive and consists of several sub modules. Generating netlist for synthesis and then stiching it together in top level becomes easier and reduces risk of output mismatch.
+
+We control this synthesis using **synth -top <module_name>** command
+
+![lab52](https://user-images.githubusercontent.com/104454253/166113791-5c245c1c-727a-4f15-aaec-9fef1b817aec.JPG)
+
+ </details>
+ 
+<details>
+	<summary>Various Flop coding styles and optimization</summary>
+	
+**Why Flops and Flop coding styles**
+
+In this session, the discussion was about how to code various types of flops and various styles of coding a flop.
+
+**Why a Flop?**
+
+ In a combinational circuit, the output changes after the propagation delay of the circuit once inputs are changed. During the propagation of data, if there are different paths with different propagation delays, there might be a chance of getting a glitch at the output.<br />
+ If there are multiple combinational circuits in the design, the occurances of glitches are more thereby making the output unstable.<br />
+To curb this drawback, we are going for flops to store the data from the cominational circuits. When a flop is used, the output of combinational circuit is stored in     it and it is propagated only at the posedge or negedge of the clock so that the next combinational circuit gets a glitch free input thereby stabilising the output.
+ 
+ We use initialize signals or control pins called **set** and **reset** on a flop to initialize the flop, other wise a garbage value to sent out to the next combinational circuit. These control pins can be synchronous or asynchronous.
+
+### Lab- flop synthesis simulations
+
+**d-flipflop with asynchronous reset**- Here the output **q** goes low whenever reset is high and will not wait for the clock's posedge, i.e irrespective of clock, the output is changed to low.
+
+![asyn](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/ff524bd6-0952-48b5-9e05-4992d13cb62b)
+ 
+	 module dff_asyncres ( input clk ,  input async_reset , input d , output reg q );
+		always @ (posedge clk , posedge async_reset)
+		begin
+			if(async_reset)
+				q <= 1'b0;
+			else	
+				q <= d;
+		end
+	endmodule
+
+**Simulation**:
+
+![Screenshot from 2023-08-10 06-18-49](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/e5f28498-b4dd-4be5-8837-4c732351ef7c)
+
+**Synthesized circuit**:
+
+![Screenshot from 2023-08-10 06-24-31](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/cca2575d-9f9e-4f81-bf1d-2230e5024e42)
+
+**d-flipflop with asynchronous set**- Here the output **q** goes high whenever set is high and will not wait for the clock's posedge, i.e irrespective of clock, the output is changed to high.
+ 
+
+	module dff_async_set ( input clk ,  input async_set , input d , output reg q );
+		always @ (posedge clk , posedge async_set)
+		begin
+			if(async_set)
+				q <= 1'b1;
+			else
+				q <= d;
+		end
+	endmodule
+
+**Simulation**:
+
+![Screenshot from 2023-08-10 06-29-39](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/bc503e0b-7e9b-466c-b7cb-1d806f6baccd)
+
+**Synthesized circuit**:
+
+
+![Screenshot from 2023-08-10 06-35-34](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/417c745c-5278-441e-b70b-6fc33861d70d)
+
+
+**d-flipflop with synchronous reset**- Here the output **q** goes low whenever reset is high and at the positive edge of the clock. Here the reset of the output depends on the clock.
+
+
+
+	module dff_syncres ( input clk , input async_reset , input sync_reset , input d , output reg q );
+		always @ (posedge clk )
+		begin
+			if (sync_reset)
+				q <= 1'b0;
+			else	
+				q <= d;
+		end
+	endmodule
+
+**Simulation**:
+
+![Screenshot from 2023-08-10 06-32-32](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/77e5a2d7-40e6-43bc-acd4-1921968864e0)
+
+**Synthesized circuit**:
+
+![Screenshot from 2023-08-10 06-37-44](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/def48f40-9d42-4a2f-9689-daca09709d9b)
+
+**d-flipflop with synchronous and asynchronbous reset**- Here the output **q** goes low whenever asynchronous reset is high where output doesn't depend on clock and also when synchronous reset is high and posedge of clock occurs.
+
+![asynsyn](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/3abae8d4-0874-40a5-9e51-3515e30afdd0)
+
+	module dff_asyncres_syncres ( input clk , input async_reset , input sync_reset , input d , output reg q );
+		always @ (posedge clk , posedge async_reset)
+		begin
+			if(async_reset)
+				q <= 1'b0;
+			else if (sync_reset)
+				q <= 1'b0;
+			else	
+				q <= d;
+		end
+	endmodule
+
+**Simulation**:
+
+![Screenshot from 2023-08-10 06-41-19](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/dfa4dde4-3b87-4a32-91de-569894974dde)
+
+**Synthesized circuit**:
+
+![Screenshot from 2023-08-10 06-43-45](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/b9cb8141-1f48-4d44-94f9-d981fee6f407)
+
+</details>
+
+<details>
+	
+<summary> Interesting optimisations </summary>
+
+This lab session deals with some automatic and interesting optimisations of the circuits based on logic. In the below example, multiplying a number with 2 doesn't need any additional hardeware and only needs connecting the bits from **a** to **y** and grounding the LSB bit of y is enough and the same is realized by Yosys.
+
+	module mul2 (input [2:0] a, output [3:0] y);
+		assign y = a * 2;
+	endmodule
+
+**Synthesized circuit**:
+
+![Screenshot from 2023-08-10 13-06-07](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/1c3324c9-7f38-4e5c-a27c-3f35b54e6c93)
+
+When it comes to multiplying with powers of 2, it just needs shifting as shown in the below image:
+
+![mul2](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/fe739548-f9d5-43b3-92a8-67d87c8f5191)
+
+**Netlist for the above schematic**
+
+![Screenshot from 2023-08-10 13-09-41](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/e80a2c59-5d34-4951-8d25-d5f0108b2daf)
+
+Special case of multiplying **a** with **9**. The result is shown in the below image:
+
+![mul9](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/0867ed5b-9fb1-44ef-93c1-d48ebbc984bb)
+
+The schematic for the same is shown below:
+
+![Screenshot from 2023-08-10 13-12-25](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/d24c06b6-0250-4ed4-b2fb-2ea7b7b08dcc)
+
+**Netlist for the above schematic**
+
+![Screenshot from 2023-08-10 13-13-57](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/292f924c-e05c-42eb-b987-459b8c838f2c)
+ 
 </details>
