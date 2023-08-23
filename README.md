@@ -275,7 +275,7 @@ This image displays the power consumtion comparision and the delay order for the
 This is the schematic as per the connections in the above module.
 
 <center>
-<img width="600" alt="multi_module" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/multi_module.PNG">
+	<img width="300" alt="multi_module" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/multi_module.PNG">
 </center>
 
 However, the yosys synthesizer generates the following schematic instead of the above one, and within the submodules, the connections are made
@@ -289,7 +289,7 @@ yosys> show multiple_modules
 
 ```
 <center>
-<img width="600" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/multiple_modules.PNG">
+	<img width="1085" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/multiple_modules.PNG">
 </center>
 
 The synthesizer considers the module hierarchy and does the mapping according to instantiation. Here is the hierarchical netlist code for the  multiple_modules:
@@ -408,7 +408,7 @@ Dumping module `\multiple_modules'.
 This is the synthesized circuit for a flattened netlist. Here u1 and u2 are flattened and directly or gates are realized.
 
 <center>
-<img width="600" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/flatten_multiple_modules.PNG">
+	<img width="1085" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/flatten_multiple_modules.PNG">
 </center>
 
 Here is the synthesized circuit for sub_module1. Additionally, we are creating synthesis at the module level. This approach allows us to synthesize the top module, which might contain multiple identical sub-modules, just once. This enables us to reuse and connect the same netlist multiple times within the top module netlist.
@@ -418,7 +418,7 @@ Another reason behind generating module-level synthesis and then integrating the
 We control this synthesis using **synth -top <module_name>** command
 
 <center>
-<img width="600" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/sub_modules.PNG">
+	<img width="1085" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/sub_modules.PNG">
 </center>
 
  </details>
@@ -457,13 +457,13 @@ This ensures that regardless of the clock's activity if the reset input is activ
 **Simulation**:
 
 <center>
-<img width="600" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/dff_asyncres.PNG">
+	<img width="1085" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/dff_asyncres.PNG">
 </center>
 
 **Synthesized circuit**:
 
 <center>
-<img width="600" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/dff_asyncres_show.PNG">
+	<img width="600" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/dff_asyncres_show.PNG">
 </center>
 
 **d-flipflop with asynchronous set**- Here the output **q** goes high whenever set is high and will not wait for the clock's posedge, i.e irrespective of clock, the output is changed to high.
@@ -481,13 +481,16 @@ This ensures that regardless of the clock's activity if the reset input is activ
 
 **Simulation**:
 
-![Screenshot from 2023-08-10 06-29-39](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/bc503e0b-7e9b-466c-b7cb-1d806f6baccd)
+<center>
+	<img width="1085" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/dff_async_set.PNG">
+</center>
 
 **Synthesized circuit**:
 
 
-![Screenshot from 2023-08-10 06-35-34](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/417c745c-5278-441e-b70b-6fc33861d70d)
-
+<center>
+	<img width="1085" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/dff_async_set_show.PNG">
+</center>
 
 **d-flipflop with synchronous reset**- Here the output **q** goes low whenever reset is high and at the positive edge of the clock. Here the reset of the output depends on the clock.
 
@@ -505,15 +508,18 @@ This ensures that regardless of the clock's activity if the reset input is activ
 
 **Simulation**:
 
-![Screenshot from 2023-08-10 06-32-32](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/77e5a2d7-40e6-43bc-acd4-1921968864e0)
+<center>
+	<img width="1085" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/dff_synch.PNG">
+</center>
 
 **Synthesized circuit**:
 
-![Screenshot from 2023-08-10 06-37-44](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/def48f40-9d42-4a2f-9689-daca09709d9b)
+<center>
+	<img width="1085" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/dff_syncres_show.PNG">
+</center>
 
 **d-flipflop with synchronous and asynchronbous reset**- Here the output **q** goes low whenever asynchronous reset is high where output doesn't depend on clock and also when synchronous reset is high and posedge of clock occurs.
 
-![asynsyn](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/3abae8d4-0874-40a5-9e51-3515e30afdd0)
 
 	module dff_asyncres_syncres ( input clk , input async_reset , input sync_reset , input d , output reg q );
 		always @ (posedge clk , posedge async_reset)
@@ -529,11 +535,15 @@ This ensures that regardless of the clock's activity if the reset input is activ
 
 **Simulation**:
 
-![Screenshot from 2023-08-10 06-41-19](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/dfa4dde4-3b87-4a32-91de-569894974dde)
+<center>
+	<img width="1085" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/dff_async_syncres.PNG">
+</center>
 
 **Synthesized circuit**:
 
-![Screenshot from 2023-08-10 06-43-45](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/b9cb8141-1f48-4d44-94f9-d981fee6f407)
+<center>
+	<img width="1085" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/dff_async_syncres_show.PNG">
+</center>
 
 </details>
 
