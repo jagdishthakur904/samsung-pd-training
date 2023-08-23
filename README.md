@@ -551,7 +551,7 @@ This ensures that regardless of the clock's activity if the reset input is activ
 	
 <summary> Interesting optimisations </summary>
 
-This lab session deals with some automatic and interesting optimisations of the circuits based on logic. In the below example, multiplying a number with 2 doesn't need any additional hardeware and only needs connecting the bits from **a** to **y** and grounding the LSB bit of y is enough and the same is realized by Yosys.
+In this lab session, we explore automatic and intriguing optimizations applied to circuits using logical techniques. In the provided example, a specific optimization is demonstrated: multiplying a number by 2. Interestingly, this multiplication doesn't require any additional hardware components. Instead, the optimization entails connecting the bits from input "a" to output "y" and grounding the least significant bit (LSB) of "y." Yosys, the tool being used, is capable of realizing this optimization, showcasing its ability to efficiently simplify circuits based on logical analysis.
 
 	module mul2 (input [2:0] a, output [3:0] y);
 		assign y = a * 2;
@@ -559,26 +559,38 @@ This lab session deals with some automatic and interesting optimisations of the 
 
 **Synthesized circuit**:
 
-![Screenshot from 2023-08-10 13-06-07](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/1c3324c9-7f38-4e5c-a27c-3f35b54e6c93)
+<center>
+	<img width="1085" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/mul_2_scematic.png">
+</center>
 
 When it comes to multiplying with powers of 2, it just needs shifting as shown in the below image:
 
-![mul2](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/fe739548-f9d5-43b3-92a8-67d87c8f5191)
+<center>
+	<img width="1085" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/20230823_211802.jpg">
+</center>
 
 **Netlist for the above schematic**
 
-![Screenshot from 2023-08-10 13-09-41](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/e80a2c59-5d34-4951-8d25-d5f0108b2daf)
+<center>
+	<img width="1085" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/mul2_netlist.png">
+</center>
 
 Special case of multiplying **a** with **9**. The result is shown in the below image:
 
-![mul9](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/0867ed5b-9fb1-44ef-93c1-d48ebbc984bb)
+<center>
+	<img width="1085" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/20230823_212053.jpg">
+</center>
 
 The schematic for the same is shown below:
 
-![Screenshot from 2023-08-10 13-12-25](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/d24c06b6-0250-4ed4-b2fb-2ea7b7b08dcc)
+<center>
+	<img width="1085" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/mul8_schematic.png">
+</center>
 
 **Netlist for the above schematic**
 
-![Screenshot from 2023-08-10 13-13-57](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/292f924c-e05c-42eb-b987-459b8c838f2c)
- 
+<center>
+	<img width="1085" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/mul8_netlist.png">
+</center>
+
 </details>
