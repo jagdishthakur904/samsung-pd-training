@@ -232,25 +232,23 @@ Also, I performed the above steps for the counter, and the circuit structure is 
 <summary>Introduction to timing .libs</summary>
 
 ### LAB- Introduction to dot Lib
-This lab guides us through the .lib files where we have all the gates coded in. According to the below parameters the libraries will be characterized to model the variations.
+
+This lab walkthrough covers the utilization of the .lib files containing the encoded information of various logic gates. Based on the provided parameters, these libraries will be analyzed to create models that represent different variations.
 
 ![lib1](https://user-images.githubusercontent.com/104454253/166105787-19a638a3-fe01-4fcf-828d-0b56a6acb8f7.JPG)
 
-With in the lib file, the gates are delared as follows to meet the variations due to process, temperatures and voltages.
+Inside the .lib file, gate declarations are structured in a way that addresses the variations arising from factors such as manufacturing process, temperature fluctuations, and voltage levels.
 
 ![Screenshot from 2023-08-09 17-09-04](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/246de5aa-04a8-4ee3-9220-458653f8dd5e)
 
 For the above example, for all the 32 cominations i.e 2^5 (5 is no.of variables), the delay, power and all the related parameters for each gate are mentioned.
+<center>
+<img width="600" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/cell.PNG">
+</center>
 
-![Screenshot from 2023-08-09 17-08-37](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/293b0222-7471-4f5a-b626-910ad9e92d20)
+This image displays the power consumtion comparision and the delay order for the different flavor of gates.
 
-This image displays the power consumtion comparision.
-
-![lib5](https://user-images.githubusercontent.com/104454253/166107259-6fa398a4-2099-4da3-9b93-818c2c3f2404.JPG)
-
-Below image is the delay order for the different flavor of gates.
-
-![delay_libraries](https://user-images.githubusercontent.com/104454253/166187423-d21465e1-abc3-4ad0-a534-60f8e706ab6f.JPG)
+<img width="600" alt="power consumption" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/different_cells.PNG">
 
  </details>
 
@@ -276,9 +274,11 @@ Below image is the delay order for the different flavor of gates.
 
 This is the schematic as per the connections in the above module.
 
-![submodel](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/80bb4a1b-4fcd-42c9-8e8b-72ee65a625c1)
+<center>
+<img width="600" alt="multi_module" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/multi_module.PNG">
+</center>
 
-However, the yosys synthesizer generates the following schematic instead of the above one and with in the submodules, the connections are made
+However, the yosys synthesizer generates the following schematic instead of the above one, and within the submodules, the connections are made
 
 ```
 $ yosys
@@ -288,9 +288,11 @@ yosys> synth -top multiple_modules
 yosys> show multiple_modules 
 
 ```
-![Screenshot from 2023-08-10 06-14-30](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/6a5fc933-a6b3-4b11-a19d-fcad8a5ccb43)
+<center>
+<img width="600" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/multiple_modules.PNG">
+</center>
 
-The synthesizer considers the module hierarcy and does the mapping accordting to instantiation. Here is the hierarchical netlist code for the  multiple_modules:
+The synthesizer considers the module hierarchy and does the mapping according to instantiation. Here is the hierarchical netlist code for the  multiple_modules:
 
 	module multiple_modules(a, b, c, y);
 		  input a;
@@ -330,7 +332,7 @@ The synthesizer considers the module hierarcy and does the mapping accordting to
 
 Flattened netlist:
 
-In flattened netlist, the hierarcies are flattend out and there is single module i.e, gates are instantiated directly instead of sub_modules. Here is the flattened netlist code for the  multiple_modules:
+In a flattened netlist, the hierarchies are flattened out and there is a single module i.e., gates are instantiated directly instead of sub_modules. Here is the flattened netlist code for the  multiple_modules:
 
 	module multiple_modules(a, b, c, y);
  		 wire _0_;
@@ -374,7 +376,7 @@ In flattened netlist, the hierarcies are flattend out and there is single module
  		 assign net1 = \u1.y ;
 		endmodule
 
-The commands to get the hierarchical and flattened netlists is shown below:
+The commands to get the hierarchical and flattened netlists are shown below:
 
 **yosys> write_verilog -noattr multiple_modules_hier.v**
 
@@ -403,17 +405,21 @@ Dumping module `\multiple_modules'.
 
 14. Shell command: gvim multiple_modules_flat.v
 
-This is the synthyesized circuit for a flattened netlist. Here u1 and u2 are flattened and directly or gates are realized.
+This is the synthesized circuit for a flattened netlist. Here u1 and u2 are flattened and directly or gates are realized.
 
-![lab51](https://user-images.githubusercontent.com/104454253/166112988-1b02eea6-a6e8-4a7e-8eee-0772182f914f.JPG)
+<center>
+<img width="600" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/flatten_multiple_modules.PNG">
+</center>
 
-Here is the synthesized circuit of sub_module1. We are also generating module level synthesis so that if there is a top module with multiple and same sub_modules, we can synthesize it once and can use and connect the same netlist multiple times in the top module netlist.
+Here is the synthesized circuit for sub_module1. Additionally, we are creating synthesis at the module level. This approach allows us to synthesize the top module, which might contain multiple identical sub-modules, just once. This enables us to reuse and connect the same netlist multiple times within the top module netlist.
 
-Another reason to generate module level synthesis and then stictch them together is to avoid errors in a top module if its massive and consists of several sub modules. Generating netlist for synthesis and then stiching it together in top level becomes easier and reduces risk of output mismatch.
+Another reason behind generating module-level synthesis and then integrating them is to mitigate errors that can arise within a large top module composed of numerous sub-modules. By creating separate netlists for synthesis and subsequently integrating them at the top level, the process becomes easier, lowering the chances of output inconsistencies.
 
 We control this synthesis using **synth -top <module_name>** command
 
-![lab52](https://user-images.githubusercontent.com/104454253/166113791-5c245c1c-727a-4f15-aaec-9fef1b817aec.JPG)
+<center>
+<img width="600" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/sub_modules.PNG">
+</center>
 
  </details>
  
@@ -422,21 +428,21 @@ We control this synthesis using **synth -top <module_name>** command
 	
 **Why Flops and Flop coding styles**
 
-In this session, the discussion was about how to code various types of flops and various styles of coding a flop.
+During this session, the conversation revolved around the coding techniques for different types of flip-flops, as well as the various styles that can be employed to write code for these flip-flops.
 
 **Why a Flop?**
 
- In a combinational circuit, the output changes after the propagation delay of the circuit once inputs are changed. During the propagation of data, if there are different paths with different propagation delays, there might be a chance of getting a glitch at the output.<br />
- If there are multiple combinational circuits in the design, the occurances of glitches are more thereby making the output unstable.<br />
-To curb this drawback, we are going for flops to store the data from the cominational circuits. When a flop is used, the output of combinational circuit is stored in     it and it is propagated only at the posedge or negedge of the clock so that the next combinational circuit gets a glitch free input thereby stabilising the output.
- 
- We use initialize signals or control pins called **set** and **reset** on a flop to initialize the flop, other wise a garbage value to sent out to the next combinational circuit. These control pins can be synchronous or asynchronous.
+In a combinational circuit, the output changes in response to input changes after a certain propagation delay. When data propagates, if there are multiple paths with varying propagation delays, there's a potential for glitches to occur at the output. This risk increases when multiple combinational circuits are present in the design, resulting in unstable output.
+
+To address this issue, the adoption of flip-flops becomes necessary. Flip-flops allow the storage of data from the combinational circuits. When a flip-flop is employed, the output of the combinational circuit is stored within it and is subsequently propagated only at the positive or negative edge of the clock signal. This ensures that the next combinational circuit receives a glitch-free input, stabilizing the overall output.
+
+To prevent undesirable effects, initialization signals or control pins like "**set**" and "**reset**" are integrated into a flip-flop. These signals enable the initialization of the flip-flop, ensuring that without them, a potentially unpredictable value doesn't propagate to the subsequent combinational circuit. These control pins can function synchronously or asynchronously depending on the specific requirements of the design.
 
 ### Lab- flop synthesis simulations
 
-**d-flipflop with asynchronous reset**- Here the output **q** goes low whenever reset is high and will not wait for the clock's posedge, i.e irrespective of clock, the output is changed to low.
+In a **D-flip-flop with an asynchronous reset**, the behavior is such that the output, represented as "q," transitions to a low state whenever the reset input is set to a high value. Unlike the standard operation of a flip-flop that relies on the clock signal's positive edge, in this scenario, the output is immediately forced to a low state upon detecting a high level on the reset input. The clock signal's state doesn't affect this action; the asynchronous reset mechanism takes precedence over clock edges.
 
-![asyn](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/ff524bd6-0952-48b5-9e05-4992d13cb62b)
+This ensures that regardless of the clock's activity if the reset input is activated, the output of the D-flip-flop is promptly set to a low level. This feature provides a way to quickly reset the flip-flop's state independently of the clock signal's rhythm.
  
 	 module dff_asyncres ( input clk ,  input async_reset , input d , output reg q );
 		always @ (posedge clk , posedge async_reset)
@@ -450,11 +456,15 @@ To curb this drawback, we are going for flops to store the data from the cominat
 
 **Simulation**:
 
-![Screenshot from 2023-08-10 06-18-49](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/e5f28498-b4dd-4be5-8837-4c732351ef7c)
+<center>
+<img width="600" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/dff_asyncres.PNG">
+</center>
 
 **Synthesized circuit**:
 
-![Screenshot from 2023-08-10 06-24-31](https://github.com/alwinshaju08/Alwin_iiitb_asic_class/assets/69166205/cca2575d-9f9e-4f81-bf1d-2230e5024e42)
+<center>
+<img width="600" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/dff_asyncres_show.PNG">
+</center>
 
 **d-flipflop with asynchronous set**- Here the output **q** goes high whenever set is high and will not wait for the clock's posedge, i.e irrespective of clock, the output is changed to high.
  
