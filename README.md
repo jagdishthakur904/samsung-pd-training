@@ -5,6 +5,10 @@
 
 - [Day-2-Timing libs,hierarchical,flat synthesis,efficient flop coding styles](#Day-2-Timing-libs-hierarchical-flat-synthesis-efficient-flop-coding-styles)
 
+- [Day-3-Combinational and sequential optmizations](#day-3-Combinational-and-sequential-optmizations)
+
+- [Day-4-GLS, blocking vs non-blocking and Synthesis-Simulation mismatch](#5-DAY4--GLS-blocking-vs-non-blocking-and-Synthesis-Simulation-mismatch)
+
 
 - ## Day-0-Installation
 <details>
@@ -595,4 +599,403 @@ The schematic for the same is shown below:
 	<img width="1085" alt="cells" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day2/mul8_netlist.png">
 </center>
 
+</details>
+
+# Day3-Combinational and sequential optmizations
+<details>
+<summary> Combinational logic optimization with examples </summary>
+
+Optimizing the combinational logic circuit involves compacting the logic to attain the most efficient digital design, resulting in a circuit that is both space-conscious and energy-saving. This objective is accomplished through the utilization of diverse techniques by the synthesis tool, ultimately providing us with the most optimized circuit.
+
+**Techniques for optimization**:
+- Constant propagation which is Direct optimization technique
+- Boolean logic optimization using K-map or Quine McKluskey
+
+Here is an example for **Constant Propagation**
+
+<center>
+	<img width="1085" alt="Optimization" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day3/20230827_185606.jpg">
+
+</center>
+
+In the given instance, when examining the transistor-level configuration of the output Y, it is evident that it comprises 6 MOS transistors. However, in the case of an inverter, a mere 2 transistors are adequate. This optimization is accomplished by holding A as a constant and propagating this constant throughout to the output.
+
+Example for **Boolean logic optimization**:
+
+Let's consider an example concurrent statement **assign y=a?(b?c:(c?a:0)):(!c)**
+
+The above expression is using a ternary operator which realizes a series of multiplexers, however, when we write the boolean expression at outputs of each mux and simplify them further using boolean reduction techniques, the outout **y** turns out be just **~(a^c)**
+
+Command to optimize the circuit by yosys is **yosys> opt_clean -purge**
+
+**Example-1**
+
+<center>
+	<img width="1085" alt="example1" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day3/20230827_190228.jpg">
+
+</center>
+
+	module opt_check (input a , input b , output y);
+		assign y = a?b:0;
+	endmodule
+
+**Optimized circuit**
+
+<center>
+	<img width="1085" alt="example1" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day3/opt_check-and.PNG">
+
+</center>
+
+**Example-2**
+
+	module opt_check2 (input a , input b , output y);
+		assign y = a?1:b;
+	endmodule
+
+<center>
+	<img width="1085" alt="example1" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day3/opt_check-or.PNG">
+
+</center>
+
+ **Example-3**
+
+	module opt_check3 (input a , input b, input c , output y);
+		assign y = a?(c?b:0):0;
+	endmodule
+
+<center>
+	<img width="1085" alt="example1" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day3/opt_check-and3.PNG">
+
+</center>
+
+ **Example-4**
+
+	module opt_check4 (input a , input b , input c , output y);
+		assign y = a?(b?(a & c ):c):(!c);
+	endmodule
+
+<center>
+	<img width="1085" alt="example1" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day3/opt_check-xnor.PNG">
+
+</center>
+
+ **Example- 5**:Here there is multiple modules present so we will try to check whether those module are being used or not by using following commands:
+
+```
+yosys:read_liberty -lib ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+yosys:read_verilog multiple_module_opt2.v
+yosys:synth -top multiple_module_opt2
+yosys:abc -liberty ../lib/sky130_fd_sc_hd__tt_025C_1v80.lib 
+yosys:flatten
+yosys:opt_clean -purge
+yosys:show
+
+```
+
+ 
+
+	module sub_module(input a , input b , output y);
+		assign y = a & b;
+	endmodule
+
+	module multiple_module_opt2(input a , input b , input c , input d , output y);
+		wire n1,n2,n3;
+		sub_module U1 (.a(a) , .b(1'b0) , .y(n1));
+		sub_module U2 (.a(b), .b(c) , .y(n2));
+		sub_module U3 (.a(n2), .b(d) , .y(n3));
+		sub_module U4 (.a(n3), .b(n1) , .y(y));
+	endmodule
+
+**Before Flatten**
+
+<center>
+	<img width="1085" alt="example5" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day3/multiple_module_opt2.PNG">
+
+</center>
+
+**After Flatten**
+
+<center>
+	<img width="1085" alt="example5" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day3/multiple_module_opt2_flatten_clean.PNG">
+
+</center>
+
+**Example-6**
+
+
+		module sub_module1(input a , input b , output y);
+		 assign y = a & b;
+		endmodule
+
+		module sub_module2(input a , input b , output y);
+		 assign y = a^b;
+		endmodule
+
+		module multiple_module_opt(input a , input b , input c , input d , output y);
+		wire n1,n2,n3;
+		sub_module1 U1 (.a(a) , .b(1'b1) , .y(n1));
+		sub_module2 U2 (.a(n1), .b(1'b0) , .y(n2));
+		sub_module2 U3 (.a(b), .b(d) , .y(n3));
+
+		assign y = c | (b & n1); 
+		endmodule
+
+**Before Flatten**
+
+<center>
+	<img width="1085" alt="example6" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day3/multiple_module_opt.PNG">
+
+</center>
+
+**After Flatten**
+
+<center>
+	<img width="1085" alt="example6" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day3/multiple_module_opt_flatten_clean.PNG">
+
+</center>
+ 
+</details>
+
+<details>
+<summary>Sequential Logic Optimization with examples
+</summary>
+
+Below are the various techniques used for sequential logic optimisations:<br />
+
+- Basic
+  - Sequential constant propagation
+- Advanced
+  - State optimisation
+  - Retiming
+  - Sequential Logic Cloning (Floor Plan Aware Synthesis)
+ 
+#### Basic
+
+**Sequential contant propagation**- In this context, optimization applies exclusively to the initial logic where the output of the flop consistently remains zero. Conversely, for the second flop, the output undergoes continuous changes, making it unsuitable for constant propagation.
+
+<center>
+	<img width="1085" alt="optimization" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day3/20230827_185903.jpg">
+
+</center>
+
+#### Advanced
+**State Optimisation**: This is optimisation of unused state. Using this technique we can come up with most optimised state machine.
+
+**Cloning**: This strategy is implemented during the process of PHYSICAL AWARE SYNTHESIS. Let's take the scenario of a flop A that connects to both flop B and flop C via combinational logic. When B and C are positioned far away from A in the floorplan, a delay in routing path emerges. To mitigate this, a solution involves interconnecting A with two intermediary flops. Subsequently, the output from these intermediate flops is directed towards B and C, effectively reducing the delay. This technique is referred to as "cloning," as it entails the creation of two new flops possessing identical functionality to A.
+
+**Retiming**: Retiming stands as a potent technique for sequential optimization, aimed at relocating registers within the scope of combinational logic or enhancing the count of registers to enhance performance by navigating the trade-off between power and delay. All this is achieved without altering the input-output behavior of the circuit. 
+
+**Example-1**<br />
+Here flop will be inferred as the output is not constant. <br />
+
+	module dff_const1(input clk, input reset, output reg q);
+		always @(posedge clk, posedge reset)
+		begin
+			if(reset)
+				q <= 1'b0;
+			else
+				q <= 1'b1;
+		end
+	endmodule
+
+**Simulation**
+
+<center>
+	<img width="1085" alt="const1" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day3/dff_const1_waveform.PNG">
+
+</center>
+
+**Synthesis**<br />
+In the synthesis report, we'll see that a Dflop was inferred in this example.
+
+<center>
+	<img width="1085" alt="const1" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day3/dff_const1.PNG">
+
+</center>
+
+**Example-2**<br />
+Here flop will not be inferred as the output is always high. <br />
+
+	module dff_const2(input clk, input reset, output reg q);
+		always @(posedge clk, posedge reset)
+		begin
+			if(reset)
+				q <= 1'b1;
+			else
+				q <= 1'b1;
+		end
+	endmodule
+
+
+
+**Simulation**
+
+<center>
+	<img width="1085" alt="const2" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day3/dff_const2_waveform.PNG">
+
+</center>
+
+**Synthesis**
+
+<center>
+	<img width="1085" alt="const2" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day3/dff_const2.PNG">
+
+</center>
+
+**Example-3**
+
+		module dff_const3(input clk, input reset, output reg q);
+		reg q1;
+
+		always @(posedge clk, posedge reset)
+		begin
+			if(reset)
+			begin
+				q <= 1'b1;
+				q1 <= 1'b0;
+			end
+			else
+			begin
+				q1 <= 1'b1;
+				q <= q1;
+			end
+		end
+		endmodule
+
+
+**Simulation***
+
+<center>
+	<img width="1085" alt="const3" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day3/dff_const3_waveform.PNG">
+
+</center>
+
+**Synthesis**
+
+<center>
+	<img width="1085" alt="const1" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day3/dff_const3.PNG">
+
+</center>
+
+**Example4**
+
+		module dff_const4(input clk, input reset, output reg q);
+		reg q1;
+
+		always @(posedge clk, posedge reset)
+		begin
+			if(reset)
+			begin
+				q <= 1'b1;
+				q1 <= 1'b1;
+			end
+		else
+			begin
+				q1 <= 1'b1;
+				q <= q1;
+			end
+		end
+		endmodule
+
+**Simulation***
+
+<center>
+	<img width="1085" alt="const4" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day3/dff_const4_waveform.PNG">
+
+</center>
+
+**Synthesis**
+
+<center>
+	<img width="1085" alt="const4" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day3/dff_const4.PNG">
+
+</center>
+
+**Example5**
+
+		module dff_const5(input clk, input reset, output reg q);
+		reg q1;
+		always @(posedge clk, posedge reset)
+			begin
+				if(reset)
+				begin
+					q <= 1'b0;
+					q1 <= 1'b0;
+				end
+			else
+				begin
+					q1 <= 1'b1;
+					q <= q1;
+				end
+			end
+		endmodule
+
+**Simulation***
+
+<center>
+	<img width="1085" alt="const5" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day3/dff_const5_waveform.PNG">
+
+</center>
+
+**Synthesis**
+
+<center>
+	<img width="1085" alt="const1" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day3/dff_const5.PNG">
+
+</center>
+ 
+</details>
+
+<details>
+<summary> Sequential optimisation of unused outputs </summary>
+
+**Example1**
+
+		module counter_opt (input clk , input reset , output q);
+		reg [2:0] count;
+		assign q = count[0];
+		always @(posedge clk ,posedge reset)
+		begin
+			if(reset)
+				count <= 3'b000;
+			else
+				count <= count + 1;
+		end
+		endmodule
+
+**Synthesis**
+
+<center>
+	<img width="1085" alt="counter_opt" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day3/counter_opt.PNG">
+
+</center>
+
+**Updated counter logic-** 
+
+	module counter_opt (input clk , input reset , output q);
+		reg [2:0] count;
+		assign q = {count[2:0]==3'b100};
+		always @(posedge clk ,posedge reset)
+		begin
+		if(reset)
+			count <= 3'b000;
+		else
+			count <= count + 1;
+		end
+	endmodule
+
+**Synthesis**
+
+All the other blocks in synthesizer are for incrementing the counter but the output is only from the three input NOR gate.
+
+<center>
+	<img width="1085" alt="counter_opt" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day3/counter_opt2_.PNG">
+
+</center>
+
+<center>
+	<img width="1085" alt="counter_opt" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day3/counter_opt2.PNG">
+
+</center>
+ 
 </details>
