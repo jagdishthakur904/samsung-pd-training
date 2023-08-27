@@ -870,6 +870,8 @@ Here flop will not be inferred as the output is always high. <br />
 
 </center>
 
+This circuit makes use of two flip-flops equipped with reset-set functionality. In this arrangement, q1 produces a low signal when the reset input is in a high state. However, during the transition of the reset input from high to low, q1's output goes high. Nevertheless, a minor delay occurs due to the clock-to-q propagation. Consequently, there exists a brief interval during this transition wherein q1 is low. Subsequently, it promptly reverts to a high signal after the delay, maintaining this high state consistently until the subsequent clock edge. This behavior stems from q1's momentary shift to a low state during the transition, swiftly recovering to a high state after the delay, thus leading to a temporary one-clock-cycle drop in its output.
+
 **Synthesis**
 
 <center>
@@ -948,8 +950,9 @@ Here flop will not be inferred as the output is always high. <br />
 
 <details>
 <summary> Sequential optimisation of unused outputs </summary>
+Sequential circuits featuring unused outputs can be optimized to enhance efficiency and resource utilization. A case in point is a 3-bit up counter:
 
-**Example1**
+**Behavirol code**
 
 		module counter_opt (input clk , input reset , output q);
 		reg [2:0] count;
@@ -962,6 +965,8 @@ Here flop will not be inferred as the output is always high. <br />
 				count <= count + 1;
 		end
 		endmodule
+
+In the given code snippet, the output q is affected by the values of count[0], count[1], and count[2], yet these inputs remain unused. The counter resets to zero upon a high signal of the reset input; otherwise, it increments its value. Notably, the least significant bit (LSB) increment leads to a toggling output with each clock cycle, irrespective of the states of other outputs. To enhance this, an optimization involves replacing the trio of flip-flops with a solitary toggle flip-flop, leading to an output alteration during every clock cycle.
 
 **Synthesis**
 
@@ -992,6 +997,8 @@ All the other blocks in synthesizer are for incrementing the counter but the out
 	<img width="1085" alt="counter_opt" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day3/counter_opt2_.PNG">
 
 </center>
+
+In this context, the usage of all three flip-flops is imperative, as the output encompasses a 3-bit dataset, and each flip-flop holds a crucial segment of this data. The combinational logic is responsible for determining the adder's functionality, guaranteeing the counter's appropriate incrementation with each clock cycle.
 
 <center>
 	<img width="1085" alt="counter_opt" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day3/counter_opt2.PNG">
