@@ -1007,6 +1007,8 @@ In this context, the usage of all three flip-flops is imperative, as the output 
  
 </details>
 
+
+
 ## Day-4-GLS,blocking vs non-blocking and Synthesis-Simulation mismatch
 
 <details> 
