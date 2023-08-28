@@ -1,4 +1,4 @@
-# samsung-pd-training
+![image](https://github.com/jagdishthakur904/samsung-pd-training/assets/142480250/560f381d-3b3f-438e-aa48-03870aa421bf)![image](https://github.com/jagdishthakur904/samsung-pd-training/assets/142480250/cf7a423a-9620-45c8-b4ae-bb674e8f104c)# samsung-pd-training
 - [Day-0-Installation](#day-0-Installation)
 
 - [Day-1-Introduction to Verilog RTL design and Synthesis](#Day-1-Introduction-to-Verilog-RTL-design-and-Synthesis)
@@ -1005,4 +1005,172 @@ In this context, the usage of all three flip-flops is imperative, as the output 
 
 </center>
  
+</details>
+
+## Day-4-GLS,blocking vs non-blocking and Synthesis-Simulation mismatch
+
+<details> 
+<summary>GLS, Synthesis-Simulation mismatch and Blocking, Non-blocking statements</summary>
+
+### GLS Concepts And Flow Using Iverilog
+
+**What is GLS- Gate Level Simulation?**:<br />
+
+GLS (Gate-Level Simulation) involves simulating a design by running a test bench using a netlist generated from synthesis. This netlist mirrors the logical equivalence of the RTL (Register-Transfer Level) code. Consequently, the same test bench can be employed for both the netlist and the RTL code, resulting in simulation outputs for the design under test.
+
+**Why GLS?**:<br />
+This process is executed to confirm the logical accuracy of the design following synthesis, while also verifying that the design's timing requirements are satisfied.
+
+The image below provides an overview of the process. When utilizing iverilog, gate-level Verilog models are integrated to facilitate the generation of Gate-Level Simulation (GLS).
+
+<center>
+	<img width="1085" alt="gls" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day4/GLS.PNG">
+
+</center>
+
+
+### Synthesis Simulation Mismatch
+
+There are three main reasons for Synthesis Simulation Mismatch:<br />
+- Missing sensitivity list in always block
+- Blocking vs. Non-Blocking Assignments
+- Non-standard Verilog coding
+
+**Missing sensitivity list in always block:**<br />
+
+In **Example-2**, only the **sel** signal is mentioned in the sensitivity list. In the simulation, the waveforms might resemble a latched output, but the netlist simulation won't infer this, as the synthesizer solely focuses on statements within the procedural block and disregards the sensitivity list.
+
+Given that the synthesizer doesn't consider the sensitivity list, concentrating solely on procedural block statements, it accurately deduces the circuit. Consequently, simulating the netlist code could reveal a mismatch between synthesis and simulation.
+
+To circumvent inconsistencies between synthesis and simulation, it's vital to initially examine the circuit's behavior and then compare it with the anticipated simulation output. This ensures a match between synthesis and simulation results. This is precisely why Gate-Level Simulation (GLS) is employed.
+
+**Blocking vs Non-Blocking Assignments**:
+
+Blocking statements execute sequentially, following the order in which they are written within an always block. On the other hand, non-blocking statements execute all the right-hand side (RHS) calculations first, and upon entering the always block, the values are assigned to the left-hand side (LHS). This can lead to discrepancies, particularly when improper use of blocking statements generates latches. You can observe an instance of this in Example 4.
+
+</details>
+
+<details>
+	<summary> Lab- GLS Synth Sim Mismatch </summary>
+
+**Example-1:** There is no discrepancy in this example, as the waveforms from both the netlist simulation and RTL simulation are identical.
+
+	module ternary_operator_mux (input i0 , input i1 , input sel , output y);
+		assign y = sel?i1:i0;
+	endmodule
+	
+**Simulation**
+
+<center>
+	<img width="1085" alt="ternary_mux" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day4/ternary_mux_waveform.PNG">
+
+</center>
+
+**Synthesis**
+
+<center>
+	<img width="1085" alt="ternary_mux" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day4/ternary_mux.PNG">
+
+</center>
+
+**Netlist Simulation**
+
+<center>
+	<img width="1085" alt="ternary_mux" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day4/ternary_mux_gls.PNG">
+
+</center>
+
+# Example-2
+
+	module bad_mux (input i0 , input i1 , input sel , output reg y);
+		always @ (sel)
+		begin
+			if(sel)
+				y <= i1;
+			else 
+				y <= i0;
+		end
+	endmodule
+
+**Simulation**
+
+<center>
+	<img width="1085" alt="bad_mux" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day4/bad_mux_waveform.PNG">
+
+</center>
+
+**Synthesis**
+
+<center>
+	<img width="1085" alt="bad_mux" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day4/bad_mux.PNG">
+
+</center>
+
+**Netlist Simulation**
+
+<center>
+	<img width="1085" alt="bad_mux" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day4/bad_mux_gls.PNG">
+
+</center>
+
+**MISMATCH:**<br /> In the first image, the netlist simulation reveals a correction in the "bad_mux" design. The initial design exhibited waveform changes only when the "sel" signal was triggered. However, for a mux to function correctly, it should respond to changes in all input signals. This highlights the importance of sensitivity to all inputs for proper mux operation.
+
+<center>
+	<img width="1085" alt="comparison" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day4/compare.PNG">
+
+</center>
+
+</details>
+
+<details>
+	<summary>Lab- Synthesis simulation mismatch blocking statement</summary>
+
+In this scenario, the output is influenced by the previous state of "x," which, in turn, depends on the values of "a" and "b." This behavior resembles that of a flip-flop, where the output depends on the previous state of an input signal.
+
+# Example4
+
+	module blocking_caveat (input a , input b , input  c, output reg d); 
+	reg x;
+	always @ (*)
+		begin
+		d = x & c;
+		x = a | b;
+	end
+	endmodule
+
+**Simulation**
+
+<center>
+	<img width="1085" alt="blocking" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day4/blocking_caveat_waveform.PNG">
+
+</center>
+
+**Synthesis**
+
+<center>
+	<img width="1085" alt="blocking" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day4/blocking_caveat.PNG">
+
+</center>
+
+**Netlist Simulation**
+
+<center>
+	<img width="1085" alt="blocking" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day4/blocking_caveat_gls.PNG">
+
+</center>
+
+**MISMATCH** 
+
+<center>
+	<img width="1085" alt="blocking" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day4/circuit.PNG">
+
+</center>
+
+In this context, the intended behavior of the circuit is represented. However, the accurate waveform is only achieved during netlist simulation. The first image illustrates the netlist simulation, demonstrating the proper functionality of the design under test (DUT). Conversely, the last image exhibits the incorrect behavior of the DUT due to the use of blocking statements, leading to a mismatch between synthesis and simulation results. This inconsistency is resolved through Gate-Level Simulation (GLS), which rectifies the issue during netlist simulation.
+
+<center>
+	<img width="1085" alt="blocking" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day4/compare_blocking.PNG">
+
+</center>
+
 </details>
