@@ -1048,7 +1048,7 @@ To circumvent inconsistencies between synthesis and simulation, it's vital to in
 
 **Blocking vs Non-Blocking Assignments**:
 
-Blocking statements execute sequentially, following the order in which they are written within an always block. On the other hand, non-blocking statements execute all the right-hand side (RHS) calculations first, and upon entering the always block, the values are assigned to the left-hand side (LHS). This can lead to discrepancies, particularly when improper use of blocking statements generates latches. You can observe an instance of this in Example 4.
+Blocking statements execute sequentially, following the order in which they are written within an always block. On the other hand, non-blocking statements execute all the right-hand side (RHS) calculations first, and upon entering the always block, the values are assigned to the left-hand side (LHS). This can lead to discrepancies, particularly when improper use of blocking statements generates latches. You can observe an instance of this in Example 3.
 
 </details>
 
@@ -1129,7 +1129,7 @@ Blocking statements execute sequentially, following the order in which they are 
 
 In this scenario, the output is influenced by the previous state of "x," which, in turn, depends on the values of "a" and "b." This behavior resembles that of a flip-flop, where the output depends on the previous state of an input signal.
 
-# Example4
+# Example-3
 
 	module blocking_caveat (input a , input b , input  c, output reg d); 
 	reg x;
