@@ -1049,7 +1049,7 @@ To circumvent inconsistencies between synthesis and simulation, it's vital to in
 
 **Blocking vs Non-Blocking Assignments**:
 
-Blocking statements execute sequentially, following the order in which they are written within an always block. On the other hand, non-blocking statements execute all the right-hand side (RHS) calculations first, and upon entering the always block, the values are assigned to the left-hand side (LHS). This can lead to discrepancies, particularly when improper use of blocking statements generates latches. You can observe an instance of this in Example 3.
+Blocking statements execute sequentially, following the order in which they are written within an always block. On the other hand, non-blocking statements execute all the right-hand side (RHS) calculations first, and upon entering the always block, the values are assigned to the left-hand side (LHS). This can lead to discrepancies, particularly when improper use of blocking statements generates latches. we can observe an instance of this in Example 3.
 
 </details>
 
@@ -1226,9 +1226,9 @@ Here the different basic commands for logic synthesis in Design compiler are men
 
    - **Target Library** (also known as "Technology Library" or "Cell Library"): The target library is a collection of pre-designed standard cells (logic gates and flip-flops) that are specific to a particular semiconductor manufacturing process technology. These cells are characterized for their electrical and physical properties within that technology. Each cell in the library is designed to meet specific timing, power, and area requirements.
 
-   - **Purpose**: The target library is essential in the synthesis process because it defines the set of building blocks (cells) that Design Compiler can use to implement your digital design. When you perform synthesis, Design Compiler maps your RTL (Register Transfer Level) code to these library cells to create a gate-level netlist.
+   - **Purpose**: The target library is essential in the synthesis process because it defines the set of building blocks (cells) that Design Compiler can use to implement the digital design. When we perform synthesis, Design Compiler maps the RTL (Register Transfer Level) code to these library cells to create a gate-level netlist.
 
-   - **Usage**: You specify the target library when you start Design Compiler, and it becomes the basis for mapping and optimizing your design. For example, you would use a different target library for a design targeting a 28nm process than you would for a design targeting a 65nm process.
+   - **Usage**: we specify the target library when we start Design Compiler, and it becomes the basis for mapping and optimizing the design. For example, we would use a different target library for a design targeting a 28nm process than we would for a design targeting a 65nm process.
 
    Example command to specify the target library:
    ```
@@ -1237,22 +1237,22 @@ Here the different basic commands for logic synthesis in Design compiler are men
 
 2. **Link Library**:
 
-   - **Link Library** (also known as "Design Library" or "User Library"): The link library is a user-defined or project-specific library that can be used to extend or supplement the target library. It allows you to include custom cells, black-boxed IP blocks, or other design elements that are not part of the standard target library.
+   - **Link Library** (also known as "Design Library" or "User Library"): The link library is a user-defined or project-specific library that can be used to extend or supplement the target library. It allows us to include custom cells, black-boxed IP blocks, or other design elements that are not part of the standard target library.
 
-   - **Purpose**: Designers often use link libraries to include custom IP cores, macros, or other non-standard cells required for a specific project. Link libraries allow you to use these custom cells in your design alongside the cells from the target library.
+   - **Purpose**: Designers often use link libraries to include custom IP cores, macros, or other non-standard cells required for a specific project. Link libraries allow us to use these custom cells in the design alongside the cells from the target library.
 
-   - **Usage**: You can link a library to your design in Design Compiler using the "link_library" command. This makes the cells in the link library available for use in your design, and they can be instantiated in your RTL code.
+   - **Usage**: we can link a library to the design in Design Compiler using the "link_library" command. This makes the cells in the link library available for use in the design, and they can be instantiated in the RTL code.
 
    Example command to link a library:
    ```sh
    set link_library { * /path/to/link_library.lib }
    ```
 
-By combining the target library with linked libraries, we can effectively create a comprehensive set of cells for your design, accommodating both standard cells from the target library and custom or project-specific cells from linked libraries.
+By combining the target library with linked libraries, we can effectively create a comprehensive set of cells for the design, accommodating both standard cells from the target library and custom or project-specific cells from linked libraries.
 
 
 3. **read_verilog**:
-The `read_verilog` command in Synopsys Design Compiler is used to read and analyze Verilog RTL (Register Transfer Level) code. It is a crucial step in the synthesis process as it allows Design Compiler to understand and work with your digital design description.
+The `read_verilog` command in Synopsys Design Compiler is used to read and analyze Verilog RTL (Register Transfer Level) code. It is a crucial step in the synthesis process as it allows Design Compiler to understand and work with the digital design description.
 
 Here's how to use the `read_verilog` command:
 
@@ -1263,7 +1263,7 @@ read_verilog /path/to/rtl_code.v
 	<img width="1085" alt="read_verilog" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day6/lab1_read_verilog.PNG">
 </center>
 
-This command instructs Design Compiler to read and analyze the Verilog file specified, creating an internal representation of the design in its database. After running this command, you can proceed with other synthesis and analysis steps, such as elaboration, logical synthesis, and timing analysis.
+This command instructs Design Compiler to read and analyze the Verilog file specified, creating an internal representation of the design in its database. After running this command, we can proceed with other synthesis and analysis steps, such as elaboration, logical synthesis, and timing analysis.
 
 
 4. **Link**:
@@ -1275,7 +1275,7 @@ This command instructs Design Compiler to read and analyze the Verilog file spec
    ```
 
 5. **Compile**:
-   - The `compile` command is used to initiate the logical synthesis process. During this step, Design Compiler maps your RTL code to the cells in the target library and optimizes the design for area, speed, or other specified constraints.
+   - The `compile` command is used to initiate the logical synthesis process. During this step, Design Compiler maps the RTL code to the cells in the target library and optimizes the design for area, speed, or other specified constraints.
 
    Example:
    ```
@@ -1287,14 +1287,14 @@ This command instructs Design Compiler to read and analyze the Verilog file spec
 </center>
 
 6. **Write**:
-   - The `write` command is used to generate and save the synthesized gate-level netlist in a specified format, such as Verilog. This netlist represents your design after logical synthesis and can be used for further steps in the design flow, such as physical design or simulation.
+   - The `write` command is used to generate and save the synthesized gate-level netlist in a specified format, such as Verilog. This netlist represents the design after logical synthesis and can be used for further steps in the design flow, such as physical design or simulation.
 
    Example:
    ```
    write -format verilog -output netlist.v
    ```
 
-In this sequence of commands, we are linking a library, performing logical synthesis, and then writing the synthesized netlist in Verilog format to a file named "netlist.v." These commands, when executed in sequence, will generate a gate-level netlist in Verilog that represents your design after synthesis.
+In this sequence of commands, we are linking a library, performing logical synthesis, and then writing the synthesized netlist in Verilog format to a file named "netlist.v." These commands, when executed in sequence, will generate a gate-level netlist in Verilog that represents the design after synthesis.
 
 Generating the netlist without mentioning the target library will consider the default library 
  <center>
@@ -1340,8 +1340,8 @@ It's important to note that while DDC is a powerful format for design data excha
 
 1. **`read_verilog`**:
    - This command is used to read Verilog RTL (Register Transfer Level) code into the Design Compiler environment.
-   - `read_verilog` is typically used at the beginning of the synthesis flow to import your RTL design description written in Verilog.
-   - It is often used when you have an RTL design that you want to synthesize and map to a target library to generate a gate-level netlist.
+   - `read_verilog` is typically used at the beginning of the synthesis flow to import the RTL design description written in Verilog.
+   - It is often used when we have an RTL design that we want to synthesize and map to a target library to generate a gate-level netlist.
 
    Example:
    ```
@@ -1354,7 +1354,7 @@ It's important to note that while DDC is a powerful format for design data excha
 
 2. **`read_ddc`**:
    - The `read_ddc` command is used to read in a design that has been saved in the DDC (Design Database in C) format. DDC is a proprietary format used by Synopsys tools to store design information, including netlists, constraints, and other details.
-   - `read_ddc` is typically used when you want to continue working on a design that was previously saved in the DDC format.
+   - `read_ddc` is typically used when we want to continue working on a design that was previously saved in the DDC format.
    - It allows you to load a previously synthesized or modified design for further analysis or modification within the Design Compiler environment.
 
    Example:
@@ -1370,7 +1370,7 @@ In summary:
 - `read_verilog` is used to read in the original RTL code in Verilog for synthesis.
 - `read_ddc` is used to read in a previously saved design in DDC format for further analysis or modification within Design Compiler.
 
-If you have an RTL design that you want to synthesize and you have the Verilog code available, you would typically use `read_verilog` to start the synthesis process. However, if you have a DDC-formatted design from a previous run or from another tool in the Synopsys toolchain, you would use `read_ddc` to work with that design in Design Compiler's GUI or command-line environment.
+If we have an RTL design that we want to synthesize and we have the Verilog code available, we would typically use `read_verilog` to start the synthesis process. However, if we have a DDC-formatted design from a previous run or from another tool in the Synopsys toolchain, we would use `read_ddc` to work with that design in Design Compiler's GUI or command-line environment.
 
 The gui representation of circuit can be shpwn as below
  <center>
@@ -1382,21 +1382,21 @@ The gui representation of circuit can be shpwn as below
 
 <details>
  <summary>Lab3 DC Setup</summary>
-The ".synopsis_dc.setup" file is a configuration or setup file used to customize the behavior of Design Compiler for a specific design project. This file typically contains various tool settings and options that control how Design Compiler performs synthesis and optimization for your digital design.
+The ".synopsis_dc.setup" file is a configuration or setup file used to customize the behavior of Design Compiler for a specific design project. This file typically contains various tool settings and options that control how Design Compiler performs synthesis and optimization for the digital design.
 
 Here are some key points about the ".synopsis_dc.setup" file:
 
 1. **Customization**: The ".synopsis_dc.setup" file allows designers to customize various aspects of the synthesis process. This includes specifying synthesis constraints, selecting optimization strategies, setting up timing constraints, and more.
 
-2. **File Format**: It is typically a plain text file, and its format can vary depending on the version of Design Compiler and the specific options you want to configure. It often uses a simple key-value or keyword-based format.
+2. **File Format**: It is typically a plain text file, and its format can vary depending on the version of Design Compiler and the specific options we want to configure. It often uses a simple key-value or keyword-based format.
 
-3. **Contents**: The contents of this file can include directives for constraints, library mapping, optimization levels, clock tree synthesis settings, and other aspects of the synthesis flow. For example, you might specify the target technology library, clock definitions, area and timing constraints, and optimization goals.
+3. **Contents**: The contents of this file can include directives for constraints, library mapping, optimization levels, clock tree synthesis settings, and other aspects of the synthesis flow. For example, we might specify the target technology library, clock definitions, area and timing constraints, and optimization goals.
 
 4. **Project-Specific**: Each project may have its own ".synopsis_dc.setup" file tailored to its requirements. This allows designers to fine-tune the synthesis process for the specific goals and constraints of the project.
 
 5. **Automation**: Using this setup file can be particularly useful for scripting and automating the synthesis flow. Designers can create and maintain these files to ensure consistent synthesis runs and results across different runs and environments.
 
-6. **Version Compatibility**: The format and available options in the ".synopsis_dc.setup" file may evolve with different versions of Design Compiler. It's important to refer to the documentation and user guides for the specific version of the tool you are using to understand the supported options and file format.
+6. **Version Compatibility**: The format and available options in the ".synopsis_dc.setup" file may evolve with different versions of Design Compiler. It's important to refer to the documentation and user guides for the specific version of the tool we are using to understand the supported options and file format.
 
 7. **Location**: Typically, this setup file is located in the project directory or a directory where Design Compiler is executed. It should have a specific name ("synopsis_dc.setup") for the tool to recognize it.
 
