@@ -1145,21 +1145,18 @@ In this scenario, the output is influenced by the previous state of "x," which, 
 
 <center>
 	<img width="1085" alt="blocking" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day4/blocking_caveat_waveform.PNG">
-
 </center>
 
 **Synthesis**
 
 <center>
 	<img width="1085" alt="blocking" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day4/blocking_caveat.PNG">
-
 </center>
 
 **Netlist Simulation**
 
 <center>
 	<img width="1085" alt="blocking" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day4/blocking_caveat_gls.PNG">
-
 </center>
 
 **MISMATCH** 
@@ -1218,7 +1215,7 @@ Here are some common terminologies associated with Design Compiler and the synth
 These are some of the common terminologies associated with Design Compiler and the synthesis process in digital IC design.
 </details>
 
- <details>
+<details>
  <summary>Lab1 Invoking DC basic setup</summary>
 	 
 
@@ -1252,6 +1249,8 @@ Here the different basic commands for logic synthesis in Design compiler are men
    ```
 
 By combining the target library with linked libraries, we can effectively create a comprehensive set of cells for your design, accommodating both standard cells from the target library and custom or project-specific cells from linked libraries.
+
+
 3. **read_verilog**:
 The `read_verilog` command in Synopsys Design Compiler is used to read and analyze Verilog RTL (Register Transfer Level) code. It is a crucial step in the synthesis process as it allows Design Compiler to understand and work with your digital design description.
 
@@ -1262,10 +1261,11 @@ read_verilog /path/to/rtl_code.v
 ```
 <center>
 	<img width="1085" alt="read_verilog" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day6/lab1_read_verilog.PNG">
-
 </center>
 
 This command instructs Design Compiler to read and analyze the Verilog file specified, creating an internal representation of the design in its database. After running this command, you can proceed with other synthesis and analysis steps, such as elaboration, logical synthesis, and timing analysis.
+
+
 4. **Link**:
    - The `link` command is used to link or attach a library to the design in Design Compiler. This allows to use the cells from the linked library in the design alongside the cells from the target library. 
 
@@ -1444,9 +1444,11 @@ Tcl (Tool Command Language) is a scripting language used for automating tasks. I
 	<img width="1085" alt="while_loop" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day6/while_loop.PNG">
 
 </center>
+
 2. **For Loop**:
    - `for` is used for iterating over a range or a list.
    - Example:
+   
      ```tcl
      for {set i 0} {$i < 5} {incr i} {
          puts "Iteration $i"
@@ -1466,7 +1468,7 @@ Tcl (Tool Command Language) is a scripting language used for automating tasks. I
          puts "I like $fruit"
      }
      ```
- <center>
+<center>
 	<img width="1085" alt="foreach_loop" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day6/foreach_loop.PNG">
 
 </center>
