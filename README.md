@@ -1463,9 +1463,9 @@ Tcl (Tool Command Language) is a scripting language used for automating tasks. I
    - `foreach` is used for iterating over elements in a list.
    - Example:
      ```tcl
-     set fruits {apple banana cherry}
-     foreach fruit $fruits {
-         puts "I like $fruit"
+     set var {a b c}
+     foreach var $var {
+         puts "variables $var"
      }
      ```
 <center>
