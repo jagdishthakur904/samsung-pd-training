@@ -1,4 +1,4 @@
-![image](https://github.com/jagdishthakur904/samsung-pd-training/assets/142480250/560f381d-3b3f-438e-aa48-03870aa421bf)![image](https://github.com/jagdishthakur904/samsung-pd-training/assets/142480250/cf7a423a-9620-45c8-b4ae-bb674e8f104c)# samsung-pd-training
+# samsung-pd-training
 - [Day-0-Installation](#day-0-Installation)
 
 - [Day-1-Introduction to Verilog RTL design and Synthesis](#Day-1-Introduction-to-Verilog-RTL-design-and-Synthesis)
