@@ -232,7 +232,7 @@ Also, I performed the above steps for the counter, and the circuit structure is 
 </details>
 
 
-# Day-2-Timing libs, hierarchical, flat synthesis, efficient flop coding styles
+## Day-2-Timing libs, hierarchical, flat synthesis, efficient flop coding styles
 <details>
 <summary>Introduction to timing .libs</summary>
 
@@ -602,7 +602,7 @@ The schematic for the same is shown below:
 
 </details>
 
-# Day3-Combinational and sequential optmizations
+## Day-3-Combinational and sequential optmizations
 <details>
 <summary> Combinational logic optimization with examples </summary>
 
@@ -1176,7 +1176,7 @@ In this context, the intended behavior of the circuit is represented. However, t
 </details>
 
 
-## Day-6 Introduction to Logic Synthesis
+## Day-6-Introduction to Logic Synthesis
 
 
 <details>
