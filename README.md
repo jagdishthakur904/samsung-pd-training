@@ -11,6 +11,9 @@
 
 - [Day-6-Introduction to Logic Synthesis](#DAY-6-Introduction-to-Logic-Synthesis)
 
+- [Day-7-Basic of STA](#DAY-7-Basic-of-STA)
+
+
 ## Day-0-Installation
 <details>
  <summary> Summary </summary>
@@ -1473,3 +1476,201 @@ Tcl (Tool Command Language) is a scripting language used for automating tasks. I
 
 </center>
 In short, Tcl is a scripting language used for automation. While loops repeat code while a condition is true, for loops iterate over a range, and foreach loops iterate over elements in a list. These constructs help automate repetitive tasks in EDA and other domains.
+
+
+
+## Day-7-Basics of STA
+<details>
+	<summary>STA and delay modelling</summary>
+	Static Timing Analysis (STA) is a critical part of the VLSI (Very Large Scale Integration) design process, used to ensure that a digital circuit meets its timing requirements. STA helps in determining the worst-case timing delay within a circuit and ensures that all signals propagate correctly and meet the setup and hold time constraints. Here are some basics of Static Timing Analysis in VLSI:
+
+1. **Setup and Hold Time**: These are key parameters in STA. 
+   - **Setup Time**: The minimum amount of time a data input must be stable before the clock edge arrives for proper data capture.
+   - **Hold Time**: The minimum amount of time a data input must be stable after the clock edge arrives for proper data capture.
+
+2. **Clock Paths**: In STA, the circuit is divided into critical paths, and often the clock path is the most critical. It's the path that determines the highest clock frequency the circuit can operate at.
+
+3. **Data Paths**: Data paths are the paths where the actual data propagation occurs. These paths also need to be analyzed to ensure data arrives at the right time.
+
+4. **Clock-to-Q Delay**: This is the delay from the clock edge to the data output.
+
+5. **Clock Skew**: Clock skew refers to the variation in arrival times of the clock signal at different elements of the circuit. Reducing clock skew is crucial to achieving better timing performance.
+
+6. **Propagation Delay**: The time it takes for a signal to propagate from one point in the circuit to another. This includes both combinatorial logic delay and interconnect delay.
+
+7. **Slack**: Slack is the difference between the time available for a signal to propagate and the time it actually takes. Negative slack indicates a violation of timing constraints.
+
+8. **Max Delay and Min Delay**: STA calculates the maximum and minimum delay for each path in the circuit to ensure that signals meet their setup and hold time requirements.
+
+9. **Constraints**: STA relies on user-defined constraints to specify clock frequencies, setup times, hold times, and other parameters. These constraints guide the analysis.
+
+10. **Clock Domains**: VLSI designs often have multiple clock domains with different clock signals. STA must consider the interactions between these domains.
+
+11. **Library Cells**: The characteristics of standard cells (logic gates) in a library, such as their delay and capacitance, are used in STA to estimate signal delays.
+
+12. **Environmental Factors**: Temperature and voltage variations can affect signal delays and must be considered for accurate timing analysis.
+
+In summary, Static Timing Analysis is a crucial step in VLSI design to ensure that digital circuits operate within specified timing constraints. It involves analyzing the worst-case delays, slack, and critical paths to guarantee correct circuit functionality at the target clock frequency. Designers use various tools and techniques to perform STA and optimize their designs for performance and reliability.
+
+**Water Bucket Analogy with a Tap:**
+
+Imagine you have a water tap and a bucket. The goal is to fill the bucket with water from the tap. This analogy can help illustrate the relationship between load capacitance, inflow of current, and delay in digital circuits:
+
+1. **Water Tap:** The water tap represents the inflow of current. It is the source of water (current) that you control.
+
+2. **Bucket:** The bucket represents the load capacitance. It has the ability to store a certain amount of water (charge).
+
+3. **Filling the Bucket:** When you turn on the tap, water starts flowing into the bucket. The speed at which the bucket fills up depends on the flow rate from the tap (inflow of current) and the size of the bucket (load capacitance).
+
+4. **Delay Modeling:** In this context, delay modeling corresponds to understanding how long it takes to fill the bucket to a certain level. This delay is a function of how fast water (current) flows from the tap and the capacity of the bucket (load capacitance).
+
+- **Increasing Load Capacitance (Bigger Bucket):** If you replace the small bucket with a larger one, it will take longer to fill because it has a greater capacity. Similarly, in a digital circuit, increasing the load capacitance results in longer delay times because it takes more time to "fill" or charge the capacitance.
+
+- **Increasing Inflow of Current (Higher Flow Rate):** If you increase the flow rate from the tap, the bucket will fill up more quickly. Likewise, in a digital circuit, increasing the inflow of current (driving strength) reduces delay times because it provides more current to charge the load capacitance quickly.
+
+Just as in the water bucket analogy, in digital circuit design, optimizing delay involves finding the right balance between the load capacitance (size of the bucket) and the inflow of current (flow rate from the tap) to meet timing requirements while managing power and other constraints effectively.
+
+# Timing arcs
+In digital circuit design, timing arcs, also known as timing models or timing paths, are essential elements used to describe and analyze the timing behavior of electronic components, such as logic gates, flip-flops, and interconnects. These timing arcs define how signals propagate through these components and provide crucial information for static timing analysis (STA). Here are some key aspects of timing arcs:
+
+1. **Propagation Delay:** A timing arc describes the delay associated with the transition of a signal from a source to a destination. It specifies how long it takes for a change in the source signal to be reflected at the destination. This delay is typically expressed in terms of time (e.g., picoseconds or nanoseconds).
+
+2. **Rising and Falling Edges:** Timing arcs account for both rising-edge and falling-edge transitions of signals. For example, a rising-edge timing arc might describe the delay from when the input signal rises from 0 to 1 until the output signal at the destination reaches a specific voltage level.
+
+3. **Transition Times:** Timing arcs may also specify the rise time and fall time of signals. These are the times it takes for a signal to transition between logic levels, and they can affect the overall propagation delay.
+
+4. **Clock Domains:** Timing arcs often consider clock domains. They describe how signals synchronize with clock edges, ensuring that signals meet setup and hold time constraints in synchronous digital designs.
+
+5. **Load Capacitance:** Timing arcs take into account the capacitive load at the destination. The load capacitance represents the total capacitance seen by the output driver, including the capacitance of interconnects and the inputs of downstream gates.
+
+6. **Slew Rate:** Some timing arcs specify the rate of change of the signal voltage as it transitions from one logic level to another. Slew rate affects the signal quality and can impact timing.
+
+7. **Multi-Mode and Multi-Scenario Analysis:** In complex designs, multiple timing arcs may be defined to account for different modes of operation or different scenarios, allowing for comprehensive timing analysis.
+
+8. **Cell Delay vs. Interconnect Delay:** Timing arcs distinguish between cell delays (delays within standard logic gates) and interconnect delays (delays associated with wires and routing). This distinction is important for accurately modeling signal propagation.
+
+9. **Clock-to-Q Delay:** In flip-flops and latches, timing arcs define the clock-to-Q delay, which specifies how long it takes for the input data to appear at the output after the clock edge.
+
+10. **Worst-Case Analysis:** Timing arcs are often used in worst-case analysis to determine the slowest and fastest signal paths in a digital circuit, helping to identify critical paths and meet timing constraints.
+
+Timing arcs are crucial for static timing analysis tools to calculate and verify that a design meets its timing requirements. They play a central role in ensuring that signals propagate correctly and synchronously within a digital circuit, which is essential for the reliable operation of electronic systems.
+
+# Timing Paths:
+1. **Register-to-Register (Reg-to-Reg) Timing Paths:**
+
+   - **Description:** These paths involve signals transitioning between two sequential elements, typically flip-flops or latches.
+   
+   - **Constraints:** Reg-to-Reg paths are constrained primarily by clock-related parameters, including clock period (maximum delay), setup time (maximum delay), and hold time (minimum delay).
+
+   - **Purpose:** The constraints on Reg-to-Reg paths ensure that data is transferred between registers reliably within the specified clock cycles while meeting setup and hold time requirements.
+
+2. **Register-to-Output (Reg2Out) Timing Paths:**
+
+   - **Description:** These paths involve signals traveling from a register to an output pin of a digital chip.
+   
+   - **Constraints:** Reg2Out paths are constrained by factors including external output delay, output load, and clock period. These constraints ensure that the output signal meets timing requirements.
+
+   - **Purpose:** Constrained Reg2Out paths guarantee that output signals are launched correctly and meet the required timing criteria, considering external factors like board-level delays and loads.
+
+3. **Input-to-Register (In2Reg) Timing Paths:**
+
+   - **Description:** These paths involve signals coming from input pins and transitioning to registers in the digital chip.
+   
+   - **Constraints:** In2Reg paths are constrained by input external delay, input transition time, and clock period. These constraints ensure that input signals meet timing requirements when captured by registers.
+
+   - **Purpose:** Constrained In2Reg paths guarantee that input signals are sampled correctly and meet setup time requirements when entering the chip.
+
+It's important to note that in digital design, timing paths need to be constrained not only for maximum delay (setup) but also for minimum delay (hold). Meeting both setup and hold time constraints is essential for ensuring reliable data capture and propagation within a synchronous digital system.
+
+The clock period constraint sets the maximum time allowed between consecutive clock edges, while setup and hold constraints ensure that data is captured reliably on the rising and falling edges of the clock signal, respectively.
+
+Designers use these constraints and timing analysis tools to verify that a digital circuit operates correctly and reliably under different conditions, meeting timing requirements for both input and output paths.
+
+
+<summary>Labs</summary>
+# Timing dot lib file
+A Timing .lib (library) file, often referred to as a Liberty file, is a crucial component in digital design and static timing analysis (STA). It provides detailed information about the timing characteristics and performance of standard cells (logic gates) and other library elements used in digital integrated circuit designs. Here are the key aspects of a Timing .lib file:
+
+1. **Cell Library Information:** The .lib file contains information about the cells available in the library, including their names, types (AND, OR, Flip-Flop, etc.), and attributes. It defines the building blocks that designers use to create digital circuits.
+
+2. **Timing Models:** Timing .lib files specify the timing models for each cell. These models include information about delay, transition time, power consumption, and more. The primary timing characteristics include:
+
+   - **Cell Delay:** This is the time it takes for a signal to propagate through the cell, considering both the internal logic delay and any interconnect delay.
+
+   - **Rise and Fall Delay:** These are the delays associated with rising-edge and falling-edge transitions of signals passing through the cell.
+
+   - **Slew Rate:** It defines the rate of signal voltage transition at the cell's output.
+
+   - **Setup and Hold Time:** These parameters specify when input data must be stable relative to the clock edge for proper capture by flip-flops or latches.
+
+   - **Clock-to-Q Delay:** In flip-flops, it specifies the delay from the clock edge to the data output.
+
+   - **Power Consumption:** The .lib file may include power-related information, such as static power and dynamic power, which is essential for power analysis.
+
+3. **Constraints and Corner Cases:** Timing .lib files often include information for different operating conditions or process corners, such as typical, worst-case, or best-case scenarios. These variations account for manufacturing process variations and temperature extremes.
+
+4. **Library Characterization:** The .lib file may provide statistical data, such as mean and standard deviation, to account for manufacturing variations and allow for statistical STA (SSTA).
+
+5. **Interconnect Models:** In addition to cell-specific timing models, .lib files may contain interconnect models that describe the behavior of wires and routing resources, including resistance, capacitance, and propagation delays.
+
+6. **Technology-Specific Information:** The .lib file is highly technology-specific and is generated during the characterization process for a particular semiconductor manufacturing process (e.g., 65nm CMOS, 7nm FinFET, etc.).
+
+7. **Tool Compatibility:** The format and contents of Timing .lib files are standardized to be compatible with Electronic Design Automation (EDA) tools used for digital design and STA, such as synthesis, place-and-route, and timing analysis tools.
+
+Designers and EDA tools rely on Timing .lib files to perform static timing analysis, optimize circuit performance, and ensure that digital designs meet their timing requirements. These files are a crucial part of the digital design ecosystem and play a key role in achieving the desired functionality, speed, and power consumption in integrated circuits.
+
+# Delay modeling using lookup table
+A Delay Model Lookup Table, often referred to as a Delay Model LUT or simply a LUT (Lookup Table), is a data structure used in digital circuit design and static timing analysis (STA). It provides a way to store and retrieve information about signal propagation delays for various combinations of input conditions. Here's what you need to know about Delay Model Lookup Tables:
+
+1. **Purpose:** Delay Model Lookup Tables are used to capture and represent the delay behavior of specific elements or paths in a digital circuit. They are particularly valuable for modeling complex or non-linear delay characteristics that cannot be easily expressed using simple mathematical functions.
+
+2. **Delay Modeling:** In digital design, signal propagation delays can vary based on factors such as input values, input transitions, input load capacitance, and more. Delay Model Lookup Tables allow designers to capture these variations by specifying the delay for different input conditions.
+
+3. **Data Structure:** A Delay Model Lookup Table is typically organized as a multi-dimensional array or table. Each dimension corresponds to a specific input condition or parameter that affects delay, such as input A value, input B value, input transition time, or load capacitance.
+
+4. **Data Entries:** Within the table, each entry stores the delay value for a particular combination of input conditions. These entries are pre-characterized or extracted through simulation or measurement for specific library elements, like standard cells or interconnects.
+
+5. **Interpolation:** In some cases, when the table does not contain an exact match for a specific set of input conditions, interpolation may be used to estimate the delay based on neighboring entries in the table. This allows for a more accurate prediction of delay under varying conditions.
+
+6. **Use in Static Timing Analysis:** Static Timing Analysis tools use Delay Model Lookup Tables to calculate and predict signal arrival times, clock-to-Q delays, setup times, hold times, and other critical timing parameters within a digital circuit. These tools reference the tables to determine the delays for specific paths or cells in the design.
+
+7. **Library Elements:** Delay Model Lookup Tables are commonly associated with library elements, including logic gates, flip-flops, and interconnects. Each library element may have its own table, allowing for detailed delay characterization.
+
+8. **Technology-Specific:** Delay Model Lookup Tables are highly technology-specific and are generated during the library characterization process for a particular semiconductor manufacturing process. Different technologies and process nodes may require different tables due to process variations.
+
+By using Delay Model Lookup Tables, designers and STA tools can accurately account for the variations in signal propagation delays caused by different input conditions and ensure that digital circuits meet their timing requirements under various scenarios. These tables are an essential component of modern digital design and STA methodologies.
+
+# Unateness
+Unateness is a concept in digital logic that characterizes the behavior of a Boolean function with respect to a specific variable. It describes whether a change in the input variable has a predictable effect on the output of the function. A variable is considered unate with respect to a function if it exhibits a consistent behavior: either an increase in the variable always increases the output or always decreases the output. There are two main types of unateness:
+
+1. **Positive Unate (PU):**
+   - A variable is considered positively unate with respect to a function if, for all possible input combinations, increasing the variable value (from 0 to 1) always increases the output of the function.
+   - Mathematically, if F(x) is the Boolean function and x is a variable, then x is positively unate with respect to F if and only if:
+     - F(x=0) ≤ F(x=1)
+
+2. **Negative Unate (NU):**
+   - A variable is considered negatively unate with respect to a function if, for all possible input combinations, increasing the variable value (from 0 to 1) always decreases the output of the function.
+   - Mathematically, if F(x) is the Boolean function and x is a variable, then x is negatively unate with respect to F if and only if:
+     - F(x=0) ≥ F(x=1)
+
+In addition to positive unateness (PU) and negative unateness (NU), there's a third category:
+
+3. **Binate (BI):**
+   - A variable is considered binate with respect to a function if its behavior is not strictly positive unate or negative unate. In other words, there are cases where increasing the variable value may increase the output, and there are cases where increasing the variable value may decrease the output.
+   - Mathematically, a variable x is binate with respect to F if there exist at least one input combination i and one input combination j (i ≠ j) such that:
+     - F(x=i) ≤ F(x=j) and F(x=i) ≥ F(x=j)
+
+Understanding unateness is essential in various aspects of digital logic and circuit optimization:
+
+- **Logic Optimization:** Unate variables can often be easily optimized out of a Boolean function, simplifying the logic and reducing the number of gates or terms in the expression.
+
+- **Timing Analysis:** Unateness can impact the timing behavior of digital circuits. For example, positively unate variables tend to have simpler and faster timing characteristics, while negatively unate variables may introduce more complex delays.
+
+- **Technology Mapping:** In the process of mapping a Boolean function onto a specific technology library (e.g., ASIC or FPGA), knowledge of unateness can guide the selection of appropriate library elements.
+
+- **Functional Verification:** Unateness analysis can help identify redundant or irrelevant variables in a design, aiding in functional verification efforts.
+
+In summary, unateness is a concept used to characterize the behavior of variables in Boolean functions and is an important consideration in digital logic design and optimization. It helps determine how changes in variables affect the behavior of logical functions and can guide design decisions to improve circuit performance and simplify logic expressions.
+
+
+</details>
