@@ -1483,7 +1483,8 @@ In short, Tcl is a scripting language used for automation. While loops repeat co
 
 <details>
 	<summary>STA and delay modelling</summary>
-	Static Timing Analysis (STA) is a critical part of the VLSI (Very Large Scale Integration) design process, used to ensure that a digital circuit meets its timing requirements. STA helps in determining the worst-case timing delay within a circuit and ensures that all signals propagate correctly and meet the setup and hold time constraints. Here are some basics of Static Timing Analysis in VLSI:
+	
+Static Timing Analysis (STA) is a critical part of the VLSI (Very Large Scale Integration) design process, used to ensure that a digital circuit meets its timing requirements. STA helps in determining the worst-case timing delay within a circuit and ensures that all signals propagate correctly and meet the setup and hold time constraints. Here are some basics of Static Timing Analysis in VLSI:
 
 1. **Setup and Hold Time**: These are key parameters in STA. 
    - **Setup Time**: The minimum amount of time a data input must be stable before the clock edge arrives for proper data capture.
@@ -1531,7 +1532,7 @@ Imagine you have a water tap and a bucket. The goal is to fill the bucket with w
 
 Just as in the water bucket analogy, in digital circuit design, optimizing delay involves finding the right balance between the load capacitance (size of the bucket) and the inflow of current (flow rate from the tap) to meet timing requirements while managing power and other constraints effectively.
 
-# Timing arcs
+### Timing arcs
 In digital circuit design, timing arcs, also known as timing models or timing paths, are essential elements used to describe and analyze the timing behavior of electronic components, such as logic gates, flip-flops, and interconnects. These timing arcs define how signals propagate through these components and provide crucial information for static timing analysis (STA). Here are some key aspects of timing arcs:
 
 1. **Propagation Delay:** A timing arc describes the delay associated with the transition of a signal from a source to a destination. It specifies how long it takes for a change in the source signal to be reflected at the destination. This delay is typically expressed in terms of time (e.g., picoseconds or nanoseconds).
@@ -1556,7 +1557,7 @@ In digital circuit design, timing arcs, also known as timing models or timing pa
 
 Timing arcs are crucial for static timing analysis tools to calculate and verify that a design meets its timing requirements. They play a central role in ensuring that signals propagate correctly and synchronously within a digital circuit, which is essential for the reliable operation of electronic systems.
 
-# Timing Paths:
+### Timing Paths:
 1. **Register-to-Register (Reg-to-Reg) Timing Paths:**
 
    - **Description:** These paths involve signals transitioning between two sequential elements, typically flip-flops or latches.
@@ -1589,7 +1590,8 @@ Designers use these constraints and timing analysis tools to verify that a digit
 
 
 <summary>Labs</summary>
-# Timing dot lib file
+
+### Timing dot lib file
 A Timing .lib (library) file, often referred to as a Liberty file, is a crucial component in digital design and static timing analysis (STA). It provides detailed information about the timing characteristics and performance of standard cells (logic gates) and other library elements used in digital integrated circuit designs. Here are the key aspects of a Timing .lib file:
 
 1. **Cell Library Information:** The .lib file contains information about the cells available in the library, including their names, types (AND, OR, Flip-Flop, etc.), and attributes. It defines the building blocks that designers use to create digital circuits.
@@ -1620,7 +1622,7 @@ A Timing .lib (library) file, often referred to as a Liberty file, is a crucial 
 
 Designers and EDA tools rely on Timing .lib files to perform static timing analysis, optimize circuit performance, and ensure that digital designs meet their timing requirements. These files are a crucial part of the digital design ecosystem and play a key role in achieving the desired functionality, speed, and power consumption in integrated circuits.
 
-# Delay modeling using lookup table
+### Delay modeling using lookup table
 A Delay Model Lookup Table, often referred to as a Delay Model LUT or simply a LUT (Lookup Table), is a data structure used in digital circuit design and static timing analysis (STA). It provides a way to store and retrieve information about signal propagation delays for various combinations of input conditions. Here's what you need to know about Delay Model Lookup Tables:
 
 1. **Purpose:** Delay Model Lookup Tables are used to capture and represent the delay behavior of specific elements or paths in a digital circuit. They are particularly valuable for modeling complex or non-linear delay characteristics that cannot be easily expressed using simple mathematical functions.
@@ -1641,7 +1643,7 @@ A Delay Model Lookup Table, often referred to as a Delay Model LUT or simply a L
 
 By using Delay Model Lookup Tables, designers and STA tools can accurately account for the variations in signal propagation delays caused by different input conditions and ensure that digital circuits meet their timing requirements under various scenarios. These tables are an essential component of modern digital design and STA methodologies.
 
-# Unateness
+### Unateness
 Unateness is a concept in digital logic that characterizes the behavior of a Boolean function with respect to a specific variable. It describes whether a change in the input variable has a predictable effect on the output of the function. A variable is considered unate with respect to a function if it exhibits a consistent behavior: either an increase in the variable always increases the output or always decreases the output. There are two main types of unateness:
 
 1. **Positive Unate (PU):**
