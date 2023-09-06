@@ -1661,7 +1661,7 @@ Unateness is a concept in digital logic that characterizes the behavior of a Boo
 
 In addition to positive unateness (PU) and negative unateness (NU), there's a third category:
 
-3. **Binate (BI):**
+3. **Binate (BI) or Non Unate:**
    - A variable is considered binate with respect to a function if its behavior is not strictly positive unate or negative unate. In other words, there are cases where increasing the variable value may increase the output, and there are cases where increasing the variable value may decrease the output.
    - Mathematically, a variable x is binate with respect to F if there exist at least one input combination i and one input combination j (i ≠ j) such that:
      - F(x=i) ≤ F(x=j) and F(x=i) ≥ F(x=j)
@@ -1718,88 +1718,8 @@ Unateness of AND gate
                 timing_sense : "positive_unate";
                 timing_type : "combinational";
 ```
-Sequential Flops 
-```
-    cell ("sky130_fd_sc_hd__sdfbbn_1") {
-        leakage_power () {
-            value : 0.0172358000;
-            when : "SET_B&RESET_B&!CLK_N&D&!SCD&!SCE&!Q&Q_N";
-        }
-        leakage_power () {
-            value : 0.0146049000;
-            when : "SET_B&RESET_B&!CLK_N&!D&!SCD&SCE&!Q&Q_N";
-        }
-        area : 38.787200000;
-        cell_footprint : "sky130_fd_sc_hd__sdfbbn";
-        cell_leakage_power : 0.0153947700;
-        driver_waveform_fall : "ramp";
-        driver_waveform_rise : "ramp";
-        ff ("IQ","IQ_N") {
-            clear : "!RESET_B";
-            clear_preset_var1 : "H";
-            clear_preset_var2 : "L";
-            clocked_on : "!CLK_N";
-            next_state : "(D&!SCE) | (SCD&SCE)";
-            preset : "!SET_B";
-        }
-        pg_pin ("VGND") {
-            pg_type : "primary_ground";
-            related_bias_pin : "VPB";
-            voltage_name : "VGND";
-        }
-        pg_pin ("VNB") {
-            pg_type : "nwell";
-            physical_connection : "device_layer";
-            voltage_name : "VNB";
-        }
-        pg_pin ("VPB") {
-            pg_type : "pwell";
-            physical_connection : "device_layer";
-            voltage_name : "VPB";
-        }
-        pg_pin ("VPWR") {
-            pg_type : "primary_power";
-            related_bias_pin : "VNB";
-            voltage_name : "VPWR";
-        }
-        pin ("CLK_N") {
-            capacitance : 0.0017800000;
-            clock : "true";
-            direction : "input";
-            fall_capacitance : 0.0016980000;
-            internal_power () {
-                fall_power ("power_inputs_1") {
-                    index_1("0.0100000000, 0.0230506000, 0.0531329000, 0.1224740000, 0.2823110000, 0.6507430000, 1.5000000000");
-                    values("0.0352985000, 0.0351707000, 0.0348760000, 0.0349577000, 0.0351461000, 0.0355805000, 0.0365816000");
-                }
-                rise_power ("power_inputs_1") {
-                    index_1("0.0100000000, 0.0230506000, 0.0531329000, 0.1224740000, 0.2823110000, 0.6507430000, 1.5000000000");
-                    values("0.0171088000, 0.0170354000, 0.0168662000, 0.0168729000, 0.0168886000, 0.0169248000, 0.0170082000");
-                }
-            }
-            max_transition : 1.5000000000;
-            related_ground_pin : "VGND";
-            related_power_pin : "VPWR";
-            rise_capacitance : 0.0018610000;
-            timing () {
-                fall_constraint ("constraint_3_0_1") {
-                    index_1("0.0100000000, 0.5000000000, 1.5000000000");
-                    values("0.2763402000, 0.8333333000, 2.5000000000");
-                }
-                related_output_pin : "Q";
-                related_pin : "CLK_N";
-                rise_constraint ("constraint_3_0_1") {
-                    index_1("0.0100000000, 0.5000000000, 1.5000000000");
-                    values("0.2554685000, 0.8333333000, 2.5000000000");
-                }
-                sim_opt : "runlvl=5 accurate=1";
-                timing_type : "min_pulse_width";
-                violation_delay_degrade_pct : 10.000000000;
-            }
-        }
-```
 
-list of and gates in lloaded library
+list of AND gates in loaded library
 <center>
 	<img width="1085" alt="and_gates" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day7/and_list.PNG">
 
