@@ -1477,7 +1477,7 @@ Tcl (Tool Command Language) is a scripting language used for automating tasks. I
 </center>
 In short, Tcl is a scripting language used for automation. While loops repeat code while a condition is true, for loops iterate over a range, and foreach loops iterate over elements in a list. These constructs help automate repetitive tasks in EDA and other domains.
 
-
+</details>
 
 ## Day-7-Basics of STA
 
