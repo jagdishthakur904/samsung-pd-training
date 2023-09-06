@@ -1588,7 +1588,10 @@ The clock period constraint sets the maximum time allowed between consecutive cl
 
 Designers use these constraints and timing analysis tools to verify that a digital circuit operates correctly and reliably under different conditions, meeting timing requirements for both input and output paths.
 
+</details>
 
+<details>
+	
 <summary>Labs</summary>
 
 ### Timing dot lib file
