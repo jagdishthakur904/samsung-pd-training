@@ -1678,5 +1678,88 @@ Understanding unateness is essential in various aspects of digital logic and cir
 
 In summary, unateness is a concept used to characterize the behavior of variables in Boolean functions and is an important consideration in digital logic design and optimization. It helps determine how changes in variables affect the behavior of logical functions and can guide design decisions to improve circuit performance and simplify logic expressions.
 
+And cell pin
+```
+        pin ("A") {
+            capacitance : 0.0016000000;
+            clock : "false";
+            direction : "input";
+            fall_capacitance : 0.0015630000;
+            internal_power () {
+                fall_power ("power_inputs_1") {
+                    index_1("0.0100000000, 0.0230506000, 0.0531329000, 0.1224740000, 0.2823110000, 0.6507430000, 1.5000000000");
+                    values("0.0028340000, 0.0028350000, 0.0028374000, 0.0028381000, 0.0028398000, 0.0028435000, 0.0028523000");
+                }
+                rise_power ("power_inputs_1") {
+                    index_1("0.0100000000, 0.0230506000, 0.0531329000, 0.1224740000, 0.2823110000, 0.6507430000, 1.5000000000");
+                    values("-0.002302000, -0.002304800, -0.002311300, -0.002307200, -0.002297900, -0.002276400, -0.002226700");
+                }
+            }
+            max_transition : 1.5000000000;
+            related_ground_pin : "VGND";
+            related_power_pin : "VPWR";
+            rise_capacitance : 0.0016370000;
+        }
+```
+Unateness of AND gate
+```
+                related_pin : "A";
+                rise_transition ("del_1_7_7") {
+                    index_1("0.0100000000, 0.0230506000, 0.0531329000, 0.1224740000, 0.2823110000, 0.6507430000, 1.5000000000");
+                    index_2("0.0005000000, 0.0012265500, 0.0030088400, 0.0073809800, 0.0181063000, 0.0444164000, 0.1089580000");
+                    values("0.0274992000, 0.0366333000, 0.0595508000, 0.1173182000, 0.2624949000, 0.6204234000, 1.4924092000", \
+                        "0.0274641000, 0.0367120000, 0.0594145000, 0.1171731000, 0.2626016000, 0.6211412000, 1.4940631000", \
+                        "0.0274866000, 0.0367100000, 0.0595502000, 0.1170192000, 0.2618886000, 0.6194957000, 1.4923682000", \
+                        "0.0286739000, 0.0376392000, 0.0600514000, 0.1174412000, 0.2631610000, 0.6217848000, 1.4923507000", \
+                        "0.0319919000, 0.0406756000, 0.0626975000, 0.1189916000, 0.2626313000, 0.6204083000, 1.4973701000", \
+                        "0.0410414000, 0.0486958000, 0.0680830000, 0.1214559000, 0.2646635000, 0.6178478000, 1.4919401000", \
+                        "0.0573377000, 0.0660958000, 0.0833266000, 0.1301706000, 0.2655788000, 0.6223080000, 1.4866247000");
+                }
+                timing_sense : "positive_unate";
+                timing_type : "combinational";
+```
+Sequential Flops 
+```
+```
+
+list of and gates in lloaded library
+<center>
+	<img width="1085" alt="and_gates" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day7/and_list.PNG">
+
+</center>
+<center>
+	<img width="1085" alt="and_gates" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day7/functionality.PNG">
+
+</center>
+
+Getting functionality of a cell in dc_shell
+
+Script for printing output pin name and its functionality in dc_shell
+
+```
+set my_list [list sky130_fd_sc_hd__tt_025C_1v80/sky130_fd_sc_hd__and4_1 \
+sky130_fd_sc_hd__tt_025C_1v80/sky130_fd_sc_hd__and4_2 \
+sky130_fd_sc_hd__tt_025C_1v80/sky130_fd_sc_hd__and4_4 \
+sky130_fd_sc_hd__tt_025C_1v80/sky130_fd_sc_hd__and4b_1 \
+sky130_fd_sc_hd__tt_025C_1v80/sky130_fd_sc_hd__and4b_2 \
+sky130_fd_sc_hd__tt_025C_1v80/sky130_fd_sc_hd__and4b_4 \
+sky130_fd_sc_hd__tt_025C_1v80/sky130_fd_sc_hd__and4bb_1 \
+sky130_fd_sc_hd__tt_025C_1v80/sky130_fd_sc_hd__and4bb_2 \
+sky130_fd_sc_hd__tt_025C_1v80/sky130_fd_sc_hd__and4bb_4 ]
+
+#For each cell in list, find the output pin name and its functionality
+
+foreach my_cell $my_list {
+	foreach_in_collection my_lib_pin [get_lib_pins ${my_cell}/*] {
+		set my_lib_pin_name [get_object_name $my_lib_pin];
+		set dir [get_lib_attribute $my_lib_pin_name direction];
+		if {$dir == 2 } {
+			set fun [get_lib_attribute $my_lib_pin_name function];
+			echo $my_lib_pin_name $dir $fun;
+		}
+	}
+}
+
+```
 
 </details>
