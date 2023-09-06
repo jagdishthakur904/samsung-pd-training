@@ -1480,6 +1480,7 @@ In short, Tcl is a scripting language used for automation. While loops repeat co
 
 
 ## Day-7-Basics of STA
+
 <details>
 	<summary>STA and delay modelling</summary>
 	Static Timing Analysis (STA) is a critical part of the VLSI (Very Large Scale Integration) design process, used to ensure that a digital circuit meets its timing requirements. STA helps in determining the worst-case timing delay within a circuit and ensures that all signals propagate correctly and meet the setup and hold time constraints. Here are some basics of Static Timing Analysis in VLSI:
