@@ -1772,6 +1772,7 @@ Output of above script:
 </details>
 
 ## Day-8 Advanced Constraints
+
 <details>
 <summary>Clock Terminologies</summary>
 	In Very Large Scale Integration (VLSI) design, constraints are essential specifications and limitations that guide the synthesis and optimization of an integrated circuit (IC). These constraints define various aspects of the design, including timing, area, power, and functionality, and they play a crucial role in ensuring that the final chip meets the desired specifications and performance criteria.
@@ -1827,7 +1828,7 @@ In this command, `<your_script>.tcl` is your synthesis script, and `<your_constr
 By providing comprehensive constraints in the SDC file, you guide the synthesis and optimization tools like Design Compiler to meet your design specifications and constraints during the design process, ensuring that the final IC meets the desired performance, power, and area requirements.
 
 
-<summary> what needs to be constrained for clocks </summary>
+# what needs to be constrained for clocks 
 When constraining clocks in VLSI design, you need to specify various parameters and characteristics to ensure that the clock signals operate correctly and meet the required timing and synchronization criteria. Here are the key aspects that need to be constrained for clocks:
 
 1. **Clock Frequency (or Period)**:
