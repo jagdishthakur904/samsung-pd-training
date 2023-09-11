@@ -1661,7 +1661,7 @@ Unateness is a concept in digital logic that characterizes the behavior of a Boo
 
 In addition to positive unateness (PU) and negative unateness (NU), there's a third category:
 
-3. **Binate (BI):**
+3. **Binate (BI) or Non Unate:**
    - A variable is considered binate with respect to a function if its behavior is not strictly positive unate or negative unate. In other words, there are cases where increasing the variable value may increase the output, and there are cases where increasing the variable value may decrease the output.
    - Mathematically, a variable x is binate with respect to F if there exist at least one input combination i and one input combination j (i ≠ j) such that:
      - F(x=i) ≤ F(x=j) and F(x=i) ≥ F(x=j)
@@ -1718,21 +1718,20 @@ Unateness of AND gate
                 timing_sense : "positive_unate";
                 timing_type : "combinational";
 ```
-Sequential Flops 
-```
-```
 
-list of and gates in lloaded library
+list of AND gates in loaded library
 <center>
 	<img width="1085" alt="and_gates" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day7/and_list.PNG">
 
 </center>
+
+Getting functionality of a cell in dc_shell
 <center>
-	<img width="1085" alt="and_gates" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day7/functionality.PNG">
+	<img width="1085" alt="functionality" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day7/functionality.PNG">
 
 </center>
 
-Getting functionality of a cell in dc_shell
+
 
 Script for printing output pin name and its functionality in dc_shell
 
@@ -1761,5 +1760,92 @@ foreach my_cell $my_list {
 }
 
 ```
+Output of above script:
 
+<center>
+	<img width="1085" alt="my_script_outout" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day7/my_script_output.PNG">
+	
+</center>
+
+</details>
+
+
+<details>
+
+```
+create_clock -name <clock_name> -per <period> [clock definition point]
+create_clock -name MY_CLK -per 5 [get_ports CLK]
+
+Note: Clocks must be created on the clock generators (PLL, OSCILLATORS) or Primary IO Pins (For External Clocks). Clocks should not be created on hierarichal pins which are not clock generators
+
+```
+Clock Distribution: Bringing in the practicalities of clock network(latency, uncertainty)
+
+```
+create_clock -name MY_CLK -per 5 [get_ports CLK]
+set_clock_latency 3 MY_CLK; #This is the latency, modelling the clock delay in the network
+set_clock_uncertainty 0.5 MY_CLK; #This is for setting the clock network(skew + jitter) This needs to be mpdified POST CTS to reflect only jitter
+
+set_clock_uncertainty 0.2 MY_CLK #POST CTS (only jitter if skew were 0.3)
+
+```
+** Clocks - Waveform **
+50% DC clock starting phase is high
+```
+create_clock -name MYCLK -per 10 [get_ports clk] #this is default
+
+```
+50% DC clock starting phase is low
+```
+create_clock -name MYCLK -per 10 [get_ports clk] -wave {5 10}
+
+```
+50% DC clock starting phase is high, starting edge not at 0
+```
+create_clock -name MYCLK -per 10 [get_ports clk] -wave {2.5 7.5}
+
+```
+
+25% DC clock starting phase is low
+```
+create_clock -name MYCLK -per 10 [get_ports clk] -wave {0 2.5}
+
+```
+
+* Constraining the IO Paths *
+
+```
+set_input_delay-max 3-clock [get_clocks MY CLK] [get_ports IN_"];
+
+set_input_delay-min 0.5-clock [get_clocks MY CLK] [get_ports IN_"]; set_input_transition-max 1.5 [get_ports IN "];
+
+set_input_transition-min .75 [get_ports IN_"];
+
+#NOTE: Both inputs IN A, IN B are coming w.r.t clock MY CLK created on port CLK
+```
+
+```
+set_output_delay-max 3-clock [get_clocks MY CLK] [get_ports Out_Y"];
+
+set_output_delay-min 0.5-clock [get_clocks MY CLK] [get_ports Out_Y"];
+set_input_transition-max 1.5 [get_ports Out_Y"];
+
+set_input_transition-min .75 [get_ports Out_Y"];
+
+#NOTE: Output Out_Y is generated w.r.t clock MY CLK created on port CLK
+```
+
+
+# LAB
+commands
+```
+read_verilog lab8_circuit.v
+```
+Screenshot
+
+```
+ 
+```
+Screenshot
+	
 </details>
