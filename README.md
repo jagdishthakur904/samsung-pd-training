@@ -1929,7 +1929,7 @@ set_input_delay-min 0.5-clock [get_clocks MY CLK] [get_ports IN_"]; set_input_tr
 
 set_input_transition-min .75 [get_ports IN_"];
 
-#NOTE: Both inputs IN A, IN B are coming w.r.t clock MY CLK created on port CLK
+#NOTE: Both inputs IN A, and IN B are coming w.r.t clock MY CLK created on port CLK
 ```
 
 ```
@@ -1949,11 +1949,112 @@ commands
 ```
 read_verilog lab8_circuit.v
 ```
-Screenshot
+<center>
+	<img width="1085" alt="read_verilog" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day8/read_verilog.PNG">
+
+</center>
 
 ```
- 
+compile_ultra
 ```
-Screenshot
-	
+<center>
+	<img width="1085" alt="read_verilog" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day8/compile_ultra.PNG">
+
+</center>
+
+nets
+<center>
+	<img width="1085" alt="read_verilog" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day8/nets.PNG">
+
+</center>
+
+ports
+<center>
+	<img width="1085" alt="read_verilog" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day8/ports.PNG">
+
+</center>
+
+pin_names
+<center>
+	<img width="1085" alt="read_verilog" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day8/pin_names.PNG">
+
+</center>
+
+cells
+<center>
+	<img width="1085" alt="read_verilog" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day8/get_cells.PNG">
+
+</center>
+
+reference names
+<center>
+	<img width="1085" alt="read_verilog" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day8/reference_names.PNG">
+
+</center>
+gui view
+<center>
+	<img width="1085" alt="read_verilog" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day8/gui_view.PNG">
+
+</center>
+creating clock
+<center>
+	<img width="1085" alt="read_verilog" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day8/creating_clock.PNG">
+
+</center>
+
+creating clock wave
+<center>
+	<img width="1085" alt="read_verilog" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day8/creating_clock_wave.PNG">
+
+</center>
+
+generated clock
+
+<center>
+	<img width="1085" alt="read_verilog" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day8/generated_clock.PNG">
+
+</center>
+
+Timing report without clock
+
+<center>
+	<img width="1085" alt="read_verilog" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day8/timing_report_without_clock.PNG">
+
+</center>
+
+Timing report with clock
+<center>
+	<img width="1085" alt="read_verilog" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day8/timing_report_with_clock.PNG">
+
+</center>
+
+Timing report clock modified
+
+<center>
+	<img width="1085" alt="read_verilog" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day8/report_clock_modified.PNG">
+
+</center>
+
+Timing report with clock constraints
+<center>
+	<img width="1085" alt="read_verilog" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day8/timing_report_with_clock_constraints.PNG">
+
+</center>
+Timing report with clock constraints hold
+<center>
+	<img width="1085" alt="read_verilog" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day8/timing_report_with_clock_constraints_hold.PNG">
+
+</center>
+
+Timing report with clock constraints setup
+<center>
+	<img width="1085" alt="read_verilog" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day8/timing_report_with_clock_constraints_setup.PNG">
+
+</center>
+
+Timing report with input constraints
+<center>
+	<img width="1085" alt="read_verilog" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day8/timing_report_with_input_constraints.PNG">
+
+</center>
 </details>
