@@ -13,6 +13,8 @@
 
 - [Day-7-Basic of STA](#DAY-7-Basic-of-STA)
 
+- [Day-8-Advanced Costraints](#DAY--8-Advanced-Costraints)
+
 
 ## Day-0-Installation
 <details>
@@ -1769,8 +1771,113 @@ Output of above script:
 
 </details>
 
-
+## Day-8 Advanced Constraints
 <details>
+<summary>Clock Terminologies</summary>
+	In Very Large Scale Integration (VLSI) design, constraints are essential specifications and limitations that guide the synthesis and optimization of an integrated circuit (IC). These constraints define various aspects of the design, including timing, area, power, and functionality, and they play a crucial role in ensuring that the final chip meets the desired specifications and performance criteria.
+
+Constraints in VLSI design typically include:
+
+1. **Timing Constraints**: These constraints specify the desired clock frequency, setup time, hold time, and other timing requirements for the design. Timing constraints ensure that signals propagate correctly through the circuit within the specified clock cycles.
+
+2. **Area Constraints**: These constraints define the maximum allowable silicon area for the chip. They are crucial for managing chip size and cost.
+
+3. **Power Constraints**: Power constraints limit the power consumption of the chip, which is especially important for battery-powered devices and to prevent overheating.
+
+4. **Functional Constraints**: Functional constraints define the behavior and functionality of the design, including logical operations, state machine behavior, and input/output behavior.
+
+5. **I/O Constraints**: These constraints specify the requirements for input and output pins, such as voltage levels, drive strengths, and electrical characteristics.
+
+6. **Clock Constraints**: Clock constraints specify details about the clock signal, including clock sources, clock tree synthesis requirements, and clock gating rules.
+
+7. **False Path Constraints**: These constraints specify paths in the design that should not be considered during timing analysis. This is useful when certain paths are known to be irrelevant for performance or have specific timing requirements.
+
+8. **Multicycle Path Constraints**: Multicycle path constraints allow for specific paths to have different timing requirements, often extending over multiple clock cycles.
+
+To implement constraints in VLSI design using Synopsys Design Constraints in Design Compiler (DC), you typically follow these steps:
+
+1. **Create a Constraint File**: Create a text-based constraint file (commonly with a `.sdc` extension) that specifies the constraints for your design. This file should include constraints for timing, area, power, I/O, clock, and any other relevant aspects. 
+
+2. **Specify Timing Constraints**: Use commands in the SDC file to specify timing constraints. For example, you can define clock frequencies, setup and hold times, and false paths. Here's an example of how to specify clock frequency in an SDC file:
+
+   ```tcl
+   create_clock -period 10 [get_ports clk]
+   ```
+
+   This command sets the clock period for a signal named `clk` to 10 units of time (e.g., nanoseconds).
+
+3. **Define Area and Power Constraints**: Use appropriate commands in the SDC file to set area and power constraints. For instance, you can specify maximum chip area and power consumption limits.
+
+4. **Input/Output Constraints**: Define input and output constraints, including I/O voltage levels, drive strengths, and electrical characteristics.
+
+5. **Clock Constraints**: Specify clock constraints such as clock sources, clock gating rules, and any other clock-related requirements.
+
+6. **Multicycle and False Path Constraints**: If your design has multicycle or false paths, use the appropriate commands in the SDC file to specify these constraints.
+
+7. **Apply Constraints in Design Compiler**: When running the synthesis process with Design Compiler, include the SDC file as part of the input to ensure that the tool uses the constraints during synthesis.
+
+Here's an example of how to use an SDC file in Design Compiler:
+
+```bash
+design_compiler -f <your_script>.tcl -sdc <your_constraints>.sdc
+```
+
+In this command, `<your_script>.tcl` is your synthesis script, and `<your_constraints>.sdc` is your SDC constraint file.
+
+By providing comprehensive constraints in the SDC file, you guide the synthesis and optimization tools like Design Compiler to meet your design specifications and constraints during the design process, ensuring that the final IC meets the desired performance, power, and area requirements.
+
+
+<summary> what needs to be constrained for clocks </summary>
+When constraining clocks in VLSI design, you need to specify various parameters and characteristics to ensure that the clock signals operate correctly and meet the required timing and synchronization criteria. Here are the key aspects that need to be constrained for clocks:
+
+1. **Clock Frequency (or Period)**:
+   - Specify the desired clock frequency (in hertz) or clock period (in seconds) for each clock domain in your design.
+   - Ensure that the clock frequency constraints align with the overall timing requirements of the design.
+
+2. **Clock Source**:
+   - Identify the source of each clock signal, whether it's generated on-chip by an oscillator or received from an external source.
+   - Define the characteristics of the clock source, such as frequency stability and jitter, if applicable.
+
+3. **Clock Domain**:
+   - Partition your design into distinct clock domains if you have multiple clock sources or regions with different clocking requirements.
+   - Clearly specify which logic elements belong to each clock domain.
+
+4. **Clock Skew**:
+   - Set constraints on the allowable clock skew, which is the maximum acceptable variation in the arrival times of the clock signal at different points within a clock domain.
+   - Minimize clock skew to ensure synchronous operation and meet setup and hold time requirements.
+
+5. **Clock Edges**:
+   - Define the clock edges that should be used for capturing data in flip-flops. Typically, you specify rising or falling edges.
+   - Ensure that all flip-flops within a clock domain are triggered on the same edge for synchronization.
+
+6. **Clock Uncertainty**:
+   - Specify the maximum allowable uncertainty or jitter in the clock signal arrival times, considering factors like clock distribution, routing, and manufacturing variations.
+   - Ensure that clock uncertainty does not exceed acceptable levels for your design.
+
+7. **Clock-to-Q Delay**:
+   - Set constraints on the clock-to-Q delay for flip-flops, indicating the maximum time it takes for an output signal to change after a clock edge.
+
+8. **Clock Gating**:
+   - Define rules for applying clock gating techniques, specifying when and how clock gating should be used to reduce power consumption when parts of the circuit are inactive.
+
+9. **Clock Domain Crossing (CDC)**:
+   - Address clock domain crossing issues by specifying synchronization mechanisms, ensuring that data is correctly transferred between different clock domains.
+
+10. **Clock Jitter**:
+    - Constrain clock jitter, both duty cycle jitter and period jitter, to minimize timing uncertainties and maintain signal integrity.
+    - Use constraints to specify acceptable levels of jitter for your design.
+
+11. **Clock Synchronization**:
+    - Implement synchronization techniques, such as two-flop synchronizers or asynchronous FIFOs, as necessary when dealing with multiple clock domains.
+
+12. **Clock Quality Metrics**:
+    - Define and measure clock quality metrics, including clock skew, clock jitter, and duty cycle, to ensure they meet the design specifications.
+
+13. **Clock Tree Synthesis (CTS)**:
+    - Utilize CTS tools to automatically generate a clock distribution network that adheres to your clock constraints.
+
+By carefully constraining these aspects of clock signals in your VLSI design, you ensure that the clocks operate reliably, meet timing requirements, and synchronize data correctly within and across clock domains, contributing to the overall success of your integrated circuit.
+
 
 ```
 create_clock -name <clock_name> -per <period> [clock definition point]
