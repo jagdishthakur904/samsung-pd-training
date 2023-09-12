@@ -2046,8 +2046,8 @@ set_clock_latency -source 1 [get_clocks MYCLK] #latency for without source
 set_clock_uncertainty 0.5 [get_clocks MYCLK] #maximum uncertainty, default is maximum (setup time)
 set_clock_uncertainty -hold 0.1 [get_clocks MYCLK] #minimum uncertainty(hold)
 report_timing –to REGC_reg/D
-
 ```
+
 <center>
 	<img width="1085" alt="read_verilog" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day8/generated_clock.PNG">
 
@@ -2180,6 +2180,7 @@ report_timing –to OUT_Y –cap –trans –nosplit
  set_load –min 0.1 [get_ports OUT_Y]
 
 ```
+
 Generated clock
 Let us say, the spec for the output Out_y is as follows 
 The output Out_y is constrained with the clock leaving the module
@@ -2187,6 +2188,7 @@ Logically it is the same as MY_CLK defined on port CLK
 Is it Physically same? answer is no, there will be routing delay and for synthesis purpose this will be modelled by latency.
 
 Generated clocks are always created with respected to master clocks : clocks at clock source or primary IO pins
+
 ```
 create_generated_clock –name MY_GEN_CLK –master [get_clocks MY_CLK] –source [get_ports CLK] –div 1 [get_ports OUT_CLK] 
 
@@ -2226,6 +2228,7 @@ All inputs
 ```
 set_input_delay –max 3 –clock myclk [get_ports IN_A]
 ```
+
 clock period – uncertainty – i/p delay = availabole time
  10-0-3 = 7ns
  
@@ -2233,23 +2236,29 @@ clock period – uncertainty – i/p delay = availabole time
 ```
 set_input_delay –max -3 –clock myclk [get_ports IN_A]
 ```
+
 Here please note delay is -3, so the total available time becomes 13ns,
 Here the clock got delayed compared to the data, 
 
 ```
 set_input_delay –min 1  –clock myclk [get_ports IN_A]
 ```
+
 Relaxing the path
+
 ```
 set_input_delay –min -1  –clock myclk [get_ports IN_A]
 ```
+
 Tightening the path
+
 ```
 set_output_delay –max  3 –clock myclk [get_ports OUT_Y]
 ```
 
 
 For purely combo logic io constraints can be set using the following command, we have to set max latency for purely combo logic
+
 ```
 set_max_latency 1.0 –from [get_ports IN_C] –to [get_ports OUT_Z]
 set_max_latency 1.0 –from [get_ports IN_D] –to [get_ports OUT_Z]
@@ -2272,20 +2281,25 @@ Timing after compile is as follows:
 
 It can also be constrained using virtual logic as follows
  * Lab on Virtual Clock
+
+
 ```
 create_clock –name MYVVCLK –period 5
 ```
+
 <center>
 	<img width="1085" alt="read_verilog" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day8/virtual_clock.PNG">
 
 </center>
 
 A virtual clock does not have any clock definition point and therefore it is inferred as a virtual clock, virtual clock is imaginary clock for budgeting the time, that’s why it does not defined on any pin or port
+
 ```
 set_output_delay –max 2.5 –clock MYVCLK [get_ports OUT_Z]
 set_input_delay –max 1.5 –clock MYVCLK [get_ports IN_C]
 set_input_delay –max 1.5 –clock MYVCLK [get_ports IN_D]
 ```
+
 Note: For virtual clock there is no latency, there is no clock definition point
 
 Timing for this path before virtual clock:
@@ -2316,19 +2330,24 @@ After running compile_ultra timing is met
 set_input_delay –max 2 –clock CLK [get_ports IN_A]
 set_input_delay –max 3 –clock CLK –clock_fall –add [get_ports IN_A]
 ```
+
 Here –clock_fall switch is used to specify the annotated delay is with respect to the neg edge
 -add is used to specify that append this constraint to the already existing constraint otherwise it will be overwrite.
 Same can be done for output delay, if it has two different clock edges
 
 set_driving_cell
+
 ```
 set_input_transition –max 0.15 [get_ports IN_A]
 ```
+
 Recommended for top level module IOs
+
 ```
 set_driving_cell –lib_cell <lib_cell_name> <ports>
 set_driving_cell –lib_cell sky130_fd_sc_hd__buf_1 [all_inpus]
 ```
+
 Recommended for module-level IOs
 
 
