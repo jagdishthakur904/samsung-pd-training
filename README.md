@@ -2436,7 +2436,7 @@ Combinational logic optimization is a critical aspect of VLSI design focused on 
 
    - **Example:** Imagine two parts of a design that both require a comparator to perform equality checks. Instead of instantiating two separate comparators, logic sharing involves creating a single comparator and routing the inputs and outputs appropriately for both parts of the circuit. This approach reduces the overall logic complexity.
 
-   - **Implementation with Design Compiler:** Design Compiler employs various logic optimization techniques, including logic sharing, to eliminate redundant logic blocks and reduce gate counts.
+   - **Implementation with Design Compiler:** The Design Compiler employs various logic optimization techniques, including logic sharing, to eliminate redundant logic blocks and reduce gate counts.
 
 **Balanced vs. Preferential Implementation:**
 
@@ -2449,10 +2449,54 @@ Combinational logic optimization is a critical aspect of VLSI design focused on 
 </details>
 
 <details>
+	<summary>Sequential Logic Optimizations</summary>
+	
+Sequential logic optimization is a crucial aspect of digital design, focused on improving the performance, area utilization, and power efficiency of sequential circuits, such as flip-flops and registers. This process involves techniques like sequential constant propagation, which identifies flip-flops with constant outputs, and the removal of unloaded outputs, where unused flip-flops are eliminated. Design Compiler (DC), a popular synthesis tool, provides commands and Boolean variables that enable designers to control these optimizations based on their specific design requirements.
+
+**Sequential Constant Propagation:**
+
+- **Definition:** Sequential constant propagation is a process where the synthesis tool identifies flip-flops (flops) in the design whose output (Q) remains constant, regardless of changes in input signals and reset conditions. These flops can be optimized to a constant value of 0 or 1.
+
+- **How it Works:** Sequential constant propagation involves analyzing the flip-flops in the design to determine if their Q outputs are independent of their D inputs and reset signals. If a flip-flop meets the criteria (i.e., Q is always 0 or 1), the synthesis tool can optimize it to a constant value, eliminating the need for logic associated with that flop.
+
+- **Significance:** This optimization reduces power consumption and area utilization in the design, as it eliminates unnecessary logic gates and routing associated with the constant-value flops.
+
+**Optimization of Unloaded Outputs:**
+
+- **Definition:** Unloaded outputs, in the context of sequential logic, refer to flip-flops whose outputs (Q) are not connected to any subsequent logic gates or do not affect the functionality of the overall circuit.
+
+- **Optimization:** During the optimization process, the synthesis tool identifies and removes these unloaded flip-flops from the design. This removal can significantly reduce the area footprint of the design, leading to more efficient utilization of resources.
+
+- **Impact on Design:** The removal of unloaded outputs does not affect the functionality of the circuit, but it can improve timing and reduce area, which is essential for optimizing the design for performance and area constraints.
+
+**Controlling Sequential Optimizations in DC:**
+
+Design Compiler (DC) provides several commands and Boolean variables to control sequential optimizations:
+
+1. `compile_seqmap_propagate_constants`:
+   - This command allows you to control the sequential constant propagation optimization.
+   - By setting this variable, you can enable or disable the optimization based on your design requirements.
+   - Enabling constant propagation optimization can result in a reduction in the number of gates and power consumption.
+
+2. `compile_delete_unloaded_sequential_cells`:
+   - This command controls whether DC should remove unloaded flip-flops during optimization.
+   - Toggling this variable enables or disables the removal of flip-flops with no impact on the design's functionality.
+   - This optimization is particularly useful for reducing area usage.
+
+3. `compile_register_replication`:
+   - This command is used for register replication or cloning.
+   - In situations where you need multiple copies of the same register, you can use this command to create replicas, which can be helpful for specific design requirements.
+
+- **Boolean Variables:** These commands are Boolean variables, which means you can set them to either true or false to control the optimization process. Depending on your design goals and constraints, you can customize how DC handles sequential logic optimization to achieve the desired balance between area, power, and performance.
+
+In summary, sequential logic optimization techniques like constant propagation and removal of unloaded outputs can lead to significant improvements in VLSI design in terms of area utilization, power consumption, and timing. Design Compiler provides a range of commands and settings to enable designers to fine-tune these optimizations according to their specific design needs and constraints.
+</details>
+
+<details>
 
 <summary>Labs on Optimizations</summary>
 
-**Combinational optimization**
+## Combinational optimization
 * opt_check 
 
 ```
@@ -2508,7 +2552,7 @@ module opt_check4 (input a , input b , input c , output y);
 
 </center>
 
-**Resource sharing**
+## Resource sharing
 
 *Run 1: No Constraints*
 
@@ -2521,6 +2565,7 @@ In the graphical user interface (GUI), the path for the selection line (sel) sho
 	<img width="1085" alt="resource_sharing" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/resource_sharing_run1.PNG">
 	
 </center>
+
 Timing before optimization
 
 <center>
@@ -2569,7 +2614,7 @@ Timing after optimization
 Area
 
 <center>
-	<img width="1085" alt="resource_sharing" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/resource_sharing_run1_area.PNG">
+	<img width="1085" alt="resource_sharing" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/resource_sharing_run2_area.PNG">
 	
 </center>
 
@@ -2607,43 +2652,224 @@ In summary, these three runs demonstrate different design scenarios and optimiza
 
 
 
-Sequential logic optimization
-Basic
-Sequential constant propagation
-A flop can be optimized to constant if the Q pin takes a constant value with any change in input and reset pin
-Every flop with D input made constant either 1 or 0 is not a sequential constant, for the flop to become constant the Q pin should always take a constant value.
 
-Optimization of unloaded outputs
-The unused flops can be removed in optimization by tool
-Controlling sequential optimizations in DC
-Depending on the need optimization can be controlled by using following commands
+
+
+## Sequential Optimization
+
+
+**Tie Cell Purpose:**
+Tie cells are used in digital integrated circuit design to ensure stable logic levels at specific nodes or pins. They prevent voltage fluctuations and transient spikes, especially in sensitive components like CMOS gates and flip-flops.
+
+**Types of Tie Cells:**
+- **Tie High:** Forces a logic high (usually VDD).
+- **Tie Low:** Forces a logic low (usually GND).
+
+**Example - dff_const1, dff_const2, dff_const4:**
+These flip-flops use tie cells (U4) to stabilize their D input, ensuring a constant logic level for reliable operation.
+
+*dff_const1*
 ```
-compile_seqmap_propagate_constants 
-compile_delete_unloaded_sequential_cells
-compile_register_replication #used for cloning the register
+module dff_const1(input clk, input reset, output reg q);
+always @(posedge clk, posedge reset)
+begin
+	if(reset)
+		q <= 1'b0;
+	else
+		q <= 1'b1;
+end
+
+endmodule
 ```
-Above all are Boolean Variables and by setting their values we can control the optimization
+Before optimization:
+
+<center>
+	<img width="1085" alt="dff_const" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/dff_const1_before_compile.PNG">
+	
+</center>
+
+After Optimization:
+
+<center>
+	<img width="1085" alt="dff_const" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/dff_const1_after_compile.PNG">
+	
+</center>
+
+*dff_const2*
+```
+module dff_const2(input clk, input reset, output reg q);
+always @(posedge clk, posedge reset)
+begin
+	if(reset)
+		q <= 1'b1;
+	else
+		q <= 1'b1;
+end
+
+endmodule
+```
+Before optimization:
+
+<center>
+	<img width="1085" alt="dff_const" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/dff_const2_before_compile.PNG">
+	
+</center>
+
+After Optimization:
+
+<center>
+	<img width="1085" alt="dff_const" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/dff_const2_after_compile.PNG">
+	
+</center>
+
+If we make `compile_seqmap_propagate_constants` false:
+
+<center>
+	<img width="1085" alt="dff_const" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/dff_const2_propagate_false.PNG">
+	
+</center>
+
+*dff_const4*
+```
+module dff_const4(input clk, input reset, output reg q);
+reg q1;
+
+always @(posedge clk, posedge reset)
+begin
+	if(reset)
+	begin
+		q <= 1'b1;
+		q1 <= 1'b1;
+	end
+	else
+	begin
+		q1 <= 1'b1;
+		q <= q1;
+	end
+end
+
+endmodule
+```
+Before optimization:
+
+<center>
+	<img width="1085" alt="dff_const" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/dff_const4_before_compile.PNG">
+	
+</center>
+
+After Optimization:
+
+<center>
+	<img width="1085" alt="dff_const" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/dff_const4_after_compile.PNG">
+	
+</center>
+
+If we make `compile_seqmap_propagate_constants` false:
+
+<center>
+	<img width="1085" alt="dff_const" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/dff_const4_propagate_false.PNG">
+	
+</center>
 
 
+**Example - dff_const3, dff_const5:**
+These flip-flops cannot be optimized as sequential constants because clock-to-Q delay causes the output to change, preventing them from maintaining constant logic levels.
+
+*dff_const3*
+```
+module dff_const3(input clk, input reset, output reg q);
+reg q1;
+
+always @(posedge clk, posedge reset)
+begin
+	if(reset)
+	begin
+		q <= 1'b1;
+		q1 <= 1'b0;
+	end
+	else
+	begin
+		q1 <= 1'b1;
+		q <= q1;
+	end
+end
+
+endmodule
+```
+Before optimization:
+
+<center>
+	<img width="1085" alt="dff_const" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/dff_const3_before_compile.PNG">
+	
+</center>
+
+After Optimization:
+
+<center>
+	<img width="1085" alt="dff_const" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/dff_const3_after_compile.PNG">
+	
+</center>
+
+*dff_const5*
+```
+module dff_const5(input clk, input reset, output reg q);
+reg q1;
+
+always @(posedge clk, posedge reset)
+begin
+	if(reset)
+	begin
+		q <= 1'b0;
+		q1 <= 1'b0;
+	end
+	else
+	begin
+		q1 <= 1'b1;
+		q <= q1;
+	end
+end
+
+endmodule
+```
+Before optimization:
+
+<center>
+	<img width="1085" alt="dff_const" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/dff_const5_before_compile.PNG">
+	
+</center>
+
+After Optimization:
+
+<center>
+	<img width="1085" alt="dff_const" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/dff_const5_after_compile.PNG">
+	
+</center>
+
+If we make `compile_seqmap_propagate_constants` false:
+
+<center>
+	<img width="1085" alt="dff_const" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/dff_const5_propagate_false.PNG">
+	
+</center>
 
 
-Lab3 Sequential Optimization
-Tie cell:
-As per RTL, logic one should be connected to vdd but it is connected through tie cell
-Power supply will be fluctuating and can go sudden change, so it can cause a huge transient. The D pin will go to the gate terminal of cmos and it is very sensitive to transients, and one should not directly connect the power supply of cmos gate pin. That’s why D pin is connected through the tie cell.
-Here in dff_const1, we can see U4 is a tie cell and it has logic_0 for tie low and logic_1 for tie high.
+Setting `compile_seqmap_propagate_constants` to `false` in a synthesis tool like Design Compiler (DC) instructs the tool not to optimize flip-flops as sequential constants. This means that even after optimization, the flip-flops will not be treated as constants, and their implementation will remain unchanged. This command is useful when you want to preserve the flip-flops as they are and do not want them to be optimized into constants.
 
-dff_const3: it is not a sequential constant since, output is not remaining constant due to clock to Q delay in flop 1 and therefore it can not be optimized as sequential constatnt
+Here are some key points regarding the use of `compile_seqmap_propagate_constants`:
 
+1. **Preservation of Original Design:** By setting this command to `false`, you are essentially telling the tool not to alter the flip-flops in terms of constant propagation optimization. This can be beneficial if you have a specific reason to keep the original design intact.
 
+2. **Future Reuse:** One common scenario where this command is useful is when you anticipate needing the flip-flops for future design iterations or when you want to ensure compatibility with existing designs that rely on the same flip-flop behavior.
 
+3. **Impact on Area and Performance:** Note that preserving flip-flops as non-constants may have implications for area utilization and performance, as optimization opportunities related to constant propagation will not be realized. Be mindful of these trade-offs when deciding whether to enable or disable this command.
 
-
-
+In summary, setting `compile_seqmap_propagate_constants` to `false` is a way to instruct the synthesis tool not to optimize flip-flops as sequential constants. This can be valuable when you want to maintain the original design or anticipate future use of the flip-flops in their current configuration.
 
 
-Lab18- Boundary Optimization
-Lab19-Retime
+## Boundary Optimization
+
+## Retime
+
 Before using the retime switch the tool has inferred the design using the multiplier register register
 ``` 
 source reg_retime_cons.tcl
@@ -2651,7 +2877,7 @@ compile_ultra –retime
 ```
 After running this command, it has done the partitioning and now we have combinational logic between the two registers
 
-Lab20- Isolating output ports
+## Isolating output ports
 Cell delay is function of output load
 If the output load is varying, the flop which is driving a load as well as some internal logic will be affected as cell delay is function of output load. This leads to failing of internal path.
 The solution to this problem is to isolate the output ports
