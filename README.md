@@ -2868,37 +2868,261 @@ In summary, setting `compile_seqmap_propagate_constants` to `false` is a way to 
 
 ## Boundary Optimization
 
-## Retime
-
-Before using the retime switch the tool has inferred the design using the multiplier register register
-``` 
-source reg_retime_cons.tcl
-compile_ultra –retime
 ```
-After running this command, it has done the partitioning and now we have combinational logic between the two registers
+module check_boundary (input clk , input res , input [3:0] val_in , output reg [3:0] val_out);
+wire en;
+internal_module u_im (.clk(clk) , .res(res) , .cnt_roll(en));
+
+always @ (posedge clk , posedge res)
+begin
+	if(res)
+		val_out <= 4'b0;
+	else if(en)
+		val_out <= val_in;	
+end
+endmodule
+
+
+module internal_module (input clk , input res , output cnt_roll);
+reg [2:0] cnt;
+
+always @(posedge clk , posedge res)
+begin
+	if(res)
+		cnt <= 3'b0;
+	else
+		cnt <= cnt + 1;
+end
+
+assign cnt_roll = (cnt == 3'b111);
+
+endmodule
+```
+
+**Module `internal_module`:**
+- This module `internal_module` is a simple counter that counts from 0 to 7 (3-bit counter) and asserts `cnt_roll` when it reaches 7.
+- The counter is synchronous, meaning it increments on each positive edge of the clock signal (`clk`).
+- It also responds to a synchronous reset signal (`res`), which resets the counter to 0.
+- The output `cnt_roll` is set when the counter reaches its maximum value (7).
+
+**Module `check_boundary`:**
+- This module `check_boundary` interfaces with the `internal_module` and performs some logic based on the counter's value.
+- It has inputs `clk`, `res`, and `val_in`, and an output `val_out`.
+
+**Optimization Opportunities with Boundary Optimization:**
+
+1. **Boundary Between `internal_module` and `check_boundary`:**
+   - The interface between `internal_module` and `check_boundary` includes signals like `cnt_roll` and `val_in`. These signals can be optimized in the following ways:
+
+   - **Signal Reduction**: You can optimize by reducing the width of signals if they don't require their full width. For example, if `cnt_roll` only needs to indicate two states (0 and 1), you can reduce its width to 1 bit. Similarly, if `val_in` doesn't use the full 4-bit width, you can reduce it.
+
+   - **Clock Domain Crossing Optimization**: If the two modules are in different clock domains, boundary optimization may involve clock domain crossing techniques to ensure proper synchronization.
+
+2. **Conditional Logic in `check_boundary`:**
+   - The conditional logic in the `always` block of `check_boundary` can be optimized. If `val_in` is not updated frequently, you might consider optimizing this block for better power efficiency.
+
+3. **Register Sizing Optimization:**
+   - Depending on the design goals, you can optimize the size of registers in terms of bit width. For example, if the counter doesn't need to count up to 7, you might reduce the bit width from 3 to a smaller value.
+
+4. **Clock Gating**: Depending on the actual use case and timing requirements, clock gating may be applied to reduce power consumption when the circuit is idle.
+
+5. **Reset Strategy**: Depending on your design requirements, you can optimize the reset strategy. For example, if the reset (`res`) is asserted infrequently, you can optimize the reset circuitry.
+
+Boundary optimization would involve reviewing these aspects of the design, considering design goals and constraints, and making adjustments to improve the overall efficiency, performance, and power consumption of the circuit. The specific optimizations will depend on the design requirements and trade-offs you need to make.
+
+* Without boundary optimization
+<center>
+	<img width="1085" alt="bpundary_optimization" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/check_boundary_without_IM.PNG">
+	
+</center>
+
+* With boundary optimization
+
+<center>
+	<img width="1085" alt="bpundary_optimization" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/check_boundary_with_IM.PNG">
+	
+</center>
+
+## Register retiming
+
+Register retiming is a critical optimization technique in digital design that involves moving registers (flip-flops) within a sequential logic circuit to improve its performance, such as reducing critical paths and achieving better timing constraints. Here's a more detailed explanation of register retiming and its effect:
+
+**Register Retiming:**
+
+- **Purpose:** The primary goal of register retiming is to improve the timing and performance of a sequential logic circuit without altering its functionality.
+
+- **How it Works:** Register retiming involves relocating registers (flip-flops) within a design while maintaining the same logical behavior. The optimization tool analyzes the timing constraints and the logic between registers to determine if there are opportunities to move registers to better locations.
+
+- **Timing Improvement:** By strategically moving registers, the optimization process aims to reduce critical paths, balance delays, and potentially increase the clock frequency of the design. This optimization can help meet stringent timing requirements in high-performance applications.
+
+**Example Implementation:**
+
+In the provided example:
+
+1. **Original Synthesis Order:** Initially, the tool synthesized the design using the following sequence: multiplier -> register -> register. This order may not have met timing constraints efficiently.
+
+2. **Register Retiming Command:** The command `compile_ultra –retime` instructs the tool to perform register retiming optimization on the design.
+
+3. **Optimization Outcome:** After running the command, the tool has reorganized the design, moving registers within the logic. As a result, there is now combinational logic inserted between the two registers. This rearrangement aims to achieve better timing and potentially reduce the critical paths in the design.
+
+In essence, register retiming is a powerful technique that allows designers to optimize the placement of registers within a sequential logic circuit, leading to improved timing and overall performance without altering the logical functionality of the design.
+
+GUI view before optimization:
+
+<center>
+	<img width="1085" alt="register_retiming" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/check_reg_retime_bc.PNG">
+	
+</center>
+
+Timing before the optimization:
+
+<center>
+	<img width="1085" alt="register_retiming" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/timing_without_retime.PNG">
+	
+</center>
+
+GUI view after optimization:
+
+<center>
+	<img width="1085" alt="register_retiming" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/check_reg_retime_bc.PNG">
+	
+</center>
+
+Timing after the optimization:
+
+<center>
+	<img width="1085" alt="register_retiming" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/timing_retime.PNG">
+	
+</center>
+
+Timing for all paths from al input:
+
+<center>
+	<img width="1085" alt="register_retiming" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/timing_retime_all_input.PNG">
+	
+</center>
 
 ## Isolating output ports
-Cell delay is function of output load
-If the output load is varying, the flop which is driving a load as well as some internal logic will be affected as cell delay is function of output load. This leads to failing of internal path.
-The solution to this problem is to isolate the output ports
-Isolation is done using buffers, buffer drives external load, internal paths are decoupled from output paths
-Before isolating the ports, we can see in this example check_boundary, how the val_out is driving some internal logic which can affect the internal logic
-```
-set_isolate_ports –type buffer [all_outputs]
-compile_ultra
-```
+
+Isolating output ports is an essential technique in digital design, especially when dealing with varying output loads that can impact the performance and reliability of internal logic paths. Here's a more detailed explanation of this technique:
+
+**Isolating Output Ports:**
+
+- **Purpose:** The primary goal of isolating output ports is to decouple the internal logic paths of a digital circuit from the variability in the output load, which can affect the cell delay and potentially lead to the failing of internal paths.
+
+- **Cell Delay and Output Load:** In digital design, the delay of a logic cell is often a function of the output load it drives. When the output load varies, it can result in changes in cell delay, impacting the operation of internal logic elements.
+
+- **Solution:** To mitigate this problem, designers use isolation techniques. Isolating output ports typically involves inserting buffers between the output ports and external loads, which effectively decouples the internal logic paths from the output paths.
+
+**Example Implementation:**
+
+In the provided example:
+
+1. **Initial Observation:** In the design example `check_boundary`, the `val_out` is driving some internal logic. However, the varying output load can potentially affect the internal logic due to changes in cell delay.
+
+<center>
+	<img width="1085" alt="output_isolation" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/before_isolate.PNG">
+	
+</center>
+
+Timing report before isolation:
+
+<center>
+	<img width="1085" alt="output_isolation" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/timing_before_isolate.PNG">
+	
+</center>
+
+REG2REG Timing report before isolation:
+
+<center>
+	<img width="1085" alt="output_isolation" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/timing_before_regtoreg.PNG">
+	
+</center>
+
+2. **Isolation Command:** The command `set_isolate_ports –type buffer [all_outputs]` instructs the tool to isolate the output ports by inserting buffer elements. Buffers drive the external load, which effectively separates the internal paths from the output paths.
+
+3. **Compilation:** After running the isolation command, the design is compiled using `compile_ultra`. This compilation process optimizes the design considering the isolation buffers.
+
+4. **Result:** In the "reg to reg" path after isolating the output ports, there is no longer an effect of varying load on the internal logic. The delay in this path is now primarily due to the flip-flop itself, and the impact of load variation has been mitigated.
+
+<center>
+	<img width="1085" alt="output_isolation" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/after_isolate.PNG">
+	
+</center>
+
+Timing report after isolation:
+
+<center>
+	<img width="1085" alt="output_isolation" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/timing_after_isolate.PNG">
+	
+</center>
+
+REG2REG Timing report after isolation:
+
+<center>
+	<img width="1085" alt="output_isolation" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/timing_after_regtoreg.PNG">
+	
+</center>
+In summary, isolating output ports using buffers is a technique that helps ensure the reliability and performance of internal logic in digital designs by decoupling it from variations in output load, which can affect cell delay. This optimization technique can help in achieving more predictable and stable circuit behavior.
 
 
-In the reg to reg path after isolating the output, we can see there is no effect of load and delay is due to flop only.
 
 
 ## Multicycle path
-```
-set_multicycle_path –setup 2 –to prod_reg[*]/D –from [all_inputs]
-```
-For hold timing
-```
-set_multicycle_path -hold 1 -from [all_inputs] -to prod_reg[*]/D
-```
+
+
+**Multicycle Path for Setup Timing:**
+
+- The command `set_multicycle_path –setup 2 –to [target_destination]/[target_input] –from [source_inputs]` is used to define a multicycle path constraint for setup timing analysis.
+- Setup timing constraints ensure that data is stable and valid at the input of a receiving element before the clock edge arrives.
+- `-setup 2` indicates a two-cycle multicycle path constraint.
+- `-to [target_destination]/[target_input]` specifies the path where the constraint is applied.
+- `-from [source_inputs]` specifies the source inputs of the data.
+
+**Multicycle Path for Hold Timing:**
+
+- The command `set_multicycle_path -hold 1 -from [source_inputs] -to [target_destination]/[target_input]` is used to define a multicycle path constraint for hold timing analysis.
+- Hold timing constraints ensure that data remains stable at the input of a receiving element after the clock edge arrives.
+- `-hold 1` indicates a one-cycle multicycle path constraint for hold timing.
+- `-from [source_inputs]` specifies the source inputs of the data.
+- `-to [target_destination]/[target_input]` specifies the path where the constraint is applied.
+
+These multicycle path constraints are applied in digital design to handle specific timing scenarios where different timing considerations are needed for certain paths in the design, ensuring correct functionality and timing requirements are met.
+
+Timing after performing optimization for setup time:
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/mcp_timing_all_input.PNG">
+	
+</center>
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/mcp_timing_valid.PNG">
+	
+</center>
+
+
+Optimization for the minimum time:
+
+before optimizing
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/mcp_timing_min.PNG">
+	
+</center>
+
+after optimizing
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/mcp_timing_min_after_mcp.PNG">
+	
+</center>
+
+Multicycle Path timing after performing isolation:
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/mcp_timing_after_isolate.PNG">
+	
+</center>
 
 </details>
