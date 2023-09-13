@@ -2400,7 +2400,8 @@ In VLSI synthesis, several conflicting objectives need to be considered:
 </details>
 
 <details>
-<summarry>Combinational Logic Optimization </summarry>
+	
+<summary> Combinational Logic Optimization </summary>
 
 Combinational logic optimization is a critical aspect of VLSI design focused on improving the logic circuits within the design:
 
@@ -2449,7 +2450,7 @@ Combinational logic optimization is a critical aspect of VLSI design focused on 
 
 <details>
 
-<summarry>Labs on Optimizations</summarry>
+<summary>Labs on Optimizations</summary>
 
 **Combinational optimization**
 * opt_check 
