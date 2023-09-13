@@ -2358,8 +2358,254 @@ Recommended for module-level IOs
 
 ## Day-9 Optimizations
 <details>
-<summary> Theory </summary>
-	Sequential logic optimization
+<summary> Introduction </summary>
+
+## Optimization Goals:
+
+1. **Cost Function-Based Optimizations:**
+   - In VLSI design, optimizations are driven by cost functions.
+   - The goal is to optimize a design until a predefined cost threshold or budget is met.
+   - Over-optimizing one aspect can negatively impact other design goals.
+
+2. **Contradictory Optimization Goals:**
+   - Different optimization goals can conflict with each other.
+   - Three primary metrics often at odds in VLSI design are:
+     - **Meet Timing:** Achieving faster signal propagation, which tends to increase power consumption and area usage.
+     - **Meet Area:** Reducing chip size by using smaller cells, often at the expense of timing performance.
+     - **Meet Power:** Minimizing power consumption, which may affect both timing and area.
+
+3. **Cost Function Components for Timing and Area:**
+   - For timing optimization:
+     - Cost components include IO Delay, clock period, and maximum delay.
+   - For area optimization:
+     - Cost components include area size and power consumption.
+
+## Goals for Synthesis:
+
+In VLSI synthesis, several conflicting objectives need to be considered:
+
+1. **Meet Timing:**
+   - Ensure that signals meet specified timing constraints.
+   - Achieved by optimizing signal paths, reducing delays, and optimizing clock distribution.
+
+2. **Meet Area:**
+   - Minimize the physical chip area.
+   - Achieved by using smaller and more compact cells and optimizing layout.
+
+3. **Meet Power:**
+   - Minimize dynamic and static power consumption.
+   - Achieved by techniques like gate sizing, voltage scaling, and clock gating.
+
+</details>
+<summarry>Combinational Logic Optimization </summarry>
+
+Combinational logic optimization is a critical aspect of VLSI design focused on improving the logic circuits within the design:
+
+1. **Logic Squeezing:**
+   - Refers to optimizing the logic design to achieve the most efficient configuration.
+   - Aims to reduce gate count and critical paths.
+
+2. **Area and Power Savings:**
+   - Primary objectives are to save chip area and reduce power consumption.
+
+3. **Constant Propagation:**
+   - A technique used to simplify logic by propagating constant values through the circuit.
+
+4. **Direct Optimization:**
+   - Involves direct manipulation of logic equations to reduce complexity and improve performance.
+
+5. **Boolean Logic Optimization:**
+   - Techniques like Karnaugh Maps (K-maps) and Quine-McCluskey are used to optimize Boolean logic expressions.
+  
+
+**Resource Sharing:**
+
+   - **Insight:** Resource sharing aims to reduce the overall usage of logic gates and other resources in a VLSI design by sharing components across multiple parts of the design where possible. This optimization technique can significantly reduce the chip's area and power consumption.
+
+   - **Example:** Consider two parts of a circuit that perform similar operations, each requiring an adder. Instead of using two separate adders, resource sharing could involve using a single adder shared between both parts. This reduces the total number of adder cells used in the design.
+
+   - **Implementation with Design Compiler:** Design Compiler can automatically identify opportunities for resource sharing during synthesis. It looks for similar logic operations and combines them into a single resource where feasible.
+
+**Logic Sharing:**
+
+   - **Insight:** Logic sharing focuses on minimizing the redundancy in logic circuits by reusing common subcircuits or logic blocks. This optimization can lead to a reduction in gate count, area, and power consumption.
+
+   - **Example:** Imagine two parts of a design that both require a comparator to perform equality checks. Instead of instantiating two separate comparators, logic sharing involves creating a single comparator and routing the inputs and outputs appropriately for both parts of the circuit. This approach reduces the overall logic complexity.
+
+   - **Implementation with Design Compiler:** Design Compiler employs various logic optimization techniques, including logic sharing, to eliminate redundant logic blocks and reduce gate counts.
+
+**Balanced vs. Preferential Implementation:**
+
+   - **Insight:** This technique involves making decisions during synthesis about whether to optimize for balanced usage of resources (such as gates, flip-flops, and routing) across the chip or to favor certain regions or paths to meet specific design goals. It's a trade-off between uniform resource utilization and performance optimization.
+
+   - **Example:** In a chip design where there are critical and non-critical paths, balanced implementation would distribute resources evenly across the chip, which may result in longer critical paths. Preferential implementation, on the other hand, would allocate more resources to critical paths to meet timing constraints, potentially at the expense of area efficiency in non-critical areas.
+
+   - **Implementation with Design Compiler:** Design Compiler allows designers to specify constraints and preferences, enabling them to guide the synthesis tool to favor certain paths or areas. It provides control over resource allocation based on design requirements.
+
+Design Compiler is a widely used tool for VLSI design automation, and it offers a range of optimization techniques, including resource sharing, logic sharing, and balanced vs. preferential implementation. These techniques help designers achieve the desired balance between area, power, and performance while meeting design goals and constraints.
+
+
+</details>
+
+<details>
+	<summarry>Labs on Optimizations</summarry>
+
+**Combinational optimization**
+* opt_check 
+
+```
+module opt_check (input a , input b , input c , output y1, output y2);
+wire a1;
+assign y1 = a?b:0;
+assign y2 = ~((a1 & b) | c);
+assign a1 = 1'b0;
+endmodule
+```
+
+<center>
+	<img width="1085" alt="opt_check" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/opt_check_gui.PNG">
+
+</center>
+
+* opt_check2
+
+```
+module opt_check2 (input a , input b , output y);
+	assign y = a?1:b;
+endmodule
+```
+
+<center>
+	<img width="1085" alt="opt_check" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/opt_check2_opt.PNG">
+
+</center>
+
+* opt_check3
+
+```
+module opt_check3 (input a , input b, input c , output y);
+	assign y = a?(c?b:0):0;
+endmodule
+```
+
+<center>
+	<img width="1085" alt="opt_check" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/opt_check3_opt.PNG">
+
+</center>
+
+* opt_check4
+
+```
+module opt_check4 (input a , input b , input c , output y);
+ assign y = a?(b?(a & c ):c):(!c);
+ endmodule
+```
+
+<center>
+	<img width="1085" alt="opt_check" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/opt_check4_opt.PNG">
+
+</center>
+
+**Resource sharing**
+
+*Run 1: No Constraints*
+
+In this run, there are no constraints imposed, and the implementation comprises two multiplexers (mux) and one multiplier. The mux is initially implemented, followed by the multiplier. This results in a lower area and fewer cells compared to other runs.
+
+In the graphical user interface (GUI), the path for the selection line (sel) shows that muxes for each bit are created at the beginning of the design.
+
+
+<center>
+	<img width="1085" alt="resource_sharing" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/resource_sharing_run1.PNG">
+	
+</center>
+Timing before optimization
+
+<center>
+	<img width="1085" alt="resource_sharing" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/resource_sharing_run1_timing_before_compile.PNG">
+	
+</center>
+
+Timing after optimization
+
+<center>
+	<img width="1085" alt="resource_sharing" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/resource_sharing_run1_timing_after_compile.PNG">
+	
+</center>
+
+Area
+
+<center>
+	<img width="1085" alt="resource_sharing" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/resource_sharing_run1_opt_area.PNG">
+	
+</center>
+
+*Run 2: Max Delay Constraint*
+
+For this run, a maximum delay constraint of 0.1 is set for the selection path (sel). The tool implements the first configuration by initially using two multipliers and then a mux. Consequently, this run requires more area and more cells compared to Run 1.
+
+In the GUI, the path for the selection line (sel) shows that muxes for each bit are created at the very end of the design, with the tool implementing the multiplier first and then the mux.
+
+<center>
+	<img width="1085" alt="resource_sharing" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/resource_sharing_run2.PNG">
+	
+</center>
+Timing before optimization
+
+<center>
+	<img width="1085" alt="resource_sharing" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/resource_sharing_run2_timing_before_compile.PNG">
+	
+</center>
+
+Timing after optimization
+
+<center>
+	<img width="1085" alt="resource_sharing" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/resource_sharing_run2_timing_after_compile.PNG">
+	
+</center>
+
+Area
+
+<center>
+	<img width="1085" alt="resource_sharing" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/resource_sharing_run1_area.PNG">
+	
+</center>
+
+*Run 3: Path and Area Constraints*
+
+In this run, constraints are applied to both the selection path (sel) and the overall area of the design. After running the "compile_ultra" command, the tool optimizes the design to meet the specified area and timing requirements. As a result, it reduces the number of cells used to implement the design, leading to a reduced overall area.
+
+The implementation in Run 3 follows a similar pattern to Run 2, where the multiplier is initially implemented, followed by the mux. However, the reduction in the number of cells is a key outcome due to the imposed constraints.
+
+<center>
+	<img width="1085" alt="resource_sharing" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/resource_sharing_run3.PNG">
+	
+</center>
+
+Timing after optimization
+
+<center>
+	<img width="1085" alt="resource_sharing" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/resource_sharing_run3_timing_after_compile.PNG">
+	
+</center>
+
+Area
+
+<center>
+	<img width="1085" alt="resource_sharing" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/resource_sharing_run3_area.PNG">
+	
+</center>
+
+In summary, these three runs demonstrate different design scenarios and optimization outcomes based on constraints related to delay, area, and the order of implementing components (mux and multiplier). The tool adapts its implementation strategy to meet the specified constraints and optimize the design accordingly.
+
+</details>
+	
+
+
+
+
+
+Sequential logic optimization
 Basic
 Sequential constant propagation
 A flop can be optimized to constant if the Q pin takes a constant value with any change in input and reset pin
@@ -2378,45 +2624,6 @@ Above all are Boolean Variables and by setting their values we can control the o
 
 
 
-LAB1
-opt_check 
-
-
-
-Resource sharing 
-Run 1: In this run , there are no constraints or balanced constraints
-And in this run the implementation is with two mux and one multiplier, the mux is implemented initially and then multiplier is implemented. Area and number of cells is less compared to other runs
-Here in the gui view we can see the path for sel line, it is creating muxes for each bit in starting of design itself
-<pre>Number of ports:                           25
-Number of nets:                            66
-Number of cells:                           37
-Number of combinational cells:             37
-Number of sequential cells:                 0
-Number of macros/black boxes:               0
-Number of buf/inv:                          1
-Number of references:                       6
-
-Combinational area:                342.828790
-Buf/Inv area:                        5.004800
-Noncombinational area:               0.000000
-Macro/Black Box area:                0.000000
-Net Interconnect area:      undefined  (No wire load specified)
-
-Total cell area:                   342.828790
-</pre>
-
- 
-
-Run 2:
-In this run the path for sel is restricted by setting max delay to 0.1.
-Here the tool has implemented the first configuration where initially two multipliers aree used and then one mux is used. So the area and number of cells required in this run is more than previous run
-Here in gui view we can see that the path of sel line, it is creating muxes for each bit in the design at very last, so the tool here implemented multiplier first and then mux
-Run3:
-In this run we have restricted path for sel and also area for the design
-After running compile_ultra, the tool is able to optimize the design for given area and timing, it has reduced the number of cells to implement the design so the area is reduced.
-Here the implementation is same as run2
-
-
 
 Lab3 Sequential Optimization
 Tie cell:
@@ -2425,6 +2632,9 @@ Power supply will be fluctuating and can go sudden change, so it can cause a hug
 Here in dff_const1, we can see U4 is a tie cell and it has logic_0 for tie low and logic_1 for tie high.
 
 dff_const3: it is not a sequential constant since, output is not remaining constant due to clock to Q delay in flop 1 and therefore it can not be optimized as sequential constatnt
+
+
+
 
 
 
