@@ -2892,7 +2892,7 @@ compile_ultra
 In the reg to reg path after isolating the output, we can see there is no effect of load and delay is due to flop only.
 
 
-Lab21 – Multicycle path
+## Multicycle path
 ```
 set_multicycle_path –setup 2 –to prod_reg[*]/D –from [all_inputs]
 ```
