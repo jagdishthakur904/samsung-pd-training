@@ -2358,6 +2358,7 @@ Recommended for module-level IOs
 
 ## Day-9 Optimizations
 <details>
+	
 <summary> Introduction </summary>
 
 ## Optimization Goals:
@@ -2447,7 +2448,9 @@ Design Compiler is a widely used tool for VLSI design automation, and it offers 
 
 </details>
 
+
 <details>
+	
 	<summarry>Labs on Optimizations</summarry>
 
 **Combinational optimization**
@@ -2598,7 +2601,7 @@ Area
 
 In summary, these three runs demonstrate different design scenarios and optimization outcomes based on constraints related to delay, area, and the order of implementing components (mux and multiplier). The tool adapts its implementation strategy to meet the specified constraints and optimize the design accordingly.
 
-</details>
+
 	
 
 
