@@ -2398,6 +2398,8 @@ In VLSI synthesis, several conflicting objectives need to be considered:
    - Achieved by techniques like gate sizing, voltage scaling, and clock gating.
 
 </details>
+
+<details>
 <summarry>Combinational Logic Optimization </summarry>
 
 Combinational logic optimization is a critical aspect of VLSI design focused on improving the logic circuits within the design:
@@ -2443,15 +2445,11 @@ Combinational logic optimization is a critical aspect of VLSI design focused on 
 
    - **Implementation with Design Compiler:** Design Compiler allows designers to specify constraints and preferences, enabling them to guide the synthesis tool to favor certain paths or areas. It provides control over resource allocation based on design requirements.
 
-Design Compiler is a widely used tool for VLSI design automation, and it offers a range of optimization techniques, including resource sharing, logic sharing, and balanced vs. preferential implementation. These techniques help designers achieve the desired balance between area, power, and performance while meeting design goals and constraints.
-
-
 </details>
 
-
 <details>
-	
-	<summarry>Labs on Optimizations</summarry>
+
+<summarry>Labs on Optimizations</summarry>
 
 **Combinational optimization**
 * opt_check 
