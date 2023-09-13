@@ -3034,10 +3034,12 @@ Timing report before isolation:
 
 REG2REG Timing report before isolation:
 
+
 <center>
-	<img width="1085" alt="output_isolation" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/timing_before_regtoreg.PNG">
+	<img width="1085" alt="output_isolation" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/timing_before_isolate_regtoreg.PNG">
 	
 </center>
+
 
 2. **Isolation Command:** The command `set_isolate_ports –type buffer [all_outputs]` instructs the tool to isolate the output ports by inserting buffer elements. Buffers drive the external load, which effectively separates the internal paths from the output paths.
 
@@ -3060,7 +3062,7 @@ Timing report after isolation:
 REG2REG Timing report after isolation:
 
 <center>
-	<img width="1085" alt="output_isolation" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/timing_after_regtoreg.PNG">
+	<img width="1085" alt="output_isolation" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day9/timing_after_isolate_regtoreg.PNG">
 	
 </center>
 In summary, isolating output ports using buffers is a technique that helps ensure the reliability and performance of internal logic in digital designs by decoupling it from variations in output load, which can affect cell delay. This optimization technique can help in achieving more predictable and stable circuit behavior.
