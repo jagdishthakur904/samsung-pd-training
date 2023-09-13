@@ -15,6 +15,7 @@
 
 - [Day-8-Advanced Costraints](#DAY--8-Advanced-Costraints)
 
+- [Day-9-Optimizations](#DAY--9-Optimizaiions)
 
 ## Day-0-Installation
 <details>
@@ -2351,5 +2352,115 @@ set_driving_cell –lib_cell sky130_fd_sc_hd__buf_1 [all_inpus]
 Recommended for module-level IOs
 
 
+
+</details>
+
+
+## Day-9 Optimizations
+<details>
+<summary> Theory </summary>
+	Sequential logic optimization
+Basic
+Sequential constant propagation
+A flop can be optimized to constant if the Q pin takes a constant value with any change in input and reset pin
+Every flop with D input made constant either 1 or 0 is not a sequential constant, for the flop to become constant the Q pin should always take a constant value.
+
+Optimization of unloaded outputs
+The unused flops can be removed in optimization by tool
+Controlling sequential optimizations in DC
+Depending on the need optimization can be controlled by using following commands
+```
+compile_seqmap_propagate_constants 
+compile_delete_unloaded_sequential_cells
+compile_register_replication #used for cloning the register
+```
+Above all are Boolean Variables and by setting their values we can control the optimization
+
+
+
+LAB1
+opt_check 
+
+
+
+Resource sharing 
+Run 1: In this run , there are no constraints or balanced constraints
+And in this run the implementation is with two mux and one multiplier, the mux is implemented initially and then multiplier is implemented. Area and number of cells is less compared to other runs
+Here in the gui view we can see the path for sel line, it is creating muxes for each bit in starting of design itself
+<pre>Number of ports:                           25
+Number of nets:                            66
+Number of cells:                           37
+Number of combinational cells:             37
+Number of sequential cells:                 0
+Number of macros/black boxes:               0
+Number of buf/inv:                          1
+Number of references:                       6
+
+Combinational area:                342.828790
+Buf/Inv area:                        5.004800
+Noncombinational area:               0.000000
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (No wire load specified)
+
+Total cell area:                   342.828790
+</pre>
+
+ 
+
+Run 2:
+In this run the path for sel is restricted by setting max delay to 0.1.
+Here the tool has implemented the first configuration where initially two multipliers aree used and then one mux is used. So the area and number of cells required in this run is more than previous run
+Here in gui view we can see that the path of sel line, it is creating muxes for each bit in the design at very last, so the tool here implemented multiplier first and then mux
+Run3:
+In this run we have restricted path for sel and also area for the design
+After running compile_ultra, the tool is able to optimize the design for given area and timing, it has reduced the number of cells to implement the design so the area is reduced.
+Here the implementation is same as run2
+
+
+
+Lab3 Sequential Optimization
+Tie cell:
+As per RTL, logic one should be connected to vdd but it is connected through tie cell
+Power supply will be fluctuating and can go sudden change, so it can cause a huge transient. The D pin will go to the gate terminal of cmos and it is very sensitive to transients, and one should not directly connect the power supply of cmos gate pin. That’s why D pin is connected through the tie cell.
+Here in dff_const1, we can see U4 is a tie cell and it has logic_0 for tie low and logic_1 for tie high.
+
+dff_const3: it is not a sequential constant since, output is not remaining constant due to clock to Q delay in flop 1 and therefore it can not be optimized as sequential constatnt
+
+
+
+
+
+Lab18- Boundary Optimization
+Lab19-Retime
+Before using the retime switch the tool has inferred the design using the multiplier register register
+``` 
+source reg_retime_cons.tcl
+compile_ultra –retime
+```
+After running this command, it has done the partitioning and now we have combinational logic between the two registers
+
+Lab20- Isolating output ports
+Cell delay is function of output load
+If the output load is varying, the flop which is driving a load as well as some internal logic will be affected as cell delay is function of output load. This leads to failing of internal path.
+The solution to this problem is to isolate the output ports
+Isolation is done using buffers, buffer drives external load, internal paths are decoupled from output paths
+Before isolating the ports, we can see in this example check_boundary, how the val_out is driving some internal logic which can affect the internal logic
+```
+set_isolate_ports –type buffer [all_outputs]
+compile_ultra
+```
+
+
+In the reg to reg path after isolating the output, we can see there is no effect of load and delay is due to flop only.
+
+
+Lab21 – Multicycle path
+```
+set_multicycle_path –setup 2 –to prod_reg[*]/D –from [all_inputs]
+```
+For hold timing
+```
+set_multicycle_path -hold 1 -from [all_inputs] -to prod_reg[*]/D
+```
 
 </details>
