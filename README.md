@@ -19,6 +19,8 @@
 
 - [Day-10-Quality Checks](#DAY--10-Quality-Checks)
 
+- [Day-11-SoC](#DAY--11-SoC)
+
 
 ## Day-0-Installation
 <details>
@@ -3490,4 +3492,59 @@ This constraint plays a vital role in meeting timing requirements and improving 
    - Definition: Isolating output ports to manage output load and internal paths.
 
 These constraints and optimization techniques are vital for achieving an optimized and efficient design synthesis, aligning the design with desired performance, area, and timing goals.
+</details>
+
+## Day-11-SoC
+<details>
+	<summary>SoC</summary>
+	A System-on-Chip (SoC) is a highly integrated semiconductor device that consolidates multiple electronic components and subsystems onto a single chip. It serves as the central processing unit for various electronic devices, encompassing a wide range of applications such as mobile devices, consumer electronics, automotive systems, and more. The architecture and components of an SoC can vary based on the specific model and intended usage. Let's elaborate on this by considering the Snapdragon 865 SoC by Qualcomm as an example.
+
+**1. Processor Core(s)**:
+   - The Snapdragon 865 incorporates a heterogeneous octa-core CPU architecture for optimal performance and power efficiency.
+   - **1 x Kryo 585 Gold core (Cortex-A77 based)**: Designed for high-performance computing, handling intensive tasks like gaming and app launches.
+   - **3 x Kryo 585 Gold cores (Cortex-A77 based)**: Focused on sustained performance, ensuring smooth operation during prolonged usage and multitasking.
+   - **4 x Kryo 585 Silver cores (Cortex-A55 based)**: Geared towards power efficiency, handling lighter tasks and standby operations to conserve energy.
+
+**2. Memory Subsystem**:
+   - The Snapdragon 865 supports LPDDR5 RAM technology, delivering faster data access and lower power consumption compared to previous memory standards.
+   - LPDDR5 RAM provides improved memory bandwidth, essential for smooth multitasking, faster app loading, and responsive user experiences.
+
+**3. Graphics Processing Unit (GPU)**:
+   - The Adreno 650 GPU integrated into the Snapdragon 865 delivers high-performance graphics and smooth rendering for advanced gaming, multimedia, and UI experiences.
+   - Advanced features include support for Vulkan 1.1 API, HDR gaming, and desktop-quality graphics rendering.
+
+**4. AI and Machine Learning Accelerator**:
+   - The Hexagon 698 AI processor is a dedicated hardware component optimized for AI and machine learning tasks.
+   - It enhances performance in AI-driven applications, including image recognition, voice processing, and various other machine learning workloads.
+
+**5. Multimedia Processing Unit**:
+   - This component encompasses various subsystems for multimedia processing:
+     - **Image Signal Processor (ISP)**: Optimizes image quality, supports high-resolution photography, and advanced camera features.
+     - **Video Processing Unit**: Handles video encoding and decoding, supporting high-quality video playback and recording.
+
+**6. Connectivity Modules**:
+   - The Snapdragon X55 5G modem provides 5G connectivity, enabling high-speed data transmission and low latency for a seamless internet experience.
+   - Additionally, it supports WiFi 6/6E, Bluetooth 5.1, and NFC for comprehensive connectivity options.
+
+**7. Security Subsystem**:
+   - A Secure Processing Unit (SPU) enhances security by safeguarding sensitive data, enabling secure transactions, and protecting against potential threats.
+
+**8. Power Management Unit**:
+   - The power management unit is crucial for optimizing energy consumption and extending device battery life.
+   - Utilizes various techniques like dynamic voltage and frequency scaling to match performance with workload, thus reducing power usage.
+
+**9. Bus Interconnects**:
+   - High-speed interconnects and buses, like AMBA protocols, facilitate efficient communication between different components within the SoC, ensuring smooth data flow and minimal latency.
+
+**10. Peripherals and Controllers**:
+   - Interfaces with various peripherals such as high-resolution displays, advanced camera systems, sensors, and audio components for enhanced functionality.
+
+**11. Clock and Timer Units**:
+   - Clock and timer management are essential to synchronize operations across the SoC and ensure precise timing for various tasks and components.
+
+**12. Configuration and Control Registers**:
+   - These registers offer software control over the behavior and settings of different components, allowing for customization and adaptability based on specific device requirements.
+
+In summary, the Snapdragon 865 SoC showcases a sophisticated integration of powerful and specialized hardware components, carefully designed and optimized to deliver a superior user experience across a wide range of applications and use cases.
+
 </details>
