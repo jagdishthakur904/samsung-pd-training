@@ -3384,7 +3384,7 @@ In summary, this module functions as a multiplexer where the input `in` is a 128
 report_constraints -all_violatos
 ```
 <center>
-	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/report_constraints_all_viol.PNG">
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/report_constraint_all_viol.PNG">
 
 </center>
 
