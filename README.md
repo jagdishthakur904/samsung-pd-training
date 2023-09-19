@@ -3133,10 +3133,13 @@ Multicycle Path timing after performing isolation:
 </details>
 
 ## Day-10-Quality-Checks
+---
+
 <details>
-	<summary>Introduction</summary>
-	
-**Propagation delay:**
+  <summary>Introduction</summary>
+
+**Propagation Delay:**
+
 Propagation delay in CMOS circuits is a crucial parameter that significantly impacts their performance. It reflects the time taken for a signal to travel from the input of a gate to its output. In CMOS technology, the mobility of holes (representative of p-type transistors) is lower than that of electrons (representative of n-type transistors), introducing timing imbalances between the pull-up (pMOS) and pull-down (nMOS) networks.
 
 The mobility of holes (representing positive charge carriers) and electrons (representing negative charge carriers) in a semiconductor is not equal. This disparity in mobility leads to a crucial design consideration in CMOS (Complementary Metal-Oxide-Semiconductor) circuits, particularly in the width sizing of PMOS (P-channel Metal-Oxide-Semiconductor) and NMOS (N-channel Metal-Oxide-Semiconductor) transistors within logic gates.
@@ -3178,12 +3181,13 @@ Where:
 - \(r\) = rise time
 - \(f\) = fall time
 
-
 **1. Arrival Time:**
 
 Arrival time (also known as clock-to-q or launch time) refers to the time it takes for a signal to propagate from a specific point (usually a launch or source flip-flop) to a target point (typically a capture or destination flip-flop). It's the time at which the signal reaches the input of the target flip-flop. A positive arrival time indicates the signal arrives after the clock edge.
 
-In Design Compiler, you can set arrival time constraints to ensure that a certain data signal arrives at the destination flip-flop within a specific time window with respect to the clock signal. These constraints are vital for meeting setup and hold timing requirements.
+In Design Compiler, you can set arrival time constraints to ensure that a certain data signal arrives at the
+
+ destination flip-flop within a specific time window with respect to the clock signal. These constraints are vital for meeting setup and hold timing requirements.
 
 **2. Required Time:**
 
@@ -3193,12 +3197,11 @@ In Design Compiler, you can set required time constraints to specify the maximum
 
 Both arrival time and required time constraints are fundamental in the design flow to meet timing objectives and to ensure that the design operates reliably and correctly within the specified timing constraints. They are crucial for achieving optimal performance and functionality in digital designs.
 
-
-timing analysis steps and calculations using the given commands:
+**Timing Analysis Steps and Calculations Using the Given Commands:**
 
 1. **`report_timing -delay_type max -to DFEC/d`**:
    
-   This command in the design tool (likely Design Compiler) instructs it to report timing information for the path from some source to `DFEC/d`)
+   This command in the design tool (likely Design Compiler) instructs it to report timing information for the path from some source to `DFEC/d`.
 
 2. **Arrival Time (1.65 ns)**:
    
@@ -3218,7 +3221,7 @@ timing analysis steps and calculations using the given commands:
    
    \[ \text{Required Time} = \text{Clock Period} - \text{Setup Time} = 5 \text{ ns} - 0.5 \text{ ns} = 4.5 \text{ ns} \]
    
-   This represents the maximum time allowed for the data signal to propagate from the source flip-flop to the destination flip-flop while still meeting the setup timing requirement.
+   This represents the maximum time allowed for the data signal to propagate from source flip-flops to destination flip-flops while still meeting the setup timing requirement.
 
 6. **Setup Slack (2.85 ns)**:
 
@@ -3230,7 +3233,8 @@ timing analysis steps and calculations using the given commands:
 
 In summary, the analysis evaluates whether the data at the input of the destination flip-flop (`DFEC/d`) meets the setup timing requirement. The positive setup slack indicates that the design complies with the timing specifications, providing a margin of 2.85 ns to meet the setup time constraint.
 
-**Hold slack calculation**
+**Hold Slack Calculation**
+
 1. **`report_timing -delay_type min -to DFFC/D`**:
    
    This command instructs the design tool to report timing information for the path to a specific destination represented as `DFFC/D`, considering the minimum delay.
@@ -3262,84 +3266,66 @@ In summary, the analysis evaluates whether the data at the input of the destinat
 **Difference in Slack Calculation for Max and Min Paths:**
 
 The key difference in slack calculations between maximum and minimum paths lies in how the required time is determined. In the maximum delay path, the required time is calculated based on setup time. In the minimum delay path, it is based on hold time. This distinction ensures that the design meets both setup and hold timing requirements at the destination flip-flop.
+
 </details>
 
+---
+Certainly! Here's the provided information organized in a proper format:
+
+---
+
 <details>
-	<summary>Labs</summary>
-**LAB1**
+  <summary>Labs</summary>
+
+### LAB1
 	
 The image clearly demonstrates that there's a distinction in delay timings for rise and fall transitions along the same timing path, highlighting the differences in timing behavior.
 
-<center>
-	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/t3_diff.PNG">
-	
-</center>
+![Timing Path](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/t3_diff.PNG)
 
 The image demonstrates two distinct signal paths, emphasizing the differences in timings between rise and fall transitions for each path.
 
-<center>
-	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/t_diff.PNG">
-	
-</center>
+![Signal Paths](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/t_diff.PNG)
 
 The image below illustrates the minimum time required for the given path.
 
-<center>
-	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/min_time.PNG">
-
-</center>
+![Minimum Time Path](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/min_time.PNG)
 
 The image below illustrates that individual gate delays do not solely determine the overall path delay. In this scenario, for the maximum delay, a specific gate incurs a higher delay compared to the same gate in the minimum delay path.
 
-<center>
-	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/min_diff.PNG">
+![Gate Delay Differences](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/min_diff.PNG)
 
-</center>
+### LAB2
 
-**LAB2**
-```
-check_design
-```
-<center>
-	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/check_design_init.PNG">
+#### `check_design`
 
-</center>
+![Check Design](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/check_design_init.PNG)
 
 The `check_design` command in Design Compiler (DC) is used to perform a comprehensive analysis of the design to validate various aspects, including its correctness, legality, and compliance with specified constraints. This command helps ensure that the design is ready for subsequent steps in the design flow, such as optimization, synthesis, or other post-synthesis operations.
 
 The `check_design` command is crucial for ensuring the design's integrity and compliance with design rules and constraints. It helps identify any issues early in the design process, allowing for timely correction and improvement of the design quality.
 
-```
-check_timing
-```
-<center>
-	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/check_timing_before_cons.PNG">
+#### `check_timing`
 
-</center>
+![Check Timing Before Constraints](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/check_timing_before_cons.PNG)
 
-<center>
-	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/check_timing_after_cons.PNG">
-
-</center>
+![Check Timing After Constraints](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/check_timing_after_cons.PNG)
 
 The `check_timing` command is used in the Design Compiler (DC) tool to verify the timing constraints and check the timing paths in a design. It's a critical step in the design flow to ensure that the design meets the specified timing requirements.
 
 The `check_timing` command helps designers ensure that the design meets the specified timing requirements for various aspects like setup, hold, pulse width, recovery, removal, rise, fall, and more. It provides detailed reports and insights into the timing paths and slacks, helping designers make necessary adjustments to meet their timing goals.
 
-```
-report_constraint
-```
-<center>
-	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/report_constraint.PNG">
+#### `report_constraint`
 
-</center>
+![Report Constraint](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/report_constraint.PNG)
+
 The `report_constraint` command in Design Compiler (DC) shell is used to display the constraints that have been set for a design. Constraints are crucial in the design flow to guide the synthesis process and achieve the desired performance, power, and area targets.
 
 The `report_constraint` command provides valuable insights into the applied constraints, and helps to understand and verify the design constraints set during the synthesis process.
 
-## mux_generate
+#### `mux_generate` Module
 
-```
+```verilog
 module mux_generate (input [127:0] in, input [6:0] sel, output reg y);
   integer k;
   
@@ -3380,25 +3366,15 @@ endmodule
 
 In summary, this module functions as a multiplexer where the input `in` is a 128-bit bus, `sel` is a 7-bit selection signal, and `y` is the output. The module iterates through the inputs based on the value of `sel`, selecting and assigning the corresponding input to the output `y`.
 
-```
-report_constraints -all_violatos
-```
-<center>
-	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/report_constraint_all_viol.PNG">
+#### `report_constraints -all_violators`
 
-</center>
+![Report Constraints - All Violators](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/report_constraint_all_viol.PNG)
 
+#### `report_timing -net -cap -sig 4`
 
-```
-report_timing -net -cap -sig 4
-```
-<center>
-	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/report_timing_mux.PNG">
-
-</center>
+![Report Timing - Capacitance Analysis](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/report_timing_mux.PNG)
 
 It's noted that the number of fanouts for the signal `sel` is 12, resulting in a high capacitive load on the net. This significant capacitive load can lead to timing delays within the circuit.
-
 
 To mitigate these delays and manage the capacitive load appropriately, the `set_max_capacitance` command is used with a specified value. The command sets a maximum allowable capacitance for the signal `sel`. In the provided example, the maximum capacitance is set to 0.025 for the current design:
 
@@ -3408,79 +3384,18 @@ set_max_capacitance 0.025 [current_design]
 
 By limiting the capacitance, the goal is to control and optimize the timing behavior and performance of the design, especially in scenarios where a large number of fanouts can significantly impact the capacitance and, subsequently, the timing characteristics.
 
-<center>
-	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/report_timing_mux_after_cap_0.025.PNG">
+![Timing Analysis After Capacitance Constraint](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/report_timing_mux_after_cap_0.025.PNG)
 
-</center>
+The `set_max_capacitance` command with the specified
 
-The `set_max_capacitance` command with the specified capacitance value (e.g., 0.025) helps in limiting the total capacitance on a net, which is achieved by introducing buffers to distribute the fanouts properly.
+ capacitance value (e.g., 0.025) helps in limiting the total capacitance on a net, which is achieved by introducing buffers to distribute the fanouts properly.
 
 In this scenario, after running the `set_max_capacitance` command, the number of fanouts is observed to reduce from 12 to 9. This reduction is achieved by strategically inserting buffers into the net to distribute the fanouts more effectively and control the overall capacitance within the specified limit.
 
 Buffer insertion is a common technique used in digital design to optimize timing and performance by managing capacitance, reducing delay, and improving signal integrity. By controlling the capacitance through buffer insertion, the design can meet timing requirements and enhance the overall efficiency of the circuit.
 
-## ENABLE_128
+#### `set_max_transition`
 
-The Verilog module `en_128` is a simple 128-bit enable-based multiplexer. Here's a breakdown of the module:
-
-```
-module en_128 (input [127:0] x, output [127:0] y, input en);
-  assign y[127:0] = en ? x[127:0] : 128'b0;
-endmodule
-```
-
-- **Inputs:**
-  - `x` (128 bits): Input data bus.
-  - `en` (1 bit): Enable signal determining whether to pass the input `x` to the output.
-  
-- **Outputs:**
-  - `y` (128 bits): Output data bus.
-
-- **Module Description:**
-  - The module uses an `assign` statement for continuous assignment.
-  - When `en` is asserted (1), it selects `x[127:0]` as the output.
-  - When `en` is deasserted (0), it assigns a 128-bit zero (`128'b0`) to the output.
-
-This module acts as a simple 128-bit multiplexer. When the `en` signal is 1, it passes the input `x[127:0]` to the output `y[127:0]`. When `en` is 0, it sets the output to 128 bits of zero (`128'b0`). This kind of structure is commonly used to control data flow based on an enable signal.
-
-Before constraining the capacitance
-<center>
-	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/timing_en_128.PNG">
-
-</center>
-GUI view
-<center>
-	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/gui_en_before_cap.PNG">
-
-</center>
-
-After constraining the capacitance
-```
-set_max_capacitance 0.03 [current_design]
-```
-<center>
-	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/timing_en_128_after_cap_0.03.PNG">
-
-</center>
-
-GUI view
-<center>
-	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/gui_en_after_cap.PNG">
-
-</center>
-
-When comparing the design before and after applying the capacitance constraint, noticeable changes can be observed in the graphical user interface (GUI). The constraint was set to limit the maximum capacitance of the net to 0.03.
-
-In the "before" scenario, without the capacitance constraint, the net had a larger fanout, specifically 128 fanouts. This high fanout resulted in a potentially high capacitive load on the net, which could lead to timing delays and signal integrity issues.
-
-However, after imposing the capacitance constraint, the synthesis tool responded by introducing buffers strategically in the net. These buffers act to distribute the fanouts more effectively. As a result, the number of fanouts decreased to 17 from the original 128.
-
-This reduction in fanouts and the strategic introduction of buffers help in managing the capacitance within the specified limit of 0.03. The buffers serve to distribute the load, reducing the overall capacitance on the net, which is essential for meeting timing requirements and enhancing the overall performance of the circuit. This practice of strategic buffer insertion is a common technique used in digital design to optimize signal integrity and ensure the design adheres to defined constraints.
-
-
-```
-set_max_transition
-```
 By using this command and specifying a maximum transition time, designers can guide the synthesis tool to optimize the design in a way that prevents rapid signal transitions and related issues.
 
 In more detail:
@@ -3499,11 +3414,10 @@ In more detail:
 
 This constraint plays a vital role in meeting timing requirements and improving the overall reliability of the design. It guides the synthesis process, enabling the tool to make informed decisions that balance performance and timing considerations, ultimately resulting in a well-optimized and functional design.
 
-<center>
-	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/timing_en_after_trans.PNG">
+![Timing Analysis After Transition Time Constraint](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/timing_en_after_trans.PNG)
 
-</center>
-	
+---
+
 </details>
 
 <details>
