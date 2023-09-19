@@ -3133,7 +3133,6 @@ Multicycle Path timing after performing isolation:
 </details>
 
 ## Day-10-Quality-Checks
----
 
 <details>
   <summary>Introduction</summary>
@@ -3187,90 +3186,8 @@ Arrival time (also known as clock-to-q or launch time) refers to the time it tak
 
 In Design Compiler, you can set arrival time constraints to ensure that a certain data signal arrives at the
 
- destination flip-flop within a specific time window with respect to the clock signal. These constraints are vital for meeting setup and hold timing requirements.
-
-**2. Required Time:**
-
-Required time (also known as clock-to-q or capture time) represents the maximum time allowed for a signal to propagate from a specific point (usually a launch or source flip-flop) to a target point (typically a capture or destination flip-flop) and still meet the timing requirements. It defines the maximum time allowed for the signal to propagate.
-
-In Design Compiler, you can set required time constraints to specify the maximum time allowed for a signal to propagate from source flip-flops to destination flip-flops. This constraint helps ensure that the signal meets the required setup and hold timing requirements.
-
-Both arrival time and required time constraints are fundamental in the design flow to meet timing objectives and to ensure that the design operates reliably and correctly within the specified timing constraints. They are crucial for achieving optimal performance and functionality in digital designs.
-
-**Timing Analysis Steps and Calculations Using the Given Commands:**
-
-1. **`report_timing -delay_type max -to DFEC/d`**:
-   
-   This command in the design tool (likely Design Compiler) instructs it to report timing information for the path from some source to `DFEC/d`.
-
-2. **Arrival Time (1.65 ns)**:
-   
-   The reported arrival time (1.65 ns) represents the time it takes for the signal to propagate from the source (DFEC/d) to the destination. It indicates when the signal reaches the input of the destination flip-flop.
-
-3. **Clock Period (5 ns)**:
-
-   The clock period (5 ns) is the time duration between consecutive clock edges. In this case, it's the time available for the data signal to stabilize before the next clock edge.
-
-4. **Setup Time for DFF_C (0.5 ns)**:
-
-   The setup time (0.5 ns) for DFF_C is the minimum time required before the clock edge for the data to be stable at the D input of DFF_C. This ensures that the data is valid and can be reliably captured by the flip-flop.
-
-5. **Required Time (4.5 ns)**:
-
-   The required time is calculated as follows:
-   
-   \[ \text{Required Time} = \text{Clock Period} - \text{Setup Time} = 5 \text{ ns} - 0.5 \text{ ns} = 4.5 \text{ ns} \]
-   
-   This represents the maximum time allowed for the data signal to propagate from source flip-flops to destination flip-flops while still meeting the setup timing requirement.
-
-6. **Setup Slack (2.85 ns)**:
-
-   The setup slack is the difference between the required time and the arrival time:
-   
-   \[ \text{Setup Slack} = \text{Required Time} - \text{Arrival Time} = 4.5 \text{ ns} - 1.65 \text{ ns} = 2.85 \text{ ns} \]
-   
-   A positive setup slack (2.85 ns) indicates that the design meets the setup timing requirement by this margin.
-
-In summary, the analysis evaluates whether the data at the input of the destination flip-flop (`DFEC/d`) meets the setup timing requirement. The positive setup slack indicates that the design complies with the timing specifications, providing a margin of 2.85 ns to meet the setup time constraint.
-
-**Hold Slack Calculation**
-
-1. **`report_timing -delay_type min -to DFFC/D`**:
-   
-   This command instructs the design tool to report timing information for the path to a specific destination represented as `DFFC/D`, considering the minimum delay.
-
-2. **Arrival Time (1 ns)**:
-   
-   The reported arrival time (1 ns) represents the time it takes for the signal to propagate to the input of the destination flip-flop (`DFFC/D`). It indicates when the signal reaches the input of the destination flip-flop.
-
-3. **Hold Time for DFF_C (0.1 ns)**:
-
-   The hold time (0.1 ns) for DFF_C is the minimum time the data signal must be held stable after the clock edge. This ensures that the data is held long enough for the flip-flop to reliably capture it.
-
-4. **Required Time (0.1 ns)**:
-
-   The required time is calculated as the sum of the hold time and uncertainty:
-   
-   \[ \text{Required Time} = \text{Hold Time} + \text{Uncertainty} = 0.1 \text{ ns} + 0 \text{ ns} = 0.1 \text{ ns} \]
-
-   This represents the maximum time allowed for the data signal to be held stable after the clock edge while still meeting the hold timing requirement.
-
-5. **Hold Slack (0.9 ns)**:
-
-   The hold slack is the difference between the arrival time and the required time:
-   
-   \[ \text{Hold Slack} = \text{Arrival Time} - \text{Required Time} = 1 \text{ ns} - 0.1 \text{ ns} = 0.9 \text{ ns} \]
-
-   A positive hold slack (0.9 ns) indicates that the design meets the hold timing requirement by this margin.
-
-**Difference in Slack Calculation for Max and Min Paths:**
-
-The key difference in slack calculations between maximum and minimum paths lies in how the required time is determined. In the maximum delay path, the required time is calculated based on setup time. In the minimum delay path, it is based on hold time. This distinction ensures that the design meets both setup and hold timing requirements at the destination flip-flop.
-
 </details>
 
----
----
 
 <details>
   <summary>Labs</summary>
