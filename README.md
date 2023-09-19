@@ -3134,5 +3134,281 @@ Multicycle Path timing after performing isolation:
 
 ## Day-10-Quality-Checks
 <details>
-	<summary></summary>
+	<summary>Introduction</summary>
+	
+**Propagation delay:**
+Propagation delay in CMOS circuits is a crucial parameter that significantly impacts their performance. It reflects the time taken for a signal to travel from the input of a gate to its output. In CMOS technology, the mobility of holes (representative of p-type transistors) is lower than that of electrons (representative of n-type transistors), introducing timing imbalances between the pull-up (pMOS) and pull-down (nMOS) networks.
+
+The mobility of holes (representing positive charge carriers) and electrons (representing negative charge carriers) in a semiconductor is not equal. This disparity in mobility leads to a crucial design consideration in CMOS (Complementary Metal-Oxide-Semiconductor) circuits, particularly in the width sizing of PMOS (P-channel Metal-Oxide-Semiconductor) and NMOS (N-channel Metal-Oxide-Semiconductor) transistors within logic gates.
+
+In a typical CMOS inverter, for instance, the width of the PMOS transistor is often set to be twice that of the NMOS transistor. This width ratio is established due to the discrepancy in carrier mobility — holes move less efficiently than electrons in a semiconductor material. Consequently, to balance the performance and achieve symmetrical rise and fall times for the output signal, the PMOS width is increased.
+
+However, maintaining this 2:1 width ratio across all gates is not always feasible or optimal. Different gates have distinct combinations of pull-up and pull-down networks. Achieving perfect timing symmetry may not be possible, and optimizing for one can affect the other. Engineers must carefully consider these aspects during CMOS circuit design to achieve the desired trade-off between speed, power consumption, and other performance parameters for a given application.
+
+**Rise and Fall Times:**
+   - Rise time is the time taken for a signal to transition from a low to a high state, while fall time is the transition from high to low.
+   - Due to mobility mismatch, the rise and fall times can be significantly different for pMOS and nMOS transistors.
+
+Understanding propagation delay in CMOS circuits and effectively addressing timing disparities and rise-fall asymmetry is essential for achieving optimal performance and reliability. Through careful transistor sizing, logical effort, and strategic design choices, designers can balance delays and improve overall circuit efficiency, critical for the success of modern digital designs.
+
+**Timing Paths**
+These are the timing paths and corresponding delays from DFF A to DFF C and from DFF B to DFF C, considering rise (r) and fall (f) times:
+
+**DFF A to DFF C Timing Paths:**
+
+1. **Path 1 (CLK-Qr):**
+   - DFFA (CLK-Qr) → INV (Yf) → AND (Af) → AND (Yf) → DFFC(Yf)
+   - Delay: \(0.5 \text{ ns} + 0.5 \text{ ns} + 0.65 \text{ ns} = 1.65 \text{ ns}\)
+
+2. **Path 2 (CLK-Qf):**
+   - DFFA (CLK-Qf) → INV (Yr) → AND (Ar) → AND (Yr) → DFFC(Yr)
+   - Delay: \(0.4 \text{ ns} + 0.4 \text{ ns} + 0.7 \text{ ns} = 1.5 \text{ ns}\)
+
+**DFF B to DFF C Timing Paths:**
+
+3. **Path 3 (CLK-Qr):**
+   - DFF B (CLK-Qr) → AND (Br) → AND (Yr) → DFFC(Yr)
+   - Delay: \(0.5 \text{ ns} + 0.65 \text{ ns} = 1.15 \text{ ns}\)
+
+4. **Path 4 (CLK-Qf):**
+   - DFF B (CLK-Qf) → AND (Bf) → AND (Yf) → DFFC(Yf)
+   - Delay: \(0.4 \text{ ns} + 0.6 \text{ ns} = 1 \text{ ns}\)
+
+Where:
+- \(r\) = rise time
+- \(f\) = fall time
+
+
+**1. Arrival Time:**
+
+Arrival time (also known as clock-to-q or launch time) refers to the time it takes for a signal to propagate from a specific point (usually a launch or source flip-flop) to a target point (typically a capture or destination flip-flop). It's the time at which the signal reaches the input of the target flip-flop. A positive arrival time indicates the signal arrives after the clock edge.
+
+In Design Compiler, you can set arrival time constraints to ensure that a certain data signal arrives at the destination flip-flop within a specific time window with respect to the clock signal. These constraints are vital for meeting setup and hold timing requirements.
+
+**2. Required Time:**
+
+Required time (also known as clock-to-q or capture time) represents the maximum time allowed for a signal to propagate from a specific point (usually a launch or source flip-flop) to a target point (typically a capture or destination flip-flop) and still meet the timing requirements. It defines the maximum time allowed for the signal to propagate.
+
+In Design Compiler, you can set required time constraints to specify the maximum time allowed for a signal to propagate from source flip-flops to destination flip-flops. This constraint helps ensure that the signal meets the required setup and hold timing requirements.
+
+Both arrival time and required time constraints are fundamental in the design flow to meet timing objectives and to ensure that the design operates reliably and correctly within the specified timing constraints. They are crucial for achieving optimal performance and functionality in digital designs.
+
+
+timing analysis steps and calculations using the given commands:
+
+1. **`report_timing -delay_type max -to DFEC/d`**:
+   
+   This command in the design tool (likely Design Compiler) instructs it to report timing information for the path from some source to `DFEC/d`)
+
+2. **Arrival Time (1.65 ns)**:
+   
+   The reported arrival time (1.65 ns) represents the time it takes for the signal to propagate from the source (DFEC/d) to the destination. It indicates when the signal reaches the input of the destination flip-flop.
+
+3. **Clock Period (5 ns)**:
+
+   The clock period (5 ns) is the time duration between consecutive clock edges. In this case, it's the time available for the data signal to stabilize before the next clock edge.
+
+4. **Setup Time for DFF_C (0.5 ns)**:
+
+   The setup time (0.5 ns) for DFF_C is the minimum time required before the clock edge for the data to be stable at the D input of DFF_C. This ensures that the data is valid and can be reliably captured by the flip-flop.
+
+5. **Required Time (4.5 ns)**:
+
+   The required time is calculated as follows:
+   
+   \[ \text{Required Time} = \text{Clock Period} - \text{Setup Time} = 5 \text{ ns} - 0.5 \text{ ns} = 4.5 \text{ ns} \]
+   
+   This represents the maximum time allowed for the data signal to propagate from the source flip-flop to the destination flip-flop while still meeting the setup timing requirement.
+
+6. **Setup Slack (2.85 ns)**:
+
+   The setup slack is the difference between the required time and the arrival time:
+   
+   \[ \text{Setup Slack} = \text{Required Time} - \text{Arrival Time} = 4.5 \text{ ns} - 1.65 \text{ ns} = 2.85 \text{ ns} \]
+   
+   A positive setup slack (2.85 ns) indicates that the design meets the setup timing requirement by this margin.
+
+In summary, the analysis evaluates whether the data at the input of the destination flip-flop (`DFEC/d`) meets the setup timing requirement. The positive setup slack indicates that the design complies with the timing specifications, providing a margin of 2.85 ns to meet the setup time constraint.
+
+**Hold slack calculation**
+1. **`report_timing -delay_type min -to DFFC/D`**:
+   
+   This command instructs the design tool to report timing information for the path to a specific destination represented as `DFFC/D`, considering the minimum delay.
+
+2. **Arrival Time (1 ns)**:
+   
+   The reported arrival time (1 ns) represents the time it takes for the signal to propagate to the input of the destination flip-flop (`DFFC/D`). It indicates when the signal reaches the input of the destination flip-flop.
+
+3. **Hold Time for DFF_C (0.1 ns)**:
+
+   The hold time (0.1 ns) for DFF_C is the minimum time the data signal must be held stable after the clock edge. This ensures that the data is held long enough for the flip-flop to reliably capture it.
+
+4. **Required Time (0.1 ns)**:
+
+   The required time is calculated as the sum of the hold time and uncertainty:
+   
+   \[ \text{Required Time} = \text{Hold Time} + \text{Uncertainty} = 0.1 \text{ ns} + 0 \text{ ns} = 0.1 \text{ ns} \]
+
+   This represents the maximum time allowed for the data signal to be held stable after the clock edge while still meeting the hold timing requirement.
+
+5. **Hold Slack (0.9 ns)**:
+
+   The hold slack is the difference between the arrival time and the required time:
+   
+   \[ \text{Hold Slack} = \text{Arrival Time} - \text{Required Time} = 1 \text{ ns} - 0.1 \text{ ns} = 0.9 \text{ ns} \]
+
+   A positive hold slack (0.9 ns) indicates that the design meets the hold timing requirement by this margin.
+
+**Difference in Slack Calculation for Max and Min Paths:**
+
+The key difference in slack calculations between maximum and minimum paths lies in how the required time is determined. In the maximum delay path, the required time is calculated based on setup time. In the minimum delay path, it is based on hold time. This distinction ensures that the design meets both setup and hold timing requirements at the destination flip-flop.
+</details>
+
+<details>
+	<summary>Labs</summary>
+**LAB1**
+	
+The image clearly demonstrates that there's a distinction in delay timings for rise and fall transitions along the same timing path, highlighting the differences in timing behavior.
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/t3_diff.PNG">
+	
+</center>
+
+The image demonstrates two distinct signal paths, emphasizing the differences in timings between rise and fall transitions for each path.
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/t_diff.PNG">
+	
+</center>
+
+The image below illustrates the minimum time required for the given path.
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/min_time.PNG">
+
+</center>
+
+The image below illustrates that individual gate delays do not solely determine the overall path delay. In this scenario, for the maximum delay, a specific gate incurs a higher delay compared to the same gate in the minimum delay path.
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/min_diff.PNG">
+
+</center>
+
+**LAB2**
+```
+check_design
+```
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/check_design_init.PNG">
+
+</center>
+
+The `check_design` command in Design Compiler (DC) is used to perform a comprehensive analysis of the design to validate various aspects, including its correctness, legality, and compliance with specified constraints. This command helps ensure that the design is ready for subsequent steps in the design flow, such as optimization, synthesis, or other post-synthesis operations.
+
+The `check_design` command is crucial for ensuring the design's integrity and compliance with design rules and constraints. It helps identify any issues early in the design process, allowing for timely correction and improvement of the design quality.
+
+```
+check_timing
+```
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/check_timing_before_cons.PNG">
+
+</center>
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/check_timing_after_cons.PNG">
+
+</center>
+
+The `check_timing` command is used in the Design Compiler (DC) tool to verify the timing constraints and check the timing paths in a design. It's a critical step in the design flow to ensure that the design meets the specified timing requirements.
+
+The `check_timing` command helps designers ensure that the design meets the specified timing requirements for various aspects like setup, hold, pulse width, recovery, removal, rise, fall, and more. It provides detailed reports and insights into the timing paths and slacks, helping designers make necessary adjustments to meet their timing goals.
+
+```
+report_constraint
+```
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/report_constraint.PNG">
+
+</center>
+The `report_constraint` command in Design Compiler (DC) shell is used to display the constraints that have been set for a design. Constraints are crucial in the design flow to guide the synthesis process and achieve the desired performance, power, and area targets.
+
+The `report_constraint` command provides valuable insights into the applied constraints, and helps to understand and verify the design constraints set during the synthesis process.
+
+**mux_generate**
+
+```
+module mux_generate (input [127:0] in, input [6:0] sel, output reg y);
+  integer k;
+  
+  always @ (*)
+  begin
+    for (k = 0; k < 128; k = k + 1) 
+    begin
+      if (k == sel)
+        y = in[k];
+    end
+  end
+endmodule
+```
+
+1. **Module Declaration:**
+   - `module mux_generate (input [127:0] in, input [6:0] sel, output reg y);`
+     - This line declares a module named `mux_generate` with input ports `in` (128 bits), `sel` (7 bits), and an output port `y`. `y` is declared as a registered output (`reg`) which means its value is updated in an `always` block.
+
+2. **Integer Declaration:**
+   - `integer k;`
+     - `k` is an integer variable used as a loop counter within the `always` block.
+
+3. **`always @ (*)` Block:**
+   - `always @ (*)` indicates that the block will execute whenever there's a change in the inputs (`*` means any change).
+   - `begin` and `end` define the block.
+
+4. **For Loop:**
+   - `for (k = 0; k < 128; k = k + 1)`
+     - A loop that starts from 0 and iterates up to 127 (128 times), incrementing `k` by 1 in each iteration.
+
+5. **Conditional Statement:**
+   - `if (k == sel)`
+     - Checks if the loop counter `k` is equal to the selection signal `sel`.
+
+6. **Assignment:**
+   - `y = in[k];`
+     - If `k` is equal to `sel`, it assigns the value of `in[k]` (the input corresponding to the selected index) to the output `y`.
+
+In summary, this module functions as a multiplexer where the input `in` is a 128-bit bus, `sel` is a 7-bit selection signal, and `y` is the output. The module iterates through the inputs based on the value of `sel`, selecting and assigning the corresponding input to the output `y`.
+
+```
+report_timing -net -cap -sig 4
+```
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/report_timing_mux.PNG">
+
+</center>
+
+It's noted that the number of fanouts for the signal `sel` is 12, resulting in a high capacitive load on the net. This significant capacitive load can lead to timing delays within the circuit.
+
+To mitigate these delays and manage the capacitive load appropriately, the `set_max_capacitance` command is used with a specified value. The command sets a maximum allowable capacitance for the signal `sel`. In the provided example, the maximum capacitance is set to 0.025 for the current design:
+
+```
+set_max_capacitance 0.025 [current_design]
+```
+
+By limiting the capacitance, the goal is to control and optimize the timing behavior and performance of the design, especially in scenarios where a large number of fanouts can significantly impact the capacitance and, subsequently, the timing characteristics.
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/report_timing_mux_after_cap_0.025.PNG">
+
+</center>
+
+The `set_max_capacitance` command with the specified capacitance value (e.g., 0.025) helps in limiting the total capacitance on a net, which is achieved by introducing buffers to distribute the fanouts properly.
+
+In this scenario, after running the `set_max_capacitance` command, the number of fanouts is observed to reduce from 12 to 9. This reduction is achieved by strategically inserting buffers into the net to distribute the fanouts more effectively and control the overall capacitance within the specified limit.
+
+Buffer insertion is a common technique used in digital design to optimize timing and performance by managing capacitance, reducing delay, and improving signal integrity. By controlling the capacitance through buffer insertion, the design can meet timing requirements and enhance the overall efficiency of the circuit.
+
+
+	
 </details>
