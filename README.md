@@ -3270,8 +3270,6 @@ The key difference in slack calculations between maximum and minimum paths lies 
 </details>
 
 ---
-Certainly! Here's the provided information organized in a proper format:
-
 ---
 
 <details>
