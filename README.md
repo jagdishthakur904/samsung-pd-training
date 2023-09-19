@@ -17,6 +17,9 @@
 
 - [Day-9-Optimizations](#DAY--9-Optimizaiions)
 
+- [Day-10-Quality Checks](#DAY--10-Quality-Checks)
+
+
 ## Day-0-Installation
 <details>
  <summary> Summary </summary>
@@ -3127,4 +3130,9 @@ Multicycle Path timing after performing isolation:
 	
 </center>
 
+</details>
+
+## Day-10-Quality-Checks
+<details>
+	<summary></summary>
 </details>
