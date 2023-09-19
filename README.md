@@ -3337,7 +3337,7 @@ The `report_constraint` command in Design Compiler (DC) shell is used to display
 
 The `report_constraint` command provides valuable insights into the applied constraints, and helps to understand and verify the design constraints set during the synthesis process.
 
-**mux_generate**
+## mux_generate
 
 ```
 module mux_generate (input [127:0] in, input [6:0] sel, output reg y);
@@ -3381,6 +3381,15 @@ endmodule
 In summary, this module functions as a multiplexer where the input `in` is a 128-bit bus, `sel` is a 7-bit selection signal, and `y` is the output. The module iterates through the inputs based on the value of `sel`, selecting and assigning the corresponding input to the output `y`.
 
 ```
+report_constraints -all_violatos
+```
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/report_constraints_all_viol.PNG">
+
+</center>
+
+
+```
 report_timing -net -cap -sig 4
 ```
 <center>
@@ -3389,6 +3398,7 @@ report_timing -net -cap -sig 4
 </center>
 
 It's noted that the number of fanouts for the signal `sel` is 12, resulting in a high capacitive load on the net. This significant capacitive load can lead to timing delays within the circuit.
+
 
 To mitigate these delays and manage the capacitive load appropriately, the `set_max_capacitance` command is used with a specified value. The command sets a maximum allowable capacitance for the signal `sel`. In the provided example, the maximum capacitance is set to 0.025 for the current design:
 
@@ -3409,6 +3419,168 @@ In this scenario, after running the `set_max_capacitance` command, the number of
 
 Buffer insertion is a common technique used in digital design to optimize timing and performance by managing capacitance, reducing delay, and improving signal integrity. By controlling the capacitance through buffer insertion, the design can meet timing requirements and enhance the overall efficiency of the circuit.
 
+## ENABLE_128
 
+The Verilog module `en_128` is a simple 128-bit enable-based multiplexer. Here's a breakdown of the module:
+
+```
+module en_128 (input [127:0] x, output [127:0] y, input en);
+  assign y[127:0] = en ? x[127:0] : 128'b0;
+endmodule
+```
+
+- **Inputs:**
+  - `x` (128 bits): Input data bus.
+  - `en` (1 bit): Enable signal determining whether to pass the input `x` to the output.
+  
+- **Outputs:**
+  - `y` (128 bits): Output data bus.
+
+- **Module Description:**
+  - The module uses an `assign` statement for continuous assignment.
+  - When `en` is asserted (1), it selects `x[127:0]` as the output.
+  - When `en` is deasserted (0), it assigns a 128-bit zero (`128'b0`) to the output.
+
+This module acts as a simple 128-bit multiplexer. When the `en` signal is 1, it passes the input `x[127:0]` to the output `y[127:0]`. When `en` is 0, it sets the output to 128 bits of zero (`128'b0`). This kind of structure is commonly used to control data flow based on an enable signal.
+
+Before constraining the capacitance
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/timing_en_128.PNG">
+
+</center>
+GUI view
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/gui_en_before_cap.PNG">
+
+</center>
+
+After constraining the capacitance
+```
+set_max_capacitance 0.03 [current_design]
+```
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/timing_en_128_after_cap_0.03.PNG">
+
+</center>
+
+GUI view
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/gui_en_after_cap.PNG">
+
+</center>
+
+When comparing the design before and after applying the capacitance constraint, noticeable changes can be observed in the graphical user interface (GUI). The constraint was set to limit the maximum capacitance of the net to 0.03.
+
+In the "before" scenario, without the capacitance constraint, the net had a larger fanout, specifically 128 fanouts. This high fanout resulted in a potentially high capacitive load on the net, which could lead to timing delays and signal integrity issues.
+
+However, after imposing the capacitance constraint, the synthesis tool responded by introducing buffers strategically in the net. These buffers act to distribute the fanouts more effectively. As a result, the number of fanouts decreased to 17 from the original 128.
+
+This reduction in fanouts and the strategic introduction of buffers help in managing the capacitance within the specified limit of 0.03. The buffers serve to distribute the load, reducing the overall capacitance on the net, which is essential for meeting timing requirements and enhancing the overall performance of the circuit. This practice of strategic buffer insertion is a common technique used in digital design to optimize signal integrity and ensure the design adheres to defined constraints.
+
+
+```
+set_max_transition
+```
+By using this command and specifying a maximum transition time, designers can guide the synthesis tool to optimize the design in a way that prevents rapid signal transitions and related issues.
+
+In more detail:
+
+1. **`set_max_transition <time> [current_design]`**:
+   - This command sets a constraint on the maximum transition time to `<time>` units (e.g., nanoseconds or picoseconds) for the current design.
+
+2. **Purpose**:
+   - Transition time signifies the duration taken for a signal to change from one logic state to another. Constraining this time helps in controlling the rate at which signals change within the design.
+
+3. **Avoiding Issues**:
+   - Limiting the maximum transition time helps in preventing rapid signal transitions that could cause timing problems, glitches, or other undesirable outcomes.
+
+4. **Optimizing Design**:
+   - The synthesis tool leverages this constraint to optimize the design, ensuring that signals transition within the specified time constraint.
+
+This constraint plays a vital role in meeting timing requirements and improving the overall reliability of the design. It guides the synthesis process, enabling the tool to make informed decisions that balance performance and timing considerations, ultimately resulting in a well-optimized and functional design.
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day10/timing_en_after_trans.PNG">
+
+</center>
 	
+</details>
+
+<details>
+	<summary>Summary</summary>
+	In the synthesis process for a design, several constraints and optimization techniques are employed to guide the tool for efficient design synthesis. Here's a summary of these constraints and optimization strategies:
+
+### Constraints:
+
+1. **Clock Constraints:**
+   - Definition: Constraints related to master clock, generated clock, and virtual clock.
+   - Commands: `create_clock`, `create_generated_clock`
+
+2. **Clock Practicalities - Latency and Uncertainty:**
+   - Definition: Constraints concerning latency, uncertainty, skew, and jitter for pre-CTS and post-CTS.
+   - Command: `set_clock_uncertainty`
+
+3. **Input and Output Delay Constraints:**
+   - Definition: Constraints controlling input and output delay.
+   - Commands: `set_input_delay`, `set_output_delay`
+
+4. **Input Transition and Driving Cell Constraints:**
+   - Definition: Constraints regarding input transitions and driving cells.
+   - Commands: `set_input_transition`, `set_driving_cell`
+
+5. **Output Load Constraint:**
+   - Definition: Constraint specifying the output load.
+   - Command: `set_load`
+
+6. **Maximum Capacitance, Maximum Transition, and Maximum Area Constraints:**
+   - Definitions:
+     - Maximum capacitance to limit capacitive load on a net.
+     - Maximum transition to control signal transition rate.
+     - Maximum area to limit physical design area.
+   - Commands: `set_max_capacitance`, `set_max_transition`, `set_max_area`
+
+### Synthesis Flow:
+
+1. **Reading Design Files:**
+   - Commands: `read_verilog`, `read_db`
+
+2. **Design Checking:**
+   - Command: `check_design`
+
+3. **Applying Constraints:**
+   - Command: `source constraints`
+
+4. **Timing Analysis:**
+   - Command: `check_timing`
+
+5. **Ultra Synthesis Compilation:**
+   - Command: `compile_ultra`
+
+6. **Constraint Violation Reporting:**
+   - Command: `report_constraints -all_violators`
+
+7. **Area and Timing Reporting:**
+   - Commands: `report_area`, `report_timing`
+
+8. **Writing the Synthesized Netlist:**
+   - Command: `write`
+
+### Synthesis Optimization Knobs:
+
+1. **Boundary Optimization:**
+   - Definition: Optimizing logic at design boundaries.
+
+2. **Retiming:**
+   - Definition: Reorganizing registers to optimize timing.
+
+3. **Constant Propagation:**
+   - Definition: Propagating constants to optimize the design.
+
+4. **Unused Flop Removal:**
+   - Definition: Removing unused flip-flops from the design.
+
+5. **Isolate Ports:**
+   - Definition: Isolating output ports to manage output load and internal paths.
+
+These constraints and optimization techniques are vital for achieving an optimized and efficient design synthesis, aligning the design with desired performance, area, and timing goals.
 </details>
