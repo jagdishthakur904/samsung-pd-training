@@ -4235,7 +4235,7 @@ The `vsdbabysoc` module is a structural composition that brings together differe
    - `avsdpll pll`: An instance of the `avsdpll` module, implementing a phase-locked loop (PLL) using input signals (`CLK`, `VCO_IN`, `ENb_CP`, `ENb_VCO`, `REF`).
    - `avsddac dac`: An instance of the `avsddac` module, generating the analog output (`OUT`) using a 10-bit input (`RV_TO_DAC`) and the high voltage reference (`VREFH`).
 
-In summary, `vsdbabysoc` assembles these components to achieve the desired analog output (`OUT`) based on the provided inputs and control signals. Waveform analysis helps in visualizing how the signals evolve and interact within this system, aiding in understanding its behavior and performance.
+In summary, `vsdbabysoc` assembles these components to achieve the desired analog output (`OUT`) based on the provided inputs and control signals. 
 
 <center>
 	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day12/vsdbabysoc_tb.PNG">
