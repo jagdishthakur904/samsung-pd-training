@@ -21,7 +21,8 @@
 
 - [Day-11-SoC](#DAY--11-SoC)
 
-
+- [Day-12-BabySoC Modelling](#DAY--12-BabySoC-Modelling)
+  
 ## Day-0-Installation
 <details>
  <summary> Summary </summary>
@@ -3676,5 +3677,569 @@ Configuration and control registers within the Snapdragon 865 SoC provide a mean
 Configuration and control registers provide a level of adaptability and customization in the Snapdragon 865 SoC, allowing for fine-tuning and optimization based on specific device requirements and usage scenarios. This flexibility is crucial for achieving optimal performance and efficiency in diverse applications.
 
 In summary, the Snapdragon 865 SoC showcases a sophisticated integration of powerful and specialized hardware components, carefully designed and optimized to deliver a superior user experience across a wide range of applications and use cases.
+
+</details>
+
+## Day-12 BabySoC Modelling
+<details>
+	<summary>RISC-V</summary>
+	RISC-V is an open-source instruction set architecture (ISA) based on the Reduced Instruction Set Computing (RISC) principles. It was first introduced in 2010 by researchers at the University of California, Berkeley. The basic idea of RISC-V revolves around simplicity, modularity, and openness.
+
+Here are the key aspects of RISC-V:
+
+1. **Simplicity and Modularity:**
+   RISC-V is designed with a simple and modular structure, making it easier to understand, implement, and optimize. It follows the RISC philosophy of having a streamlined set of instructions and a small number of addressing modes.
+
+2. **Fixed Instruction Length:**
+   RISC-V instructions have a fixed length of 32 bits, which simplifies instruction decoding and pipeline design.
+
+3. **Load-Store Architecture:**
+   RISC-V follows a load-store architecture, where operations are performed only on data loaded from memory into registers. Arithmetic and logic operations are typically carried out between registers.
+
+4. **Register-Based Design:**
+   RISC-V utilizes a register-based model where operations primarily involve registers, enhancing performance and reducing memory access.
+
+5. **Standardized Extensions:**
+   RISC-V provides a base integer instruction set and allows for additional optional extensions for various functionalities, such as floating-point operations, vector operations, cryptographic functions, and more. This modular approach enables customization based on specific application requirements.
+
+6. **Support for Different Implementations:**
+   RISC-V offers different standard profiles, including RV32 (32-bit), RV64 (64-bit), and RV128 (128-bit), allowing flexibility and compatibility for a wide range of applications and hardware implementations.
+
+7. **Open and Extensible:**
+   RISC-V is an open-source ISA, meaning the specification and implementations are publicly available, and anyone can design, implement, and use RISC-V-based processors without any licensing fees. This openness fosters collaboration and innovation within the computing community.
+
+8. **Scalability:**
+   RISC-V is designed to scale from embedded devices and microcontrollers to high-performance computing systems, making it versatile and suitable for a broad spectrum of applications.
+
+9. **Efficiency and Performance:**
+   The RISC-V ISA is designed with an emphasis on energy efficiency and high performance. Its simple instruction set and efficient pipelining enable faster execution and reduced power consumption.
+
+Overall, RISC-V's basic idea revolves around simplicity, openness, modularity, and flexibility, making it an attractive choice for a wide range of applications and industries.
+
+The stages in a typical pipelined RISC-V CPU follow a sequence of steps that allow for the efficient execution of instructions. Each stage in the pipeline processes a different aspect of the instruction execution. Here are the common stages in a RISC-V CPU:
+
+1. **Fetch (F) Stage**:
+   - Fetches the instruction from memory based on the current program counter (PC).
+   - Increments the PC for the next instruction.
+
+2. **Decode (D) Stage**:
+   - Decodes the fetched instruction to determine the operation to be performed and the operands involved.
+
+3. **Execute (E) Stage**:
+   - Performs the actual computation or operation specified by the instruction.
+   - For ALU operations, this stage calculates the result.
+
+4. **Memory Access (M) Stage**:
+   - Accesses memory if the instruction involves a memory operation (e.g., load, store).
+   - For loads, it retrieves data from memory.
+   - For stores, it writes data to memory.
+
+5. **Write Back (W) Stage**:
+   - Writes the result of the instruction back to the register file.
+   - For loads, it writes the loaded data to the destination register.
+
+These stages form the basic pipeline structure for a RISC-V CPU. However, modern CPUs often include additional stages and optimizations to improve performance, such as branch prediction, instruction reordering, and out-of-order execution.
+
+Additionally, some RISC-V implementations may have variations in the pipeline stages based on the specific architecture (e.g., RV32I, RV64I) or additional features such as vector extensions (e.g., RV32V, RV64V). It's important to consult the specific CPU's documentation or reference manuals for precise details on the pipeline structure.
+
+Creating a waterfall flow diagram for a pipelined RISC-V processor involves visually representing the flow of instructions through the various stages of the pipeline. In this example, we'll illustrate the pipeline stages and how instructions progress through each stage. Please note that this is a simplified representation and actual implementations may have additional complexities and optimizations.
+
+Let's define a simple 5-stage pipeline for a RISC-V processor:
+
+1. **Fetch (F)**: Fetches the instruction from memory.
+2. **Decode (D)**: Decodes the instruction and reads register operands.
+3. **Execute (E)**: Executes the operation or ALU computation.
+4. **Memory Access (M)**: Accesses memory for load/store instructions.
+5. **Write Back (W)**: Writes the result back to the register file.
+
+The pipeline stages for an instruction will be denoted as F → D → E → M → W, indicating the progression of the instruction through the stages.
+
+Here's a textual representation of the waterfall flow diagram for a RISC-V processor pipeline:
+
+```
+Clock Cycle 1:
+   Instruction 1: F → D → E → M → W
+
+Clock Cycle 2:
+   Instruction 1:   F → D → E → M → W
+   Instruction 2: F → D → E → M → W
+
+Clock Cycle 3:
+   Instruction 1:     F → D → E → M → W
+   Instruction 2:   F → D → E → M → W
+   Instruction 3: F → D → E → M → W
+
+...
+
+Clock Cycle N:
+   Instruction 1:       F → D → E → M → W
+   Instruction 2:         F → D → E → M → W
+   Instruction 3:           F → D → E → M → W
+   ...
+```
+
+In each clock cycle, a new instruction enters the pipeline (Fetch stage), and the instructions progress through subsequent stages in a staggered manner until they complete the pipeline and are retired. The diagram illustrates the concurrent execution of multiple instructions at different stages of the pipeline.
+</details>
+<details>
+	<summary>PLL</summary>
+	A Phase-Locked Loop (PLL) is an electronic circuit used in many applications to generate stable, high-frequency signals from a low-frequency reference signal. It's a critical component in modern electronics, especially in communication systems, microprocessors, frequency synthesizers, and more. Let's discuss PLL in detail.
+
+1. **Components of a PLL**:
+   - **Phase Detector (PD)**: Compares the phase of the output signal with a reference signal and produces an error signal.
+   - **Voltage-Controlled Oscillator (VCO)**: Generates an output signal whose frequency is directly proportional to the input voltage.
+   - **Loop Filter (LF)**: Filters and conditions the error signal from the phase detector to provide a stable control voltage for the VCO.
+   - **Divider (optional)**: Divides the output signal to generate a feedback signal that is compared with the reference signal.
+
+2. **Working Principle**:
+   - The PLL locks the phase and frequency of the output signal to that of the reference signal by adjusting the VCO control voltage.
+   - The phase detector detects the phase difference between the output and reference signals, generating an error signal.
+   - The loop filter processes the error signal and converts it into a control voltage for the VCO.
+   - The VCO's frequency is adjusted based on this control voltage, aligning the output signal's phase and frequency with the reference signal.
+
+3. **PLL Operation**:
+   - Initially, the PLL is "unlocked" with a free-running VCO and an unknown phase relationship between input and output.
+   - The phase detector compares the input and output phases, generating an error signal.
+   - The error signal is filtered to remove noise and unwanted frequency components.
+   - The filtered error signal adjusts the VCO's frequency to minimize the phase difference between input and output.
+   - The PLL achieves a locked state where the output phase and frequency are synchronized with the reference.
+
+4. **Applications**:
+   - **Clock Generation**: PLLs are used to generate stable clock signals with specific frequencies for microprocessors, memories, and other digital circuits.
+   - **Frequency Synthesis**: PLLs can generate high-frequency signals by multiplying the frequency of a reference signal.
+   - **Clock Recovery**: In communication systems, PLLs are used to recover the clock signal from the received data stream.
+
+5. **Advantages**:
+   - High-frequency stability and accuracy.
+   - Easily configurable to generate different frequencies.
+   - Can lock onto a reference signal even if the frequency varies or if there's noise.
+
+Understanding PLLs is essential for various applications where precise and stable timing and frequency control are required.
+
+### why do we need pll in our soc
+
+A Phase-Locked Loop (PLL) is a critical component in modern System-on-Chip (SoC) designs for several reasons, particularly related to clock generation, synchronization, and performance optimization. Here's why we need a PLL in an SoC:
+
+1. **Clock Generation and Frequency Synthesis**:
+   - A PLL is commonly used to generate stable and precise clock signals with specific frequencies. It allows for frequency synthesis, enabling the creation of clock signals that are multiples or fractions of a reference clock.
+
+2. **Clock Domain Crossing**:
+   - SoCs often have multiple clock domains, each operating at different frequencies. A PLL helps in managing these clock domains, ensuring smooth transitions and proper synchronization when signals need to cross between domains.
+
+3. **Clock Synchronization and Alignment**:
+   - PLLs can be used to synchronize different clock signals within the SoC, aligning them to a common phase and frequency. This synchronization is crucial for correct operation and data integrity, especially in high-speed systems.
+
+4. **Clock Phase Control**:
+   - PLLs allow for precise control of the phase relationship between clock signals, which is important in applications like data sampling, where alignment of clock edges is critical for accurate data capture.
+
+5. **Clock Skew Compensation**:
+   - In large SoCs, clock signals may experience skew due to variations in trace lengths and other factors. PLLs can help compensate for this skew and ensure that clock signals arrive at different parts of the chip simultaneously.
+
+6. **Power Management and Dynamic Voltage and Frequency Scaling (DVFS)**:
+   - PLLs are essential for power management strategies. They enable dynamic adjustments of clock frequencies and voltages to optimize power consumption based on the workload, which is particularly important for battery-powered devices and energy-efficient operation.
+
+7. **Clock Jitter Reduction**:
+   - PLLs can be designed to reduce clock jitter, improving the quality of the clock signal. Reduced jitter is critical in high-speed applications to maintain signal integrity and minimize timing uncertainties.
+
+8. **Clock Recovery from External Sources**:
+   - PLLs can recover clocks from external sources that may have variations in frequency or phase, providing a stable and synchronized clock within the SoC.
+
+9. **Integration of Heterogeneous Blocks**:
+   - SoCs often integrate various IP blocks or subsystems, each operating at different frequencies. PLLs assist in providing the appropriate clocking for each block, allowing their seamless integration into the overall system.
+
+In summary, PLLs play a crucial role in managing clock signals within an SoC, ensuring synchronization, alignment, power efficiency, and integration of various components. They are fundamental to achieving optimal performance and reliability in complex digital systems.
+
+### why off-chip clocks cant be used all the time
+
+Off-chip clocks, also known as external clocks, are typically generated outside the integrated circuit (IC) or system-on-chip (SoC) and are brought onto the chip to provide a clocking signal. While off-chip clocks can be used in certain scenarios, there are several reasons why they are not used all the time:
+
+1. **Propagation Delay and Skew**:
+   - Off-chip clocks experience propagation delays and skew as they travel from the source (external oscillator or clock generator) to the chip. These delays and skew can impact the timing and synchronization of signals within the chip.
+
+2. **Signal Integrity**:
+   - Clock signals can degrade in quality due to transmission over long distances. Factors like noise, interference, reflections, and impedance mismatches can affect the signal integrity, leading to clock jitter and other timing issues.
+
+3. **Dependency on External Systems**:
+   - Relying on off-chip clocks makes the system dependent on external components and their reliability. Any failure or malfunction in the external clock generation system can disrupt the functioning of the entire chip or system.
+
+4. **Power Consumption**:
+   - Constantly using off-chip clocks can lead to increased power consumption, especially if the chip needs to drive long traces or multiple clock distribution networks to various parts of the chip.
+
+5. **Cost and Complexity**:
+   - Depending on off-chip clocks may increase the cost and complexity of the design. Additional components like clock buffers, drivers, and complex routing schemes may be needed to distribute the clock accurately across the chip.
+
+6. **Security and Robustness**:
+   - Using off-chip clocks for critical functions can pose security risks, making the system vulnerable to external interference or tampering.
+
+7. **Flexibility and Tuning**:
+   - On-chip PLLs offer flexibility in generating multiple clock domains, adjusting frequencies, and managing clock phases. On-chip PLLs can be tuned and configured to suit the specific requirements of the chip and its components.
+
+For these reasons, on-chip PLLs are commonly used to generate and distribute clocks within the chip. On-chip PLLs provide the advantages of reduced propagation delay, improved signal integrity, lower power consumption, and better control over clock characteristics. They allow for the creation of multiple clock domains, synchronization, and alignment of clocks according to the system's requirements, enhancing the overall performance and reliability of the IC or SoC.
+
+### Components of PLL
+A Phase-Locked Loop (PLL) is a circuit that synchronizes an output signal with a reference signal by controlling the phase and frequency of the output signal. The main components of a PLL include:
+
+1. **Phase Detector (PD)**:
+   The phase detector compares the phase of the input/reference signal with the feedback signal from the Voltage-Controlled Oscillator (VCO). It generates an output signal based on the phase difference, which is used to adjust the frequency of the VCO.
+
+2. **Voltage-Controlled Oscillator (VCO)**:
+   The VCO generates an output signal whose frequency is controlled by an input voltage. The VCO's frequency is directly proportional to the input voltage it receives. The output of the VCO is the output of the PLL.
+
+3. **Low-Pass Filter (LPF)**:
+   The low-pass filter is used to filter the output of the phase detector, producing a control voltage based on the phase difference. This voltage is then sent to the VCO to adjust its frequency.
+
+4. **Frequency Divider (Divider)**:
+   The frequency divider is used to divide the frequency of the VCO's output to produce a feedback signal. This feedback signal is fed back to the phase detector for comparison with the reference signal.
+
+5. **Reference Input**:
+   The reference input is the signal to which the PLL locks. It provides the reference frequency and phase that the PLL aims to synchronize with.
+
+6. **Output**:
+   The output of the VCO is the output of the PLL, and it is the synchronized signal that is phase-locked and frequency-locked to the reference input.
+
+7. **Control Loop**:
+   The control loop is formed by the phase detector, low-pass filter, and VCO. The phase detector compares the phases of the reference signal and the VCO output, and the low-pass filter processes this comparison to generate a control voltage. This control voltage adjusts the VCO's frequency to minimize the phase difference, locking the PLL to the desired frequency and phase.
+
+These components work together to maintain a stable and synchronized output signal with respect to the reference signal, making the PLL a versatile circuit used in various applications like clock generation, communication systems, frequency synthesis, and more.
+
+</details>
+
+<details>
+	<summary>DAC</summary>
+	Certainly! DAC, or Digital-to-Analog Converter, is a fundamental electronic component used to convert digital data (usually in binary format) into an analog signal. It plays a crucial role in various electronic devices and systems where digital data needs to be transformed into an analog signal for applications such as audio processing, signal generation, communication systems, and more.
+
+Here's an overview of DAC and its main components:
+
+1. **Digital Input**:
+   The digital input to the DAC is typically a binary representation of the desired analog signal. Each bit of the digital input represents a specific amplitude level.
+
+2. **Binary Weighted Network or R-2R Ladder**:
+   The binary weighted network, often implemented using an R-2R ladder network, is a resistor network that provides the weighted voltage levels corresponding to the binary bits of the digital input. In an R-2R ladder, the resistors are arranged in a ladder-like structure, with the top of the ladder connected to the highest bit and the bottom connected to ground.
+
+3. **Summing Amplifier**:
+   The summing amplifier is responsible for summing the voltages from the weighted resistor network based on the binary input. It creates an analog voltage that corresponds to the digital input.
+
+4. **Analog Output**:
+   The analog output of the DAC is the voltage generated by the summing amplifier, which represents the analog signal corresponding to the given digital input.
+
+The operation of a DAC involves setting the digital input (binary bits) to the desired value, and the DAC generates a proportional analog voltage at the output based on the weighted sum of these bits.
+
+The R-2R ladder DAC is a common architecture due to its simplicity and linearity. Each bit of the digital input corresponds to a specific voltage level determined by the resistor network. The summing amplifier then combines these voltage levels to generate the analog output.
+
+DACs are used in a wide range of applications, including audio equipment, video signal processing, motor control, telecommunications, instrumentation, and more. The quality and performance of a DAC are critical in applications where accurate and high-resolution analog signals are required.
+
+Weighted Resistor DAC and R-2R Ladder DAC are two fundamental architectures used in Digital-to-Analog Converters (DACs) to convert digital signals into analog signals. Let's explore each in detail:
+
+1. **Weighted Resistor DAC (Binary-Weighted DAC)**:
+   In a Weighted Resistor DAC, the resistors are arranged in a way that their values are binary weighted. The most significant bit (MSB) has a resistor with the highest value (e.g., R), and each subsequent bit has a resistor with half the value of the previous bit. The binary-weighted values are generated by connecting the digital input bits directly to the resistors. The analog output is produced by summing the weighted voltages across the resistors based on the digital input.
+
+   **Advantages:**
+   - Simple and straightforward architecture.
+   - Accurate and precise if high-precision resistors are used.
+
+   **Disadvantages:**
+   - Requires precise resistors with accurate binary-weighted ratios, which can be costly and challenging to achieve in practice.
+   - Prone to errors due to resistor tolerances.
+
+2. **R-2R Ladder DAC (R-2R DAC)**:
+   The R-2R Ladder DAC utilizes a ladder-like structure of resistors. In this structure, the top rung of the ladder consists of resistors with a value R, while the bottom rung consists of resistors with a value 2R. The ladder structure forms a binary-weighted pattern, and the analog output is derived by summing the voltages at specific nodes of the ladder. The digital input bits control switches that connect or disconnect the nodes to create the desired binary-weighted voltage levels.
+
+   **Advantages:**
+   - Easier to manufacture and calibrate compared to weighted resistor DAC.
+   - Tolerant to resistor inaccuracies due to the self-correcting nature of the ladder structure.
+   - Suitable for high-resolution applications.
+
+   **Disadvantages:**
+   - Requires twice the value of resistors (R and 2R), which may increase cost and complexity compared to binary-weighted DACs.
+
+In practical applications, R-2R Ladder DACs are often preferred due to their ease of implementation and tolerance to resistor inaccuracies, making them well-suited for high-resolution DACs. However, the choice between the two depends on the specific requirements of the application and the desired trade-offs between accuracy, cost, and complexity.
+
+</details>
+
+<details>
+	<summary>Labs</summary>
+	
+### Counter 
+```
+module mod7_counter (
+    input wire clk,
+    input wire rst_n,
+    output reg [2:0] count
+);
+
+    always @(posedge clk or negedge rst_n) begin
+        if (~rst_n) begin
+            count <= 3'b000;
+        end else begin
+            if (count == 3'b110)
+                count <= 3'b000;
+            else
+                count <= count + 1;
+        end
+    end
+
+endmodule
+```
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day12/counter.PNG">
+	
+</center>
+
+
+1. **`clk` (Clock Signal)**:
+   - The clock signal (`clk`) is a regular waveform that toggles between 0 and 1 with a specific frequency. Each positive edge of the clock triggers an increment in the counter.
+
+2. **`rst_n` (Reset Signal)**:
+   - The reset signal (`rst_n`) is active-low, meaning it is effective when it is at a logic 0.
+   - When `rst_n` transitions from 1 to 0 (negative edge), it resets the counter to `000` (binary).
+
+3. **`count` (Counter Value)**:
+   - The `count` waveform represents the 3-bit counter value in binary (from `000` to `110` in binary, or 0 to 6 in decimal).
+   - On each positive edge of the clock (`clk`), the counter increments its value by 1.
+   - When the counter reaches `110` (binary) or 6 (decimal), it wraps back to `000` (binary) or 0 (decimal).
+
+In summary, the waveform shows the counter incrementing with each positive edge of the clock (`clk`), and it resets to `000` when the reset signal (`rst_n`) is active (low). The counter value cycles through 0 to 6 in binary (or 0 to 6 in decimal), following the clock pulses and reacting to the reset signal.
+
+
+### mythcore
+
+1. **`clk` and `reset`**:
+   - `clk` is the clock signal.
+   - `reset` is the reset signal.
+
+2. **`out`**:
+   - A 10-bit output signal representing the result of the core.
+
+3. **Instructions and Logic**:
+   - The logic in this code represents a simple RISC-V core where instructions are fetched, decoded, and executed based on the RISC-V instruction set.
+
+4. **Modules and Signals**:
+   - The code includes various modules such as instruction memory, register file, data memory, and ALU.
+   - Different stages of the RISC-V pipeline are represented, including fetch, decode, execute, and memory access.
+
+5. **`CPU_Imem_instr_a1`**:
+   - Represents the instruction memory content, with different instructions specified using a sequence of bits.
+
+6. **Decode and Control Logic**:
+   - Various `assign` statements determine the type of instruction being processed and control signals accordingly.
+
+7. **ALU Logic**:
+   - The ALU performs arithmetic and logical operations based on the instruction type.
+
+8. **Memory Access and Control Logic**:
+   - Memory access instructions (load and store) are handled, and data memory is accessed accordingly.
+
+Overall, this Verilog code implements a basic RISC-V core that fetches instructions, decodes them, and executes arithmetic and logical operations based on the instruction set.
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day12/mythcore.PNG">
+	
+</center>
+
+### PLL
+
+```
+`timescale 1ns / 1ps
+module avsd_pll_1v8( CLK, VCO_IN, VDDA, VDDD, VSSA, VSSD, EN_VCO, REF);
+
+  input VSSD;
+  input EN_VCO;
+  input VSSA;
+  input VDDD;
+  input VDDA;
+  input VCO_IN;
+  output CLK;
+  input REF;
+
+ 
+ 
+ 
+  reg CLK;
+  real period, lastedge, refpd;
+  wire  VSSD, VSSA, VDDD, VDDA;
+ 
+
+  initial begin
+     lastedge = 0.0;
+     period = 25.0; // 25ns period = 40MHz
+     CLK <= 0;
+      end
+
+  // Toggle clock at rate determined by period
+  always @(CLK or EN_VCO) begin
+     if (EN_VCO == 1'b1) begin
+        #(period / 2.0);
+        CLK <= (CLK === 1'b0);
+     end else if (EN_VCO == 1'b0) begin
+        CLK <= 1'b0;
+     end else begin
+        CLK <= 1'bx;
+     end
+  end
+   
+  // Update period on every reference rising edge
+  always @(posedge REF) begin
+     if (lastedge > 0.0) begin
+refpd = $realtime - lastedge;
+// Adjust period towards 1/8 the reference period
+        //period = (0.99 * period) + (0.01 * (refpd / 8.0));
+        period =  (refpd / 8.0) ;
+     end
+     lastedge = $realtime;
+  end
+endmodule
+
+```
+
+Verilog code defines a module for an adjustable frequency clock generator using a phase-locked loop (PLL). Here's a brief explanation of the code:
+
+1. The module `avsd_pll_1v8` has inputs (`VSSD`, `EN_VCO`, `VSSA`, `VDDD`, `VDDA`, `VCO_IN`, `REF`) and an output `CLK`.
+
+2. The initial block initializes some variables (`lastedge` and `period`) and sets the initial value of `CLK` to 0.
+
+3. The clock toggling logic is defined in an `always` block, toggling `CLK` based on the `period` when `EN_VCO` is high. The `period` determines the clock's frequency.
+
+4. Another `always` block updates the `period` based on the rising edge of the reference signal (`REF`). The `period` is adjusted to be 1/8th of the time between successive reference signal edges.
+
+The purpose of this code is to generate a clock signal (`CLK`) with an adjustable frequency based on the reference signal (`REF`). The generated clock's frequency is dynamically adjusted to be a fraction (1/8th) of the reference frequency.
+
+The code uses `$realtime` to measure time for adjusting the clock period based on the reference signal. This is typically used in simulation to mimic real-time behavior.
+
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day12/avsdpll.PNG">
+	
+</center>
+
+**The waveform behavior:**
+
+1. **CLK (Clock Signal)**:
+   - The `CLK` waveform is toggling at a frequency determined by the `period`.
+   - The initial state is 0, and it toggles between 0 and 1 based on the specified `period` (25 ns in this case).
+
+2. **EN_VCO (VCO Enable)**:
+   - `EN_VCO` waveform is high (`1`) for some time and then goes low (`0`).
+   - When `EN_VCO` is high, the `CLK` toggles at the specified `period`. When it's low, the `CLK` remains low.
+
+3. **REF (Reference Signal)**:
+   - `REF` waveform is rising at regular intervals, indicating the reference signal edges.
+   - The `period` of the `CLK` is adjusted based on these rising edges.
+
+4. **Adjusting the Clock Period**:
+   - Whenever there's a rising edge on `REF`, the clock period (`period`) is adjusted to be 1/8th of the time since the last edge.
+   - The adjusted `period` causes a change in the `CLK` frequency accordingly.
+
+The clock toggles based on the `period` whenever `EN_VCO` is high. The `period` is dynamically adjusted based on the rising edges of the reference signal, allowing the clock to adapt to changes in the reference frequency.
+
+### DAC
+
+```
+module avsddac( OUT, D, VREFH, VREFL);
+
+  input VREFH;
+  input VREFL;
+  input [9:0] D;
+  output OUT;
+
+  wire real VSS, VDD, VREFL, VREFH;
+  reg  real OUT;
+  real NaN;
+  wire EN;
+
+  wire [10:0] Dext;	// unsigned extended
+
+  assign Dext = {1'b0, D};
+  assign EN = 1;
+ 
+  
+  initial begin
+     NaN = 0.0 / 0.0;
+     if (EN == 1'b0) begin
+	OUT <= 0.0;
+     end else if (VREFH == NaN) begin
+	OUT <= NaN;
+     end else if (VREFL == NaN) begin
+	OUT <= NaN;
+     end else if (EN == 1'b1) begin
+	OUT <= VREFL + ($itor(Dext) / 1023.0) * (VREFH - VREFL);
+     end else begin
+	OUT <= NaN;
+     end
+  end
+
+  always @(D or EN or VREFH or VREFL) begin
+     if (EN == 1'b0) begin
+	OUT <= 0.0;
+     end else if (VREFH == NaN) begin
+	OUT <= NaN;
+     end else if (VREFL == NaN) begin
+	OUT <= NaN;
+     end else if (EN == 1'b1) begin
+	OUT <= VREFL + ($itor(Dext) / 1023.0) * (VREFH - VREFL);
+     end else begin
+	OUT <= NaN;
+     end
+  end 
+
+endmodule
+```
+
+The `avsddac` module embodies a digital-to-analog converter (DAC) coded in Verilog. It takes a 10-bit digital input (`D`), alongside high and low voltage references (`VREFH` and `VREFL`), and generates an analog output (`OUT`). The module extends the 10-bit digital input to an 11-bit value (`Dext`). Depending on control signals and reference voltages, it calculates the analog output with proper error handling for exceptional cases.
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day12/avsddac.PNG">
+	
+</center>
+
+**The waveform behavior:**
+
+The waveform illustrates the behavior of the `avsddac` module during simulation. Several key signals are represented:
+
+1. **`D` (10-bit Digital Input):**
+   - This signal exhibits varying patterns representing changes in the digital input to the DAC.
+
+2. **`VREFH` and `VREFL` (High and Low Voltage References):**
+   - These signals either remain steady or undergo changes based on the simulation scenario.
+
+3. **`EN` (Enable Signal):**
+   - The enable signal toggles between 0 and 1, indicating the enabling or disabling of the DAC.
+
+4. **`OUT` (Analog Output):**
+   - The waveform of `OUT` demonstrates its variations based on the input `D`, `VREFH`, `VREFL`, and `EN`. It mirrors analog behavior as defined by the logic within the `avsddac` module.
+
+Analyzing the `OUT` waveform alongside the varying inputs and control signals (`D`, `VREFH`, `VREFL`, `EN`) allows comprehending how the digital input undergoes conversion to an analog output. Additionally, one can observe how the output reacts to alterations in control signals or changes in reference voltages.
+
+
+### VSDBabySoC
+
+```
+
+```
+
+The `vsdbabysoc` module is a structural composition that brings together different components to create a system.
+
+1. **Primary Inputs and Outputs:**
+   - `OUT`: Analog output of the system.
+   - `reset`: Reset signal.
+   - `VCO_IN`: Input for the Voltage-Controlled Oscillator (VCO).
+   - `ENb_CP`: Enable signal for the charge pump.
+   - `ENb_VCO`: Enable signal for the VCO.
+   - `REF`: Reference signal.
+
+2. **Wires:**
+   - `CLK`: Clock signal.
+   - `RV_TO_DAC`: 10-bit data transmitted from the core to the digital-to-analog converter (DAC).
+
+3. **Instantiation of Sub-modules:**
+   - `core core1`: A unit of the `core` module, producing a 10-bit output (`RV_TO_DAC`) based on clock (`CLK`) and reset signals.
+   - `avsdpll pll`: An instance of the `avsdpll` module, implementing a phase-locked loop (PLL) using input signals (`CLK`, `VCO_IN`, `ENb_CP`, `ENb_VCO`, `REF`).
+   - `avsddac dac`: An instance of the `avsddac` module, generating the analog output (`OUT`) using a 10-bit input (`RV_TO_DAC`) and the high voltage reference (`VREFH`).
+
+In summary, `vsdbabysoc` assembles these components to achieve the desired analog output (`OUT`) based on the provided inputs and control signals. Waveform analysis helps in visualizing how the signals evolve and interact within this system, aiding in understanding its behavior and performance.
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day12/vsdbabysoc_tb.PNG">
+	
+</center>
 
 </details>
