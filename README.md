@@ -22,6 +22,8 @@
 - [Day-11-SoC](#DAY--11-SoC)
 
 - [Day-12-BabySoC Modelling](#DAY--12-BabySoC-Modelling)
+
+- [Day-13-Post Synthesis Simulation](#DAY--13-Post-Synthesis-Simulation)
   
 ## Day-0-Installation
 <details>
@@ -4242,4 +4244,27 @@ In summary, `vsdbabysoc` assembles these components to achieve the desired analo
 	
 </center>
 
+</details>
+
+
+
+## Day-13 Post Synthesis Simulation
+<details>
+	<summary>Labs</summary>
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day13/mythcore_gls1.PNG">
+	
+</center>
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day13/lc_shell.PNG">
+	
+</center>
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day13/babysoc_gls.PNG">
+ 
+	
+</center>
+
+
+ 
 </details>
