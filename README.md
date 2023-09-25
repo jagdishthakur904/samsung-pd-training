@@ -1,29 +1,29 @@
 # samsung-pd-training
 - [Day-0-Installation](#day-0-Installation)
 
-- [Day-1-Introduction to Verilog RTL design and Synthesis](#Day-1-Introduction-to-Verilog-RTL-design-and-Synthesis)
+- [Day-1-Introduction to Verilog RTL design and Synthesis](#day-1-Introduction-to-Verilog-RTL-design-and-Synthesis)
 
-- [Day-2-Timing libs,hierarchical,flat synthesis,efficient flop coding styles](#Day-2-Timing-libs-hierarchical-flat-synthesis-efficient-flop-coding-styles)
+- [Day-2-Timing libs,hierarchical,flat synthesis,efficient flop coding styles](#day-2-Timing-libs-hierarchical-flat-synthesis-efficient-flop-coding-styles)
 
 - [Day-3-Combinational and sequential optmizations](#day-3-Combinational-and-sequential-optmizations)
 
-- [Day-4-GLS, blocking vs non-blocking and Synthesis-Simulation mismatch](#DAY4--GLS-blocking-vs-non-blocking-and-Synthesis-Simulation-mismatch)
+- [Day-4-GLS, blocking vs non-blocking and Synthesis-Simulation mismatch](#day-4--GLS-blocking-vs-non-blocking-and-Synthesis-Simulation-mismatch)
 
-- [Day-6-Introduction to Logic Synthesis](#DAY-6-Introduction-to-Logic-Synthesis)
+- [Day-6-Introduction to Logic Synthesis](#day-6-Introduction-to-Logic-Synthesis)
 
-- [Day-7-Basic of STA](#DAY-7-Basic-of-STA)
+- [Day-7-Basic of STA](#day-7-Basic-of-STA)
 
-- [Day-8-Advanced Costraints](#DAY--8-Advanced-Costraints)
+- [Day-8-Advanced Costraints](#day-8-Advanced-Costraints)
 
-- [Day-9-Optimizations](#DAY--9-Optimizaiions)
+- [Day-9-Optimizations](#day-9-Optimizaiions)
 
-- [Day-10-Quality Checks](#DAY--10-Quality-Checks)
+- [Day-10-Quality Checks](#day-10-Quality-Checks)
 
-- [Day-11-SoC](#DAY--11-SoC)
+- [Day-11-SoC](#day-11-SoC)
 
-- [Day-12-BabySoC Modelling](#DAY--12-BabySoC-Modelling)
+- [Day-12-BabySoC Modelling](#day-12-BabySoC-Modelling)
 
-- [Day-13-Post Synthesis Simulation](#DAY--13-Post-Synthesis-Simulation)
+- [Day-13-Post Synthesis Simulation](#day-13-Post-Synthesis-Simulation)
   
 ## Day-0-Installation
 <details>
