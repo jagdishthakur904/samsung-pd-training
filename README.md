@@ -4249,22 +4249,259 @@ In summary, `vsdbabysoc` assembles these components to achieve the desired analo
 
 
 ## Day-13 Post Synthesis Simulation
+
+<details>
+	<summary>Post Synthesi</summary>
+
+## Synthesis and Post-Synthesis
+
+### Synthesis:
+1. **Design Specification:**
+   The process begins with a detailed functional specification, outlining the desired behavior, inputs, and outputs of the digital circuit.
+
+2. **High-Level Design:**
+   A high-level design is created using hardware description languages (HDLs) like VHDL or Verilog, focusing on logical functionality without hardware-specific details.
+
+3. **Synthesis:**
+   The high-level design is transformed into a gate-level representation, selecting specific gates (e.g., AND, OR, XOR) and their interconnections to implement the desired logic functions. The output is typically a netlist.
+
+4. **Technology Mapping:**
+   In this step, actual physical gates are selected from a technology library, matching the gate-level representation and considering factors like speed, power consumption, and area.
+
+### Post-Synthesis Phase:
+Post-synthesis is a crucial stage in the VLSI design flow that follows logic synthesis. This phase involves several key activities to ensure the synthesized netlist meets performance, power, and functional requirements.
+
+1. **Timing Analysis:**
+   Timing analysis is performed to verify that the design meets specified timing constraints. Key parameters, such as setup and hold times, clock-to-q delays, and other timing metrics, are analyzed to ensure proper functioning of the circuit.
+
+2. **Functional Verification:**
+   Functional verification ensures that the synthesized netlist behaves as intended and aligns with the original high-level design specifications. Extensive testing using a variety of test cases validates the correctness of the logic and functionality.
+
+3. **Power Analysis:**
+   Power consumption analysis is essential to estimate the power usage of the design. This analysis helps in optimizing the design to meet power budget constraints while maintaining functionality.
+
+4. **Constraint Updates:**
+   Based on the results of timing and power analysis, design constraints may be updated to achieve the desired performance and power goals.
+
+5. **Scan Insertion:**
+   In certain cases, scan chains may be inserted into the design during the post-synthesis phase. Scan chains facilitate efficient testing and debugging of the circuit.
+
+6. **Gate-Level Simulation (GLS):**
+   GLS involves simulating the synthesized netlist using a test bench. This simulation validates the logical accuracy of the design after synthesis and ensures that timing requirements are met. GLS helps in detecting discrepancies and mismatches between the expected behavior and the actual synthesized netlist.
+
+**Why Gate-Level Simulation (GLS)?**
+
+Gate-level simulation (GLS) is critical in VLSI design for the following reasons:
+
+- **Logical Accuracy Validation:**
+  GLS verifies the logical equivalence of the synthesized netlist with the high-level design. It ensures that the circuit's functionality remains intact after synthesis.
+
+- **Timing Verification:**
+  GLS helps in validating timing requirements by analyzing critical paths and ensuring that the design meets specified timing constraints.
+
+- **Verification of Synthesis Process:**
+  GLS allows designers to confirm that the synthesis process accurately transformed the high-level description into a gate-level representation, preserving the intended functionality.
+
+- **Debugging and Refinement:**
+  Gate-level simulations aid in identifying and debugging issues that might have been introduced during synthesis. This iterative process helps refine the design for optimal performance and functionality.
+
+In summary, the post-synthesis phase, plays a vital role in ensuring the correctness, performance, and functionality of the synthesized VLSI design. It bridges the gap between high-level design intent and the actual gate-level hardware implementation.
+
+</details>
+<details>
+	<summary>Mod 7 Counter</summary>
+
+The Verilog module `mod7_counter` defines a 3-bit counter that counts from 0 to 6 and then resets to 0. The counter operates based on the positive edge of the clock (`clk`) and the active-low asynchronous reset (`rst_n`). The module has a 3-bit output `count` to represent the counter value.
+
+ ```
+module mod7_counter (
+    input wire clk,
+    input wire rst_n,
+    output reg [2:0] count
+);
+
+    always @(posedge clk or negedge rst_n) begin
+        if (~rst_n) begin
+            count <= 3'b000;
+        end else begin
+            if (count == 3'b110)
+                count <= 3'b000;
+            else
+                count <= count + 1;
+        end
+    end
+
+endmodule
+
+```
+
+The `always` block within the module defines the counter behavior. When the reset `rst_n` is active (low), the counter is set to 0 (`3'b000`). On the positive clock edge, if the counter is not at its maximum value (`3'b110`), it increments by one. Once the counter reaches the maximum value, it resets to 0.
+
+
+
+### Comparison of Pre-Synthesis and Post-Synthesis Simulations:
+
+**Pre-Synthesis Simulation:**
+In the pre-synthesis simulation, the functionality and behavior of the `mod7_counter` module are verified at a higher level of abstraction, focusing on the specified functionality without considering the specific gates and low-level timing details. This simulation stage ensures the desired counter behavior is achieved according to the provided specifications.
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day12/counter.PNG">
+	
+</center>
+
+**Post-Synthesis Simulation:**
+
+Post-synthesis simulation provides a more accurate representation of the design considering the specific gates and their characteristics after synthesis. It allows for a detailed analysis of the design's timing and performance, which is crucial for verifying the design's functionality in the context of the actual hardware implementation.
+Regarding the comparison of pre-synthesis and post-synthesis simulations:
+
+<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day13/mod7_counter_gls.PNG">
+
+
+In contrast, the post-synthesis simulation involves the simulation of the gate-level netlist obtained after the synthesis process. It considers the actual gates and their interconnections, allowing for a detailed analysis of the design's timing, power, and other low-level characteristics. This simulation phase provides a more accurate representation of the design, considering the impact of synthesis optimizations and physical implementation on the counter's behavior.
+
+Below is the gui of the synthesized counter design
+
+<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day13/counter_gui.PNG">
+
+
+</details>
+
 <details>
 	<summary>Labs</summary>
+
+## Synthesis Process for RVMYTH IP in BabySOC
+
+BabySOC is composed of three key intellectual properties (IPs):
+
+1. **RVMYTH:**
+   - RVMYTH is a crucial IP in BabySOC that undergoes synthesis.
+   - Synthesis involves converting a high-level description of RVMYTH, written in a hardware description language (e.g., Verilog), into a gate-level representation suitable for hardware implementation.
+   - The synthesis process ensures that the logical functionality of RVMYTH is preserved while optimizing it for hardware realization.
+
+2. **DAC (Digital-to-Analog Converter):**
+   - The DAC is an analog block vital for converting digital signals to analog in various applications.
+   - Unlike RVMYTH, DAC is not synthesizable as it operates in the analog domain and is described at a higher level of abstraction, focusing on its analog characteristics.
+
+3. **PLL (Phase-Locked Loop):**
+   - PLL is another analog block within BabySOC, used for generating stable clock signals.
+   - Similar to DAC, PLL is not synthesizable due to its analog nature, and its functionality is captured at a higher level of abstraction in the design.
+
+### Synthesized RVMYTH IP Simulation Results
+
+Following the synthesis process for the RVMYTH IP, a simulation is done to evaluate its behavior and functionality:
+
 <center>
 	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day13/mythcore_gls1.PNG">
 	
 </center>
+
+**Consistency of Functionality:**
+- The post-synthesis simulation results confirm that RVMYTH maintains its intended functionality observed during the pre-synthesis stage.
+- The IP accurately calculates the sum of the first n natural numbers up to 1000 and decrements accordingly, showcasing a consistent behavior.
+- The resulting gate-level representation post-synthesis is now well-optimized for hardware implementation.
+- This optimized version of RVMYTH aligns seamlessly with the BabySOC architecture, ensuring efficient integration.
+
+The simulation results post-synthesis underscore that the RVMYTH IP effectively maintains its desired functionality, endorsing the synthesis process's success in converting high-level descriptions into hardware-ready representations.
+
+
+## BabySOC Post-Synthesis Steps
+
+Post synthesis, the focus shifts to integrating the synthesizable RVMYTH interfaced with the non-synthesizable DAC and PLL. Here are the steps to synthesize BabySOC using Design Compiler:
+
+### 1. Set Target Library and Link Library:
+   - Begin by specifying the target library and linking it for the synthesis process.
+   - The library files are in `.lib` format, but Design Compiler requires `.db` format.
+   - Convert the `.lib` files to `.db` format using `lc_shell`.
+
 <center>
 	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day13/lc_shell.PNG">
 	
 </center>
+
+### 2. Read BabySOC Verilog Description:
+   - Use the `read_verilog` command to read the Verilog description of BabySOC, which includes the interfacing of RVMYTH, DAC, and PLL.
+   - This description should reflect the connections and interactions among the components.
 <center>
-	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day13/babysoc_gls.PNG">
- 
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day13/vsdbabysoc_read.PNG">
+	
+</center>
+
+  - Below is the gui of design before compile
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day13/babysoc_gui_before_compile.PNG">
+	
+</center>
+
+### 3. Linking:
+   - Execute the `link` command to ensure proper linking and association of the required modules and libraries.
+   - Linking is essential to create a unified representation of the design with all components interfaced correctly.
+
+### 4. Compile:
+   - Perform an compile using the `compile_ultra` command.
+   - This step involves the actual synthesis process, where the RTL (Register-Transfer Level) description is mapped to gates and components from the target library.
+   - Optimization and mapping to the target library's gates are crucial for achieving a hardware-efficient implementation.
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day13/babysoc_link_and_compile.PNG">
+	
+</center>
+  - Below is the gui of design after compile
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day13/babysoc_gui_after_compile.PNG">
 	
 </center>
 
 
+5. **Generating the Netlist:**
+   - Generate the gate-level netlist for BabySOC, including RVMYTH, DAC, and PLL, using the `write` command in Verilog format. The resultant file, `vsdbabysoc_netlist.v`, encapsulates the entire synthesized netlist.
+
+### Gate-Level Simulation
+
+Subsequently, the synthesized netlist (`vsdbabysoc_netlist.v`) is employed for gate-level simulation. This simulation phase provides insights into the functionality and interactions of the integrated components, RVMYTH, DAC, and PLL, in the post-synthesis context. It allows for a thorough analysis of the hardware-ready representation, enabling validation and refinement of the design before proceeding to physical implementation.
+
+
+The post-synthesis representation of BabySOC reflects an optimized, gate-level implementation. The integration ensures that RVMYTH, DAC, and PLL work seamlessly, allowing for a comprehensive evaluation of the complete block's functionality and performance.
+
+
+### Pre-Synthesis Simulation:
+- **Description:**
+  - Pre-synthesis simulation involves assessing the functionality and behavior of BabySOC at a higher level of abstraction.
+  - The description primarily focuses on the intended behavior of RVMYTH, DAC, and PLL as per their high-level specifications.
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day12/vsdbabysoc_uut.PNG">
  
+	
+</center>
+
+- **Level of Abstraction:**
+  - The simulation is conducted at a behavioral or RTL (Register-Transfer Level) description.
+  - The emphasis is on functional correctness and adherence to the specified behavior.
+
+### Post-Synthesis Simulation:
+- **Description:**
+  - Post-synthesis simulation involves validating the functionality and behavior of BabySOC at a detailed gate-level representation.
+  - The description reflects the actual gate-level implementation of RVMYTH, interfaced with DAC and PLL.
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day13/babysoc_gls.PNG">
+ 
+</center>
+
+- **Level of Abstraction:**
+  - The simulation operates at the gate level, considering the synthesized netlist's actual gates and interconnections.
+  - It allows for precise analysis of timing, power consumption, and other low-level characteristics.
+
+- **Functionality Consistency:**
+  - The post-synthesis simulation confirms the consistency in functionality observed during pre-synthesis.
+  - The design continues to perform the specified operation: sum of the first n natural numbers up to 1000, followed by a decrement in the expected pattern.
+
+- **Analog Output Observation:**
+  - In the post-synthesis simulation, the observation of analog output from DAC is enabled.
+  - This provides valuable insights into the analog domain and confirms the integration and functionality of the analog component within BabySOC.
+
+
+
 </details>
