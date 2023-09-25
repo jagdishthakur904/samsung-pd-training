@@ -4251,7 +4251,7 @@ In summary, `vsdbabysoc` assembles these components to achieve the desired analo
 ## Day-13 Post Synthesis Simulation
 
 <details>
-	<summary>Post Synthesi</summary>
+	<summary>Post Synthesis</summary>
 
 ## Synthesis and Post-Synthesis
 
@@ -4471,7 +4471,7 @@ The post-synthesis representation of BabySOC reflects an optimized, gate-level i
   - The description primarily focuses on the intended behavior of RVMYTH, DAC, and PLL as per their high-level specifications.
 
 <center>
-	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day12/vsdbabysoc_uut.PNG">
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day12/vsdbabysoc_dac.PNG">
  
 	
 </center>
