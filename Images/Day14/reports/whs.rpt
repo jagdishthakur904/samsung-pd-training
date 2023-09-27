@@ -1,0 +1,13 @@
+sky130_fd_sc_hd__ff_100C_1v65.db.rpt:  Design (Hold)  WNS: 0.15  TNS: 50.24  Number of Violating Paths: 1073
+sky130_fd_sc_hd__ff_100C_1v95.db.rpt:  Design (Hold)  WNS: 0.20  TNS: 130.87  Number of Violating Paths: 1157
+sky130_fd_sc_hd__ff_n40C_1v56.db.rpt:  Design (Hold)  WNS: 0.11  TNS: 6.72  Number of Violating Paths: 155
+sky130_fd_sc_hd__ff_n40C_1v65.db.rpt:  Design (Hold)  WNS: 0.14  TNS: 39.58  Number of Violating Paths: 1056
+sky130_fd_sc_hd__ff_n40C_1v76.db.rpt:  Design (Hold)  WNS: 0.18  TNS: 85.22  Number of Violating Paths: 1097
+sky130_fd_sc_hd__ss_100C_1v40.db.rpt:  Design (Hold)  WNS: 0.00  TNS: 0.00  Number of Violating Paths: 0
+sky130_fd_sc_hd__ss_100C_1v60.db.rpt:  Design (Hold)  WNS: 0.00  TNS: 0.00  Number of Violating Paths: 0
+sky130_fd_sc_hd__ss_n40C_1v28.db.rpt:  Design (Hold)  WNS: 0.00  TNS: 0.00  Number of Violating Paths: 0
+sky130_fd_sc_hd__ss_n40C_1v35.db.rpt:  Design (Hold)  WNS: 0.00  TNS: 0.00  Number of Violating Paths: 0
+sky130_fd_sc_hd__ss_n40C_1v40.db.rpt:  Design (Hold)  WNS: 0.00  TNS: 0.00  Number of Violating Paths: 0
+sky130_fd_sc_hd__ss_n40C_1v44.db.rpt:  Design (Hold)  WNS: 0.00  TNS: 0.00  Number of Violating Paths: 0
+sky130_fd_sc_hd__ss_n40C_1v76.db.rpt:  Design (Hold)  WNS: 0.00  TNS: 0.00  Number of Violating Paths: 0
+sky130_fd_sc_hd__tt_025C_1v80.db.rpt:  Design (Hold)  WNS: 0.09  TNS: 5.17  Number of Violating Paths: 69
