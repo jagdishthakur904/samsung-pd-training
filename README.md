@@ -24,6 +24,8 @@
 - [Day-12-BabySoC Modelling](#day-12-BabySoC-Modelling)
 
 - [Day-13-Post Synthesis Simulation](#day-13-Post-Synthesis-Simulation)
+
+- [Day-14-SynopsysDC and Timing Analysis](#day-14-SynopsysDC-and-Timing-Analysis)
   
 ## Day-0-Installation
 <details>
@@ -4473,7 +4475,6 @@ The post-synthesis representation of BabySOC reflects an optimized, gate-level i
 <center>
 	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day12/vsdbabysoc_dac.PNG">
  
-	
 </center>
 
 - **Level of Abstraction:**
@@ -4501,6 +4502,261 @@ The post-synthesis representation of BabySOC reflects an optimized, gate-level i
 - **Analog Output Observation:**
   - In the post-synthesis simulation, the observation of analog output from DAC is enabled.
   - This provides valuable insights into the analog domain and confirms the integration and functionality of the analog component within BabySOC.
+
+
+
+</details>
+
+## Day-14 SynopsysDC and Timing Analysis
+<details>
+	<summary>Introduction</summary>
+
+In VLSI (Very Large Scale Integration) design, the term "PVT corner" refers to a specific set of process, voltage, and temperature conditions used to characterize or analyze the performance and behavior of a semiconductor device or circuit.
+
+1. **Process (P):** The process corner refers to a specific manufacturing process variation, including parameters like doping levels, oxide thickness, and other fabrication parameters. Process variations can occur due to different manufacturing conditions or tolerances in the fabrication process.
+
+2. **Voltage (V):** The voltage corner represents the different voltage levels at which the circuit or device is characterized. This includes operating at various supply voltages to understand the behavior and performance under different power conditions.
+
+3. **Temperature (T):** The temperature corner represents different temperature conditions at which the circuit or device is characterized. Operating at various temperature levels helps in understanding how the device or circuit behaves under different thermal conditions.
+
+PVT corners are essential in VLSI design because semiconductor devices' behavior can vary significantly based on these parameters. Characterizing a design at various PVT corners helps ensure that the circuit or device will function correctly and within specified performance limits under a range of real-world operating conditions.
+
+Designers use PVT corners to analyze the worst-case performance, optimize for power, or achieve a balance between performance, power consumption, and other design goals. It's important to consider and account for process, voltage, and temperature variations to create robust and reliable integrated circuits.
+
+TNS (Total Negative Slack), WNS (Worst Negative Slack), and WHS (Worst Hold Slack) are terms used in the context of timing analysis in digital integrated circuit design. These terms are used to evaluate the timing performance of a circuit and ensure that it meets the specified timing requirements.
+
+1. **TNS (Total Negative Slack):**
+   TNS represents the sum of the negative slack across all paths in a circuit. Slack is the amount of time by which a signal can be delayed without violating the specified timing constraints. A negative slack indicates that a path violates its timing requirements. TNS provides an overall view of how much timing violation exists in the entire design.
+
+2. **WNS (Worst Negative Slack):**
+   WNS is the most critical or largest negative slack among all paths in the circuit. It represents the timing violation that is closest to breaching the specified timing constraints. Addressing the WNS is crucial in design optimization and fixes, as it determines the worst-case timing scenario in the circuit.
+
+3. **WHS (Worst Hold Slack):**
+   WHS is similar to WNS but specifically relates to hold timing violations. Hold timing refers to the minimum amount of time that data must be held stable after a clock edge to ensure correct operation. WHS identifies the path with the largest negative slack with respect to hold timing, indicating the worst-case hold violation in the design.
+
+These metrics are critical for timing closure in the VLSI design process. Designers use various techniques such as gate resizing, buffer insertion, clock skew adjustment, and pipeline optimization to address negative slack, minimize WNS, and ensure that the circuit meets its timing requirements. Achieving good TNS and eliminating WNS and WHS is essential to ensure the circuit operates reliably and within the specified timing bounds.
+
+</details>
+
+<details>
+	<summary>Labs</summary>
+
+The objective of this lab was to analyze the timing performance of the synthesized design under varying Process, Voltage, and Temperature (PVT) corners. PVT corners are critical parameters that significantly influence the behavior and reliability of integrated circuits. Understanding how a design performs under diverse PVT conditions is crucial for ensuring its robustness and adherence to specified timing requirements.
+
+In this analysis, we synthesized the design considering different PVT corners to evaluate Total Negative Slack (TNS), Worst Negative Slack (WNS), and Worst Hold Slack (WHS). TNS gives us an overall view of timing violations across all paths in the design, while WNS and WHS pinpoint the most critical timing paths in terms of setup and hold violations, respectively.
+### Conversion of .lib Files to .db Format for Synthesis
+To perform the synthesis process with Synopsys Design Compiler (dc_shell), it's crucial to convert the necessary .lib files into a compatible .db format using lc_shell. However, during this conversion, certain .lib files encountered errors, necessitating manual intervention to resolve the issues and ensure a smooth synthesis experience.
+
+```tcl
+foreach file [glob *.lib] {
+  set file_name [file rootname [file tail $file]]  
+  read_lib $file
+  write_lib $file_name -f db -o $file_name.db
+}
+```
+
+Here's an overview of what each part of the script does:
+
+1. **`foreach file [glob *.lib] { ... }`:**
+   - Iterates through each .lib file in the directory.
+
+2. **`set file_name [file rootname [file tail $file]]`:**
+   - Extracts the base name of the .lib file (without the extension) to use as the file name for the .db file.
+
+3. **`read_lib $file`:**
+   - Reads the contents of the current .lib file.
+
+4. **`write_lib $file_name -f db -o $file_name.db`:**
+   - Writes the contents of the .lib file into a corresponding .db file, using the extracted base name.
+
+This TCL script automates the conversion process for multiple .lib files, helping streamline the workflow for preparing these files for synthesis using Synopsys dc_shell.
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day14/db_convert.PNG">
+ 
+</center>
+
+Excellent! It seems you've set up an effective TCL script to automate the synthesis process for each corner and generate timing reports for analysis. Let's elaborate on this script in a clear and self-written manner.
+
+---
+
+### Automating Synthesis and Timing Analysis for Multiple Corners
+
+In order to analyze BabySOC's performance across various corners, a TCL script is written to automate the synthesis process and generate corresponding timing reports for each corner.
+
+#### TCL Script Overview
+
+1. **Identification of .db Files:**
+   - The script begins by identifying the .db files, representing different corners, essential for synthesizing BabySOC.
+
+2. **Exclusion of Specific Files:**
+   - Certain .db files, such as "avsddac.db" and "avsdpll.db," are excluded from the synthesis process as they pertain to analog blocks and are not directly involved in the digital synthesis.
+
+3. **Synthesis and Timing Report Generation:**
+   - For each valid .db file representing a corner, the script initiates the synthesis process using Synopsys Design Compiler (dc_shell).
+   - Synthesis is driven by appropriate target and link library configurations for the respective corner.
+   - Timing reports are generated, providing crucial insights into the design's performance for each corner.
+
+4. **Report Storage:**
+   - The generated timing reports are systematically stored in the "reports" directory, facilitating easy access and analysis.
+```
+set db_files [glob -directory "./" -types f -tails *.db]
+set exclude_files {"avsddac.db" "avsdpll.db"}
+set sky_db {}
+foreach db $db_files {
+    if {$db ni $exclude_files} {
+        lappend sky_db $db
+    }
+}
+    
+foreach file_name $sky_db {
+    set target_library [concat $file_name " avsddac.db avsdpll.db "]
+    set link_library [concat " * " $file_name " avsddac.db avsdpll.db "]
+    echo $file_name
+    read_verilog vsdbabysoc.v
+    source ../sdc/vsdbabysoc_synthesis.sdc
+    link
+    compile_ultra
+
+    report_timing > reports/$file_name.rpt2
+    report_qor > reports/$file_name.rpt
+
+     
+
+}
+```
+
+#### Script Execution Flow
+
+- For each valid .db file representing a corner, the script:
+  - Configures target and link libraries for synthesis.
+  - Reads the Verilog description of BabySOC (`vsdbabysoc.v`).
+  - Incorporates the necessary SDC (Synopsys Design Constraints) file for synthesis (`vsdbabysoc_synthesis.sdc`).
+  - Links the design.
+  - Executes the compilation.
+  - Generates timing reports, providing valuable timing and quality of results (QoR) data.
+    
+For detailed synthesis reports, please visit the [Reports Folder](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day14/reports).
+
+
+
+### Timing Metrics Table:
+
+The following table presents the timing metrics (WNS, TNS, Violating Paths) for each PVT corner related to setup timing:
+
+| Corner         | WNS  | TNS     |
+|----------------|------|---------|
+| ff_100C_1v65   | 0.00 | 0.00    |
+| ff_100C_1v95   | 0.00 | 0.00    |
+| ff_n40C_1v56   | 0.10 | 71.58   |
+| ff_n40C_1v65   | 0.00 | 0.00    |
+| ff_n40C_1v76   | 0.00 | 0.00    |
+| ss_100C_1v40   | 3.37 | 3448.14 |
+| ss_100C_1v60   | 1.82 | 1841.68 |
+| ss_n40C_1v28   | 8.65 | 9287.75 |
+| ss_n40C_1v35   | 5.64 | 6058.17 |
+| ss_n40C_1v40   | 4.61 | 4884.20 |
+| ss_n40C_1v44   | 3.73 | 3954.31 |
+| ss_n40C_1v76   | 1.06 | 1061.86 |
+| tt_025C_1v80   | 0.13 | 94.46   |
+
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day14/setup_wns.PNG">
+ 
+</center>
+
+#### Variation Analysis for PVT Corners:
+
+- **Fast (ff) Corners:**
+  - **Process Variation (P):**
+    - The `ff_n40C_1v56` corner stands out with a WNS of 0.10, indicating a slightly suboptimal setup timing performance compared to other fast corners. This suggests that at -40°C, the process may not be as optimized for setup timing.
+  - **Voltage (V):**
+    - Both 1.65V and 1.95V exhibit zero WNS for fast corners, indicating robust performance in meeting setup timing requirements at both high and low voltages.
+  - **Temperature (T):**
+    - For fast corners, all temperatures show negligible WNS (0.00), implying effective meeting of setup timing requirements irrespective of temperature.
+
+- **Slow (ss) Corners:**
+  - **Process Variation (P):**
+    - The slow corners (`ss`) generally exhibit higher WNS values, indicating the challenges in meeting setup timing requirements with a less optimized process.
+  - **Voltage (V):**
+    - Higher voltages (e.g., `ss_n40C_1v28`) result in notably higher WNS, suggesting that higher voltages can lead to more setup timing violations in slow corners.
+  - **Temperature (T):**
+    - Colder temperatures (e.g., `ss_n40C_1v44`) lead to lower WNS, indicating better setup timing performance at lower temperatures in slow corners.
+
+#### Analysis of Temperature and Voltage Effects:
+
+- **Temperature (T) Effect:**
+  - At 100°C and -40°C, most corners show low WNS values or zero, indicating effective setup timing compliance even at extremes of temperature.
+  - At 25°C, WNS remains low or zero for most corners, further highlighting that the design maintains good setup timing performance at moderate temperatures.
+
+- **Voltage (V) Effect:**
+  - Both 1.65V and 1.95V exhibit zero WNS for fast corners, indicating that the design comfortably meets setup timing requirements at these voltages.
+  - In slow corners, higher voltages (e.g., `ss_n40C_1v28`) lead to significantly higher WNS, suggesting that higher voltages can exacerbate setup timing violations in slow corners.
+
+
+
+
+The following table presents the timing metrics (WNS, TNS, Violating Paths) for each PVT corner related to hold timing:
+
+
+
+| Corner         | WNS  | TNS    |
+|----------------|------|--------|
+| ff_100C_1v65   | 0.15 | 50.24  |
+| ff_100C_1v95   | 0.20 | 130.87 |
+| ff_n40C_1v56   | 0.11 | 6.72   |
+| ff_n40C_1v65   | 0.14 | 39.58  |
+| ff_n40C_1v76   | 0.18 | 85.22  |
+| ss_100C_1v40   | 0.00 | 0.00   |
+| ss_100C_1v60   | 0.00 | 0.00   |
+| ss_n40C_1v28   | 0.00 | 0.00   |
+| ss_n40C_1v35   | 0.00 | 0.00   |
+| ss_n40C_1v40   | 0.00 | 0.00   |
+| ss_n40C_1v44   | 0.00 | 0.00   |
+| ss_n40C_1v76   | 0.00 | 0.00   |
+| tt_025C_1v80   | 0.09 | 5.17   |
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day14/hold_wns.PNG">
+ 
+</center>
+
+- **Fast (ff) Corners:**
+  - **Process Variation (P):**
+    - The worst negative slack (WNS) ranges from 0.15 to 0.20 for fast corners. Notably, the `ff_n40C_1v56` corner has the lowest WNS, indicating the fastest performance among the fast corners due to a more optimized process at -40°C.
+  - **Voltage (V):**
+    - Increasing the voltage from 1.65V to 1.95V results in a marginal increase in WNS, suggesting that a higher voltage slightly affects the critical paths for hold timing.
+  - **Temperature (T):**
+    - Comparing the `ff_100C_1v65` corner with the `ff_n40C_1v65` corner, we observe a decrease in WNS at lower temperature (-40°C), indicating a slowdown in switching at colder temperatures.
+
+- **Slow (ss) Corners:**
+  - **Process Variation (P):**
+    - The slow corners (`ss`) generally exhibit lower worst negative slack (WNS) compared to fast corners, suggesting inherently slower performance due to a less optimized process.
+  - **Voltage (V):**
+    - Higher voltage in slow corners (e.g., `ss_100C_1v60`) slightly increases WNS, indicating a more pronounced impact on performance due to voltage changes in slower corners.
+  - **Temperature (T):**
+    - Lower temperatures (e.g., `ss_n40C_1v44`) generally lead to reduced WNS, reflecting slower switching at colder temperatures in slow corners.
+
+#### Analysis of Temperature and Voltage Effects:
+
+- **Temperature (T) Effect:**
+  - At 100°C, we observe that the worst negative slack (WNS) ranges from 0.00 to 0.20, indicating that hold timing is generally well-met across corners at this elevated temperature.
+  - At -40°C, the WNS ranges from 0.11 to 0.14, suggesting a slight improvement in hold timing performance at lower temperatures, likely due to reduced leakage and slower switching.
+  - At 25°C, WNS ranges from 0.00 to 0.09, indicating that the design is relatively stable in terms of hold timing at this moderate temperature.
+
+- **Voltage (V) Effect:**
+  - Comparing the corners at 1.65V, the WNS ranges from 0.11 to 0.15, indicating relatively consistent performance in hold timing at this voltage level.
+  - At 1.95V, the WNS ranges from 0.14 to 0.20, suggesting a higher impact of voltage on hold timing, with higher WNS values indicating potential violations.
+  - At 1.56V, the WNS is 0.11, demonstrating that a lower voltage can lead to improved hold timing performance.
+
+
+
+Below is the comparison of setup and hold slack for different corners
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day14/slack_comparision.PNG">
+ 
+</center>
 
 
 
