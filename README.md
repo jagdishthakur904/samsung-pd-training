@@ -4576,9 +4576,6 @@ This TCL script automates the conversion process for multiple .lib files, helpin
  
 </center>
 
-Excellent! It seems you've set up an effective TCL script to automate the synthesis process for each corner and generate timing reports for analysis. Let's elaborate on this script in a clear and self-written manner.
-
----
 
 ### Automating Synthesis and Timing Analysis for Multiple Corners
 
