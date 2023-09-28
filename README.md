@@ -4667,7 +4667,7 @@ The following table presents the timing metrics (WNS, TNS, Violating Paths) for 
 
 - **Fast (ff) Corners:**
   - **Process Variation (P):**
-    - The `ff_n40C_1v56` corner stands out with a WNS of 0.10, indicating a slightly suboptimal setup timing performance compared to other fast corners. This suggests that at -40°C, the process may not be as optimized for setup timing.
+    - The `ff_n40C_1v56` corner stands out with a WNS of 0.10, indicating a slightly best setup timing performance compared to other fast corners. This suggests that at -40°C, the process may not be as optimized for setup timing.
   - **Voltage (V):**
     - Both 1.65V and 1.95V exhibit zero WNS for fast corners, indicating robust performance in meeting setup timing requirements at both high and low voltages.
   - **Temperature (T):**
@@ -4677,9 +4677,9 @@ The following table presents the timing metrics (WNS, TNS, Violating Paths) for 
   - **Process Variation (P):**
     - The slow corners (`ss`) generally exhibit higher WNS values, indicating the challenges in meeting setup timing requirements with a less optimized process.
   - **Voltage (V):**
-    - Higher voltages (e.g., `ss_n40C_1v28`) result in notably higher WNS, suggesting that higher voltages can lead to more setup timing violations in slow corners.
+    - Lower voltages (e.g., `ss_n40C_1v28`) result in notably higher WNS, suggesting that lower voltages can lead to more setup timing violations in slow corners.
   - **Temperature (T):**
-    - Colder temperatures (e.g., `ss_n40C_1v44`) lead to lower WNS, indicating better setup timing performance at lower temperatures in slow corners.
+    - Lower temperatures (e.g., `ss_n40C_1v44`) lead to lower WNS, indicating better setup timing performance at lower temperatures in slow corners.
 
 #### Analysis of Temperature and Voltage Effects:
 
@@ -4689,7 +4689,7 @@ The following table presents the timing metrics (WNS, TNS, Violating Paths) for 
 
 - **Voltage (V) Effect:**
   - Both 1.65V and 1.95V exhibit zero WNS for fast corners, indicating that the design comfortably meets setup timing requirements at these voltages.
-  - In slow corners, higher voltages (e.g., `ss_n40C_1v28`) lead to significantly higher WNS, suggesting that higher voltages can exacerbate setup timing violations in slow corners.
+  - In slow corners, lower voltages (e.g., `ss_n40C_1v28`) lead to significantly higher WNS, suggesting that lower voltages can increase setup timing violations in slow corners.
 
 
 
@@ -4725,7 +4725,7 @@ The following table presents the timing metrics (WNS, TNS, Violating Paths) for 
   - **Voltage (V):**
     - Increasing the voltage from 1.65V to 1.95V results in a marginal increase in WNS, suggesting that a higher voltage slightly affects the critical paths for hold timing.
   - **Temperature (T):**
-    - Comparing the `ff_100C_1v65` corner with the `ff_n40C_1v65` corner, we observe a decrease in WNS at lower temperature (-40°C), indicating a slowdown in switching at colder temperatures.
+    - Comparing the `ff_100C_1v65` corner with the `ff_n40C_1v65` corner, we observe a decrease in WNS at lower temperature (-40°C), indicating a slowdown in switching at lower temperatures.
 
 - **Slow (ss) Corners:**
   - **Process Variation (P):**
@@ -4733,7 +4733,7 @@ The following table presents the timing metrics (WNS, TNS, Violating Paths) for 
   - **Voltage (V):**
     - Higher voltage in slow corners (e.g., `ss_100C_1v60`) slightly increases WNS, indicating a more pronounced impact on performance due to voltage changes in slower corners.
   - **Temperature (T):**
-    - Lower temperatures (e.g., `ss_n40C_1v44`) generally lead to reduced WNS, reflecting slower switching at colder temperatures in slow corners.
+    - Lower temperatures (e.g., `ss_n40C_1v44`) generally lead to reduced WNS, reflecting slower switching at lower temperatures in slow corners.
 
 #### Analysis of Temperature and Voltage Effects:
 
@@ -4750,6 +4750,7 @@ The following table presents the timing metrics (WNS, TNS, Violating Paths) for 
 
 
 Below is the comparison of setup and hold slack for different corners
+
 <center>
 	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day14/slack_comparision.PNG">
  
