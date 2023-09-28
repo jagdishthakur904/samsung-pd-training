@@ -4635,6 +4635,11 @@ foreach file_name $sky_db {
     
 For detailed synthesis reports, please visit the [Reports Folder](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day14/reports).
 
+Below is the snapshot of all the WNS, TNS and slacks from report generated.
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day14/wns_and_tns1.PNG">
+
+</center>
 
 
 ### Timing Metrics Table:
@@ -4755,6 +4760,7 @@ Below is the comparison of setup and hold slack for different corners
 	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day14/slack_comparision.PNG">
  
 </center>
+
 
 
 
