@@ -4511,7 +4511,7 @@ The post-synthesis representation of BabySOC reflects an optimized, gate-level i
 <details>
 	<summary>Introduction</summary>
 
-In VLSI (Very Large Scale Integration) design, the term "PVT corner" refers to a specific set of process, voltage, and temperature conditions used to characterize or analyze the performance and behavior of a semiconductor device or circuit.
+In VLSI design, the term "PVT corner" refers to a specific set of process, voltage, and temperature conditions used to characterize or analyze the performance and behavior of a semiconductor device or circuit.
 
 1. **Process (P):** The process corner refers to a specific manufacturing process variation, including parameters like doping levels, oxide thickness, and other fabrication parameters. Process variations can occur due to different manufacturing conditions or tolerances in the fabrication process.
 
