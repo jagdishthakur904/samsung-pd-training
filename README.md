@@ -4587,7 +4587,7 @@ In order to analyze BabySOC's performance across various corners, a TCL script i
    - The script begins by identifying the .db files, representing different corners, essential for synthesizing BabySOC.
 
 2. **Exclusion of Specific Files:**
-   - Certain .db files, such as "avsddac.db" and "avsdpll.db," are excluded from the synthesis process as they pertain to analog blocks and are not directly involved in the digital synthesis.
+   - Certain .db files, such as "avsddac.db" and "avsdpll.db," are excluded from the synthesis process as they are mentioned in the code for all the iterations.
 
 3. **Synthesis and Timing Report Generation:**
    - For each valid .db file representing a corner, the script initiates the synthesis process using Synopsys Design Compiler (dc_shell).
