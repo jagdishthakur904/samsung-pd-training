@@ -4857,6 +4857,7 @@ In percentage => 10.8429%
 
 
 ## Chip Floorplanning and Standard Cells
+
 <details>
 	<summary>Introduction</summary>
 In the floorplanning phase of the ASIC design process, several critical parameters and aspects are defined to structure the layout and optimize various design elements.
