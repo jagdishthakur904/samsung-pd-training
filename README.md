@@ -29,7 +29,7 @@
 
 - [Day-15-Inception of EDA and PDK](#day-15-Inception-of-EDA-and-PDK)
 
-- [Day-16-Understand importance of good floorplan vs bad floor plan and introduction to library cells](#day-16-Understand-importance-of-good-floorplan-vs-bad-floorplan-and-introduction-to-library-cells)
+- [Day-16-Chip Floorplanning and Standard Cells](#day-16-Chip-Floorplanning-and-Standard-Cells)
   
 ## Day-0-Installation
 <details>
@@ -4856,4 +4856,145 @@ In percentage => 10.8429%
 </details>
 
 
-## 
+## Chip Floorplanning and Standard Cells
+<details>
+	<summary>Introduction</summary>
+In the floorplanning phase of the ASIC design process, several critical parameters and aspects are defined to structure the layout and optimize various design elements.
+In the context of OpenLANE, during the floorplanning phase, various critical parameters and actions are defined to structure the layout and optimize the design. Here's how these aspects are addressed in terms of OpenLANE:
+
+1. **Die Area**: The total chip area is usually set in the configuration file (e.g., `design_config.tcl`) for a specific project.
+
+2. **Core Area and Core Utilization**: These are determined by specifying the core utilization and aspect ratio in the `design_config.tcl`. Core utilization is usually set to a value within the 50-70% range.
+
+3. **Aspect Ratio**: The aspect ratio is defined in the `design_config.tcl`.
+
+4. **Place Macros**: Preplaced cells or macros are defined in the floorplan configuration within the `config.tcl` for a particular run. Locations and blockages for these macros are specified.
+
+5. **Power Distribution Network**: While detailed power planning occurs in subsequent stages, the initial planning for power distribution and ground bounce mitigation starts in the floorplanning phase, setting the foundation for the PDN.
+
+6. **Place Input and Output Pins**: Pin placement is addressed in the floorplan, specifying optimal locations for input and output pins in the `config.tcl` file.
+
+7. **Preplaced Cells (MACROs)**: Locations and blockages for preplaced cells (macros) are defined in the `config.tcl` file to enable hierarchical PnR.
+
+8. **Decoupling Capacitors**: Placement of decoupling capacitors near macros is defined in the floorplan configuration in the `config.tcl` file to address voltage drops and noise issues.
+
+9. **Power Planning**: Planning for power distribution, ground bounce, and noise management starts in the floorplanning phase and is configured in the `config.tcl` file.
+
+10. **Pin Placement**: Optimal pin placement is determined based on connectivity information and is specified in the `config.tcl` file.
+
+In summary, OpenLANE uses configuration files (`config.tcl`, `design_config.tcl`) to define these aspects during the floorplanning phase, setting the necessary parameters for subsequent stages in the ASIC design flow.
+</details>
+
+<details>
+	<summary>Labs</summary>
+
+ ### Floorplanning with Openlane
+
+To initiate the floorplanning stage in OpenLANE, the process begins with modifying the design-specific `config.tcl` file to tailor the configurations, encompassing parameters such as die area, core area, core utilization, aspect ratio, macros, power distribution, decoupling capacitors, and pin placement. These configurations are vital as they significantly impact the subsequent floorplanning process.
+
+Subsequently, to execute the floorplanning, the `run_floorplan` command is used in the terminal within the project directory. This command prompts OpenLANE to read the configurations from `config.tcl` and commence the floorplanning process based on the specified parameters.
+
+During the execution, progress can be monitored, and upon completion, the output—a DEF (Design Exchange Format) file—can be reviewed. This DEF file contains detailed information regarding the core area and the placements of standard cell sites, crucial for advancing to subsequent stages of the ASIC design flow.
+
+To access the output, one can navigate to the designated directory containing the floorplanning results, typically located at `runs/<run_name>/results/floorplan/outputs/`. Here, `<run_name>` should be replaced with the actual name of the run provided during the floorplanning stage.
+
+By following these steps, the floorplanning stage in OpenLANE can be executed successfully, resulting in a DEF file that outlines the core area and the initial placements of standard cell sites, guided by the configurations specified in the `config.tcl` file.
+
+Below is the def file after floorplan
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day16/floorplan_def.PNG">
+ 
+</center>
+
+### floorplan in Magic
+To view a floorplan in Magic, three files are necessary:
+
+1. **Magic Technology File (sky130A.tech)**:
+   The Magic technology file (e.g., `sky130A.tech`) outlines technology-specific rules, layers, and parameters essential for accurate visualization and manipulation of the design in Magic. It encapsulates details about technology nodes and characteristics specific to the Skywater 130nm process.
+
+2. **DEF File of Floorplan**:
+   The DEF (Design Exchange Format) file, generated during the floorplanning stage, contains vital information regarding the core area, placement of standard cell sites, preplaced cells, and other floorplanning-related data. This file is crucial for an accurate representation of the floorplan layout in Magic.
+
+3. **Merged LEF File**:
+   The merged LEF (Library Exchange Format) file consolidates technology LEF information and cell LEF information. It includes layer definitions, standard cell properties, obstructions, and other design-specific details necessary for visualizing the floorplan layout in Magic.
+
+To view the floorplan in Magic using these files:
+
+1. **Launch Magic**:
+   Open the Magic tool, either via the terminal or the interface.
+
+2. **Load the Technology File**:
+   Load the Magic technology file (`sky130A.tech`) using the relevant command within the Magic tool.
+
+3. **Load the DEF File**:
+   Load the DEF file of the floorplan using a command such as `lef read`, followed by the path to the DEF file.
+
+4. **Load the Merged LEF File**:
+   Load the merged LEF file using a command similar to `lef read`, followed by the path to the merged LEF file.
+
+5. **Visualize the Floorplan**:
+   After loading all the necessary files, the floorplan layout can be accurately visualized and navigated within the Magic tool.
+
+Following these steps and providing the required files enables the successful viewing and analysis of the floorplan layout using the Magic tool.
+
+Below is the gui view after floorplan
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day16/floorplan_magic.PNG">
+ 
+</center>
+
+### Placement
+
+In the Digital ASIC design flow following floorplanning, the next critical step is placement. Once the netlist has been synthesized and mapped to standard cells, and the floorplanning phase has determined the standard cell rows, placement can commence. OpenLANE conducts placement in two stages, namely:
+
+1. **Global Placement**:
+   In this initial stage, the placement is optimized for wirelength reduction. However, the placement achieved at this stage might not be entirely legal. Optimization efforts focus on minimizing wirelength by aiming to reduce the "half perimeter wirelength" metric. This stage involves arranging cells in a way that they are close to their ideal positions, but it may not adhere to all design rules and constraints.
+
+2. **Detailed Placement**:
+   After the global placement, the design goes through the detailed placement stage. This stage legalizes the placement of cells within the standard cell rows while conforming to the results obtained from the global placement. Detailed placement ensures that the placement adheres to design rules and constraints, making it a legally sound placement. It refines the positions of the cells, considering factors such as timing, power, and area optimizations. The goal is to achieve an optimal placement that meets the design specifications and constraints.
+
+By conducting placement in these two stages, OpenLANE strikes a balance between optimization and legality, ultimately leading to a well-placed and optimized design that forms the foundation for subsequent stages in the ASIC design flow.
+
+### Placement in magic
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day16/placement_magic.PNG">
+ 
+</center>
+
+</details>
+<details>
+	<summary>Standard Cell Design Flow</summary>
+
+ The standard cell design flow involves three key parts: Inputs, Design Steps, and Outputs.
+
+1. **Inputs**:
+   - **PDKs (Process Design Kits)**: These kits provide technology-specific information, including design rules, device models, and other necessary data for designing in a particular process technology.
+   - **DRC & LVS Rules**: Design Rule Checking (DRC) and Layout vs. Schematic (LVS) rules are essential for ensuring the design adheres to specific layout and electrical criteria.
+   - **SPICE Models**: SPICE (Simulation Program with Integrated Circuit Emphasis) models are used for simulating and analyzing circuit behavior.
+   - **Library & User-defined Specs**: Specifications and requirements that guide the design process.
+
+2. **Design Steps**:
+   - **Circuit Design**: Creating the logical and electrical representation of the cell, specifying its functionality and behavior.
+   - **Layout Design**: Translating the circuit design into a physical layout, considering factors like area, power, and performance.
+   - **Characterization**: This step involves using tools like GUNA for characterizing the cells. Characterization includes timing, power, and noise characterization to create liberty files used by synthesis tools to optimize circuit arrangements.
+
+3. **Outputs**:
+   - **CDL (Circuit Description Language)**: A representation of the circuit's behavior in a textual format.
+   - **GDSII**: The final layout in GDSII format, ready for manufacturing.
+   - **LEF (Library Exchange Format)**: A standard format for exchanging library data, containing cell pin and geometry information.
+   - **Extracted Spice Netlist (.cir)**: A netlist that includes parasitics and is used for accurate circuit simulation.
+   - **Timing, Noise, Power Libraries**: Libraries providing critical timing, noise, and power information essential for synthesis and analysis.
+   - **Function**: Description of the cell's functionality and behavior.
+
+**Standard Cell Characterization**:
+Standard Cell Characterization is a well-defined flow that involves the following steps:
+   - Linking a Model File of CMOS containing property definitions.
+   - Specifying process corners for the cell to be characterized.
+   - Specifying cell delay and slew thresholds percentages.
+   - Specifying timing and power tables.
+   - Reading the parasitic extracted netlist.
+   - Applying input or stimulus.
+   - Providing necessary simulation commands.
+
+This process ensures that the standard cell libraries are characterized accurately, enabling synthesis tools to optimize circuit arrangements effectively based on the defined characteristics.
+</details>
