@@ -26,6 +26,10 @@
 - [Day-13-Post Synthesis Simulation](#day-13-Post-Synthesis-Simulation)
 
 - [Day-14-SynopsysDC and Timing Analysis](#day-14-SynopsysDC-and-Timing-Analysis)
+
+- [Day-15-Inception of EDA and PDK](#day-15-Inception-of-EDA-and-PDK)
+
+- [Day-16-Understand importance of good floorplan vs bad floor plan and introduction to library cells](#day-16-Understand-importance-of-good-floorplan-vs-bad-floorplan-and-introduction-to-library-cells)
   
 ## Day-0-Installation
 <details>
@@ -4765,3 +4769,91 @@ Below is the comparison of setup and hold slack for different corners
 
 
 </details>
+
+
+
+## Day-15-Inception of EDA and PDK
+
+<details>
+	<summary>Introduction</summary>
+
+ OpenLANE is an open-source software toolchain developed by efabless that assists in the automated design and validation of digital integrated circuits (ICs). It focuses on implementing and verifying digital designs on various semiconductor technologies. OpenLANE aims to make the ASIC (Application-Specific Integrated Circuit) design process more accessible, cost-effective, and efficient for both professionals and hobbyists.
+
+Here are some key aspects and components of OpenLANE:
+
+1. **Automated Design Flow**: OpenLANE provides an automated and customizable digital design flow, from RTL (Register Transfer Level) to GDSII (Graphic Data System II) which includes synthesis, placement, routing, and design rule checking.
+
+2. **Design Synthesis**: OpenLANE uses synthesis tools to convert RTL designs into gate-level netlists, optimizing for area, power, and timing.
+
+3. **Floorplanning and Placement**: It helps in floorplanning and placing the various logic elements (blocks) on the chip, optimizing for performance and area.
+
+4. **Routing**: OpenLANE performs routing, connecting the placed elements to create a complete layout that adheres to design constraints and meets timing requirements.
+
+5. **Design Rule Checking (DRC)**: It validates the design against specified design rules to ensure compliance with the fabrication process.
+
+6. **Timing Analysis**: OpenLANE conducts timing analysis to ensure that the design meets the required performance specifications.
+
+7. **PDK (Process Design Kit) Integration**: OpenLANE supports various PDKs, which contain technology-specific data and models needed for design.
+
+8. **Skywater PDK**: OpenLANE is often associated with the Skywater PDK, an open-source PDK for a 130nm technology process, provided by Google and Skywater Technology Foundry.
+
+9. **Community Collaboration**: OpenLANE has a strong community of users and contributors who actively collaborate, contribute improvements, share experiences, and address issues related to the toolchain.
+
+10. **Education and Learning**: OpenLANE is also used for educational purposes to teach and learn about ASIC design flows and methodologies.
+
+Overall, OpenLANE facilitates an open and collaborative approach to ASIC design, making it more accessible for designers and researchers to explore and innovate in the field of integrated circuit design.
+</details>
+
+<details>
+	<summary>Labs</summary>
+
+For invoking openlane
+```
+docker
+./flow.tcl -interactive
+package require 0.9
+prep -design picorv32a
+```
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day15/prep_design.PNG">
+ 
+</center>
+
+The "prep" phase involves setting up the necessary file structures and configurations for a design. During this stage, a new project directory is initialized to contain all the design files and configurations pertaining to the ASIC design. A structured directory hierarchy is established within the project directory, organizing various files such as RTL, synthesis scripts, configuration files, logs, and reports.
+
+The directory structure typically includes subdirectories like "config," "runs," "src," "scripts," "results," and "logs." Configuration files, such as "design_config.tcl" and "config.tcl," are created within the appropriate directories to define design parameters, tool settings, and other necessary specifications for the ASIC design flow.
+
+The RTL design files, represented at the Register Transfer Level (RTL), are placed in the designated directory (e.g., "src/rtl/") to facilitate synthesis and subsequent stages of the design flow. Additionally, custom scripts or modifications specific to the design or design flow can be added to the "scripts/" directory.
+
+By following a systematic approach and organizing project files while defining configurations during the preparation stage, a solid foundation is laid for a successful ASIC design flow using OpenLANE. Each run within the "runs" directory can have its own configuration file, tailoring the design process based on specific requirements or design iterations.
+
+During the preparation phase in OpenLANE, the "config.tcl" file, residing in the designated folder for a particular run, consolidates all the parameters utilized by OpenLANE for that specific run. This file is critical in configuring and customizing the behavior of OpenLANE according to the requirements and specifications of the design being processed.
+
+Furthermore, the preparation stage involves the integration of technology-specific information from two key sources: the Technology LEF (Library Exchange Format) and the Cell LEF. The Technology LEF provides essential details such as layer definitions and a set of restricted design rules necessary for the Place-and-Route (PnR) flow. These rules and layer definitions are vital for accurately placing and routing the design elements.
+
+On the other hand, the Cell LEF offers obstruction information for each standard cell. This information is crucial in minimizing Design Rule Check (DRC) errors during the PnR flow, ensuring that the standard cells are placed and routed in a manner that adheres to the design rules and specifications of the technology being used.
+
+In summary, the "config.tcl" file centralizes parameters for a specific OpenLANE run, while the preparation in OpenLANE involves integrating technology-specific information from both the Technology LEF and the Cell LEF. These integrations are essential for achieving an effective and DRC-compliant PnR flow.
+
+for synthesis
+```
+run_synthesis
+```
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day15/synthesis.PNG">
+ 
+</center>
+
+The number of d flip flops = 1613
+
+Total Number of cells = 14876
+
+D flip flop ratio = 1613/14876 = 0.108429
+
+In percentage => 10.8429%
+
+</details>
+
+
+## 
