@@ -30,6 +30,8 @@
 - [Day-15-Inception of EDA and PDK](#day-15-Inception-of-EDA-and-PDK)
 
 - [Day-16-Chip Floorplanning and Standard Cells](#day-16-Chip-Floorplanning-and-Standard-Cells)
+
+- [Day-17-Design Library Cell](#day-17-Design-Library-Cell)
   
 ## Day-0-Installation
 <details>
@@ -4998,4 +5000,15 @@ Standard Cell Characterization is a well-defined flow that involves the followin
    - Providing necessary simulation commands.
 
 This process ensures that the standard cell libraries are characterized accurately, enabling synthesis tools to optimize circuit arrangements effectively based on the defined characteristics.
+</details>
+
+## Design Library Cell
+<details>
+	<summary>Labs</summary>
+
+ Git clone 
+ ```
+magic -T sky130A.tech sky130_inv.mag &
+```
+
 </details>
