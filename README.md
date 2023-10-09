@@ -5012,13 +5012,13 @@ The 16-mask process for semiconductor fabrication involves multiple steps to cre
 ### 1. Substrate Selection and Preparation:
 - **Substrate Choice**: Start by selecting a suitable substrate, often P-type silicon, with specific properties:
   - **High Resistivity**: Typically in the range of 5-50 ohms.
-  - **Doping Level**: Usually around \(10^{15}/\text{cm}^3\).
+  - **Doping Level**: Usually around 10<sup>15</sup>cm<sup>3</sup>.
   - **Orientation**: Commonly (100) orientation.
 
 - **Creating Active Regions**:
   - Define regions where PMOS and NMOS cells will be located on the substrate (active regions).
-  - Isolate these pockets by creating an insulating layer, often Silicon Dioxide (\(\text{SiO}_2\)) of approximately 40nm thickness.
-  - Deposit a layer of silicon nitride (\(\text{Si}_3\text{N}_4\)) about 80nm thick.
+  - Isolate these pockets by creating an insulating layer, often Silicon Dioxide (SiO₂) of approximately 40nm thickness.
+  - Deposit a layer of silicon nitride (Si₃N₄) about 80nm thick.
 
 - **Well Formation**:
   - Use a photoresist layer and masks to define the regions for N-well and P-well formation.
@@ -5054,7 +5054,7 @@ The 16-mask process for semiconductor fabrication involves multiple steps to cre
 
 ### 6. Higher Level Metal Formation:
 - **Metal Layer Deposition**:
-  - Deposit a thick SiO2 layer, often doped with phosphorus or boron, to planarize the surface.
+  - Deposit a thick (SiO₂) layer, often doped with phosphorus or boron, to planarize the surface.
   - Drill contact holes using photolithographic processes.
 
 - **Metal Layer Buildup**:
