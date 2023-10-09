@@ -5064,9 +5064,8 @@ The 16-mask process for semiconductor fabrication involves multiple steps to cre
 - **Multilayer Metal Formation**:
   - Use masks to define the pattern and create multiple metal layers with increasing thickness from bottom to top.
 
-### Conclusion:
-The 16-mask process for semiconductor fabrication involves a meticulously designed sequence of steps to create a functional semiconductor device. Each step contributes to the formation of critical components such as transistors, interconnects, and gates, essential for a fully operational integrated circuit. Proper execution and adherence to the sequence are paramount in achieving a reliable and optimized semiconductor device.
 </details>
+
 <details>
 	<summary>Labs</summary>
 
