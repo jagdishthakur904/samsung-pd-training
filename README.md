@@ -5003,12 +5003,91 @@ This process ensures that the standard cell libraries are characterized accurate
 </details>
 
 ## Design Library Cell
+
+<details>
+	<summary>Introduction</summary>
+
+The 16-mask process for semiconductor fabrication involves multiple steps to create a functional device. Here's a summarized overview of the process:
+
+### 1. Substrate Selection and Preparation:
+- **Substrate Choice**: Start by selecting a suitable substrate, often P-type silicon, with specific properties:
+  - **High Resistivity**: Typically in the range of 5-50 ohms.
+  - **Doping Level**: Usually around \(10^{15}/\text{cm}^3\).
+  - **Orientation**: Commonly (100) orientation.
+
+- **Creating Active Regions**:
+  - Define regions where PMOS and NMOS cells will be located on the substrate (active regions).
+  - Isolate these pockets by creating an insulating layer, often Silicon Dioxide (\(\text{SiO}_2\)) of approximately 40nm thickness.
+  - Deposit a layer of silicon nitride (\(\text{Si}_3\text{N}_4\)) about 80nm thick.
+
+- **Well Formation**:
+  - Use a photoresist layer and masks to define the regions for N-well and P-well formation.
+  - Implant boron ions into the substrate for P-well formation and phosphorus ions for N-well formation.
+  - To diffuse these ions into the substrate effectively, use ion implantation with specific energies (around 200keV for boron and 400keV for phosphorus).
+  - The substrate is then placed in a high-temperature furnace (around 1100°C) for further diffusion, forming clear wells. This is known as the twin-tub process.
+
+### 2. Gate Formation:
+- **Defining the Gate**:
+  - Deposit a layer of polysilicon about 0.4μm thick.
+  - Use a mask and etching process to define the gate area.
+
+- **Threshold Voltage Control**:
+  - Boron is diffused into the substrate with lower energy (around 60keV) to achieve the desired threshold voltage for PMOS.
+  - Similarly, phosphorus is diffused for NMOS.
+
+### 3. Lightly Doped Drain (LDD) Formation:
+- **LDD Structure Formation**:
+  - Use masks and ion implantation to create lightly doped regions in the substrate (LDD areas) for both PMOS and NMOS devices.
+  - This step helps in managing hot electron effects and short-channel effects.
+
+### 4. Source and Drain Formation:
+- **Creating Heavily Doped Regions**:
+  - Apply masks to cover certain regions and expose others for ion implantation.
+  - Implant heavily doped P+ and N+ regions in appropriate areas, forming the source and drain regions.
+
+### 5. Contacts and Local Interconnects:
+- **Interconnect Formation**:
+  - Remove the thin screen oxide using HF solution.
+  - Deposit titanium on the wafer surface using sputtering.
+  - Heat the wafer to form a low-resistant TiSi2 layer.
+  - Define interconnects using masks and etching processes.
+
+### 6. Higher Level Metal Formation:
+- **Metal Layer Deposition**:
+  - Deposit a thick SiO2 layer, often doped with phosphorus or boron, to planarize the surface.
+  - Drill contact holes using photolithographic processes.
+
+- **Metal Layer Buildup**:
+  - Grow a thin TiN layer to improve adhesion and act as a barrier between bottom and top interconnects.
+  - Deposit a blanket layer of tungsten followed by an aluminum layer.
+
+- **Multilayer Metal Formation**:
+  - Use masks to define the pattern and create multiple metal layers with increasing thickness from bottom to top.
+
+### Conclusion:
+The 16-mask process for semiconductor fabrication involves a meticulously designed sequence of steps to create a functional semiconductor device. Each step contributes to the formation of critical components such as transistors, interconnects, and gates, essential for a fully operational integrated circuit. Proper execution and adherence to the sequence are paramount in achieving a reliable and optimized semiconductor device.
+</details>
 <details>
 	<summary>Labs</summary>
 
- Git clone 
- ```
+```
 magic -T sky130A.tech sky130_inv.mag &
 ```
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day17/inv_bbox.PNG">
+ 
+</center>
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day17/inv_spice.PNG">
+ 
+</center>
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day17/waveform_y_vs_t.PNG">
+ 
+</center>
+
+
 
 </details>
