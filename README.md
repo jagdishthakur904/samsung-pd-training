@@ -5077,16 +5077,152 @@ magic -T sky130A.tech sky130_inv.mag &
  
 </center>
 
+
+This is the generated spice file from magic
 <center>
 	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day17/inv_spice.PNG">
  
 </center>
 
+This is the updated spice file for feeding to ngspice
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day17/updated_inv_spice.PNG">
+ 
+</center>
+
+below is the simulation in ngspice of inverter
 <center>
 	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day17/waveform_y_vs_t.PNG">
  
 </center>
 
 
+### Labs on DRC
+The met3.mag is as shown below
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day17/met3_sim.PNG">
+ 
+</center>
+Now we see that rule 3.4 is not the visible one but we can visualize it as follows
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day17/cif_see.PNG">
+ 
+</center>
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day17/cif_see_spacing.PNG">
+ 
+</center>
+
+
+Now we load Poly
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day17/poly_mag.PNG">
+ 
+</center>
+
+Poly 9 error
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day17/poly9.PNG">
+ 
+</center>
+
+These violations can be rectified by editing the .tech files drc rules
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day17/techfile_edit.PNG">
+ 
+ 
+</center>
+
+
+AFter DRC clean
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day17/after_drc_clean.PNG">
+ 
+</center>
+
+To address certain violations in the design, specific actions and modifications are needed:
+
+1. **Poly Resistor Spacing Issue to Diff and Tap:**
+   - **Correction**: Copy the 3 poly metal and paste it into 2 different locations. Include PMOS and NMOS substrates and contacts.
+   - **Action**: Modify the design to incorporate the above corrections, adjusting the poly resistor spacing to the diff and tap.
+
+2. **Modification of .tech Files:**
+   - **Correction**: Edit the .tech files to rectify issues related to design rules, properties, or specifications.
+   - **Action**: Update the necessary parameters in the .tech files to ensure compliance with design requirements and rules.
+
+These actions are crucial to ensure that the design adheres to the required specifications and resolves any violations that were identified. The adjustments made will contribute to a design that meets the desired criteria and is ready for further stages in the ASIC design process.
+
+
+To describe DRC (Design Rule Check) errors as geometrical constructs:
+
+DRC errors in the context of semiconductor design refer to violations of predefined geometric rules and constraints that are crucial for ensuring the manufacturability and functionality of the semiconductor device. These rules are defined based on the fabrication process, technology node, and design requirements. When a design violates these rules, it's flagged with DRC errors, indicating areas where the geometry does not conform to the specified constraints.
+
+These geometrical constructs encompass various aspects of the design, including but not limited to:
+
+1. **Spacing Violations**:
+   - **Description**: Violations related to the minimum required distance between different features, such as wires, transistors, or metal lines.
+   - **Cause**: Insufficient spacing can lead to electrical interference or short circuits.
+   - **Resolution**: Adjusting the layout to meet the specified spacing requirements.
+
+2. **Width Violations**:
+   - **Description**: Violations concerning the width of certain features like metal traces or poly-silicon paths.
+   - **Cause**: Inadequate width can affect electrical conductivity and resistance.
+   - **Resolution**: Modifying the width of the specified elements to comply with the design rules.
+
+3. **Enclosure Violations**:
+   - **Description**: Violations where an element is not fully enclosed by another as required by the design rules.
+   - **Cause**: Incomplete enclosure can lead to reliability issues or improper functioning.
+   - **Resolution**: Adjusting the layout to ensure proper encapsulation according to design rules.
+
+4. **Overlap Violations**:
+   - **Description**: Violations involving the overlap of different layers or elements that should not overlap.
+   - **Cause**: Overlapping can cause short circuits or other unwanted electrical effects.
+   - **Resolution**: Modifying the layout to eliminate the overlap where not permitted by the design rules.
+
+5. **Notching Violations**:
+   - **Description**: Violations where specific geometrical features, such as corners or edges, are not constructed according to design guidelines.
+   - **Cause**: Incorrect notching can impact the reliability and performance of the device.
+   - **Resolution**: Adhering to the prescribed notching requirements by adjusting the geometry.
+
+Understanding DRC errors in terms of geometrical constructs is essential for designers to rectify violations, ensuring the final design complies with the necessary geometric and fabrication rules for a successful semiconductor manufacturing process.
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day17/nwell6.PNG">
+ 
+</center>
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day17/nwell6_ostyle_drc.PNG">
+ 
+</center>
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day17/nwell_odnwell_shrink.PNG">
+ 
+</center>
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day17/nwell6_feed.PNG">
+ 
+</center>
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day17/nwell6_missing.PNG">
+ 
+</center>
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day17/nwell_error.PNG">
+ 
+</center>
+
+<center>
+	<img width="1085" alt="multicycle_path" src="https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day17/error_fixed.PNG">
+ 
+</center>
 
 </details>
