@@ -5231,3 +5231,24 @@ Understanding DRC errors in terms of geometrical constructs is essential for des
 
 
 ## Day-18 Pre Layout Timing analysis and Importance of good Clock Tree
+
+<details>
+	<summary>Labs</summary>
+
+ Steps to create and link standard cell
+Load the inv in the magic
+lef write
+copy the generated lef file to the picorv23a src directory
+also copy the lib files from vsdstdcelldesign to the designs/picorv32a/src directory
+in these libs file, replace sky130_vsdinv with your stdcell name
+modify the config.tcl file
+run the docker
+```
+./flow.tcl -interactive
+prep -design picorv32a
+set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
+add_lefs -src $lefs
+run_synthesis
+```
+
+</details>
