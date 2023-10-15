@@ -34,6 +34,9 @@
 - [Day-17-Design Library Cell](#day-17-Design-Library-Cell)
 
 - [Day-18-Pre Layout Timing analysis and Importance of good Clock Tree](#day-18-Pre-Layout-Timing-analysis-and-Importance-of-good-Clock-Tree)
+
+- [Day-19-Final steps RTL to GDS](#day-19-Final-steps-RTL-to-GDS)
+
   
 ## Day-0-Installation
 <details>
@@ -5432,7 +5435,6 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 
   ![Placement Result](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/placement_gui1)
   
-</details>
 
 
 **Theory 1: Setup Timing Analysis and Introduction to Flip-Flop Setup Time**
@@ -5473,26 +5475,248 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 </details>
 <details>
 	<summary>CTS and signal integrity</summary>
-</details>
 
 
 <details>
-	<summary>Labs</summary>
+<summary>Theory 1: Clock Tree Synthesis and Buffering Using H-Tree Algorithm</summary>
 
- Steps to create and link standard cell
-Load the inv in the magic
-lef write
-copy the generated lef file to the picorv23a src directory
-also copy the lib files from vsdstdcelldesign to the designs/picorv32a/src directory
-in these libs file, replace sky130_vsdinv with your stdcell name
-modify the config.tcl file
-run the docker
-```
-./flow.tcl -interactive
-prep -design picorv32a
-set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
-add_lefs -src $lefs
-run_synthesis
-```
+### Clock Tree Synthesis and Buffering Using H-Tree Algorithm
+
+- Clock tree synthesis is vital for propagating clock signals to all clock pins in the design.
+- A well-designed clock tree considers skew between clock pins due to long routing.
+- The H-tree implementation optimizes clock tree design based on distances between clock pins and the clock port.
+- The goal is to minimize skew, allowing clock signals to reach all cells simultaneously.
+
+![Clock Tree Diagram](https://user-images.githubusercontent.com/118953917/214889414-ef867688-41ee-4fce-b9ba-53c150a740f6.png)
+
+- Clock tree buffering is necessary due to wire resistances and capacitance, which cause signal integrity issues.
+- Buffers are added to maintain signal integrity and address routing-related delays.
+
+![Buffering Diagram](https://user-images.githubusercontent.com/118953917/214899578-e074127a-75d3-4f4f-80c1-89001cd57860.png)
 
 </details>
+
+<details>
+<summary>Theory 2: Crosstalk and Clock Net Shielding</summary>
+
+### Crosstalk and Clock Net Shielding
+
+- Clock net shielding is crucial to protect clock nets from crosstalk, ensuring a glitch-free signal.
+- Clock nets are critical, and shielding minimizes glitches and delta delays that can affect design functionality.
+- Shielding can be connected to ground or Vdd, ensuring no switching activity occurs and maintaining data net integrity.
+
+![Clock Net Shielding](https://user-images.githubusercontent.com/118953917/214894595-17db203b-7643-4333-800c-578284702548.png)
+
+</details>
+
+<details>
+<summary>Lab 1: Steps to Run CTS Using TritonCTS</summary>
+
+### Lab 1: Steps to Run CTS Using TritonCTS
+
+- In the STA terminal, write the synthesized Verilog file and check its details.
+- Run floorplan, placement, and CTS in the OpenLane tool.
+- Modify the OpenLane configuration README.md file.
+
+![Lab 1 Steps](https://user-images.githubusercontent.com/118953917/214867050-6e2e1327-2021-4170-a662-2d7de1940ef4.png)
+
+![OpenLane Configuration](https://user-images.githubusercontent.com/118953917/214873411-922a5676-c00a-4d34-98d2-395b3118ee7f.png)
+
+</details>
+
+<details>
+<summary>Lab 2: Steps to Verify CTS Runs</summary>
+
+### Lab 2: Steps to Verify CTS Runs
+
+- Modify TCL files for each stage to configure CTS parameters.
+- In OpenLane, display and verify various CTS-related environment variables.
+
+![Lab 2 Steps](https://user-images.githubusercontent.com/118953917/214878521-602486db-c598-459f-8784-92ccae05609c.png)
+
+![CTS Environment Variables](https://user-images.githubusercontent.com/118953917/214886956-73377f5a-213e-403a-a3e5-6ef4934996c4.png)
+
+</details>
+
+<details>
+<summary>Timing Analysis with Real Clocks Using OpenSTA</summary>
+
+### Timing Analysis with Real Clocks Using OpenSTA
+
+#### Theory 1: Setup Timing Analysis Using Real Clocks
+
+- Clock network delays are combined after buffer insertion, considering clock signal integrity.
+- Buffers are inserted into clock paths to maintain signal integrity, adjusting the clock edge arrival times.
+
+![Setup Timing Analysis](https://user-images.githubusercontent.com/118953917/214993881-dec5a151-4e8b-4212-b8ba-64f1a8eca181.png)
+
+- For hold timing analysis, the combinational delay should exceed the hold time of the flop to ensure data stability.
+
+![Hold Timing Analysis](https://user-images.githubusercontent.com/118953917/214994634-1d64f057-197d-45f4-b7b0-65494f8cb69d.png)
+
+</details>
+
+<details>
+<summary>Theory 2: Hold Timing Analysis Using Real Clocks</summary>
+
+### Hold Timing Analysis Using Real Clocks
+
+- Hold timing analysis considers factors like jitter and clock network delays.
+- Skew differences between launch and capture flops are critical for hold timing.
+- Lower uncertainty is essential for accurate hold timing analysis.
+
+![Hold Timing Analysis](https://user-images.githubusercontent.com/118953917/214995292-07ac14b8-171d-4058-9440-ff23b2804206.png)
+
+- Formulas for setup and hold time calculations with real clocks.
+
+![Formulas for Setup and Hold Time](https://user-images.githubusercontent.com/118953917/214995599-ba697707-5ed4-463a-8ba0-0deecc7594b3.png)
+
+</details>
+
+<details>
+<summary>Lab 1: Steps to Analyze Timing with Real Clocks Using OpenSTA</summary>
+
+### Lab 1: Steps to Analyze Timing with Real Clocks Using OpenSTA
+
+- Use OpenRoad to read and analyze the synthesized design with OpenSTA, considering clock libraries and SDC.
+- Review the checks and analyze the timing paths.
+
+![OpenSTA Commands](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/cts_run.png)
+
+![OpenSTA Report](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/cts_tcl.png)
+
+</details>
+
+<details>
+<summary>Lab 2: Steps to Execute OpenSTA with Right Timing Libraries and CTS Assignment</summary>
+
+### Lab 2: Steps to Execute OpenSTA with Right Timing Libraries and CTS Assignment
+
+- Use OpenRoad to read the design with TritonCTS and analyze it using the appropriate libraries.
+- Check clock buffers and review timing analysis results.
+
+![OpenSTA Commands](https://user-images.githubusercontent.com/118953917/215010210-b7f01f8d-f0ff-4bc6-ae4d-9bdbcdc3df86.png)
+
+![OpenSTA Report](https://user-images.githubusercontent.com/118953917/215010920-912b1639-6412-4db4-a7dc-8a75afbb3d9f.png)
+
+![OpenSTA Clock Skew](https://user-images.githubusercontent.com/118953917/215011382-00bfd9c5-05cf-4a1d-b14d-c49d2b726ce8.png)
+
+</details>
+
+</details>
+<details>
+	<summary>Labs</summary>
+
+
+![image](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/cts_real.png)
+
+
+![image](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/cts_real1.png)
+
+![image](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/cts_real_setup.png)
+
+
+![image](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/cts_real_timing.png)
+
+
+![image](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/real_timing.png)
+
+</details>
+
+## Day-19 Final stage RTL to GDS
+<details>
+<summary>Theory 1: Introduction to Maze Routing using Lee's algorithm</summary>
+
+### Introduction to Maze Routing using Lee's Algorithm
+
+- **Routing Stage**
+  - Maze Routing-Lee’s Algorithm is utilized to find the shortest path between two nodes in a grid.
+  - Routing involves creating physical wire connections within the design by determining the best route between two endpoints, the source and the target, with the shortest distance and the least number of zig-zag turns.
+  - The algorithm needs to consider any set blockages that hinder routing in a particular area.
+
+![Maze Routing Example](https://user-images.githubusercontent.com/118953917/215030291-ceea2ccd-d922-4883-8370-97a39a423721.png)
+
+**Steps in Lee's Algorithm:**
+
+1. Create the routing grid behind the floorplan.
+2. Define the source and target points to connect with the best route using the routing grid.
+3. Label the grid ground (adjacent to horizontal and vertical grid), excluding grids under blockages and at the boundary.
+
+![Lee's Algorithm Steps](https://user-images.githubusercontent.com/118953917/215032150-34401e02-d2db-4d5c-a437-3ca369b4cdec.png)
+
+</details>
+
+<details>
+<summary>Theory 2: Lee's Algorithm Conclusion</summary>
+
+### Lee's Algorithm Conclusion
+
+- Choosing the left-hand side (LHS) route is preferable over the right-hand side (RHS) due to the LHS figure providing a route with fewer bends (L-shaped).
+- Lee's algorithm becomes complex for a large number of start and endpoints, consuming considerable time and memory.
+- Various algorithms like line-search and stanner-tree algorithms can help reduce time and memory consumption.
+
+![Lee's Algorithm Comparison](https://user-images.githubusercontent.com/118953917/215033857-8446f957-7d5d-4378-accf-81f824cfbdd9.png)
+
+</details>
+
+<details>
+<summary>Theory 3: Design Rule Check (DRC)</summary>
+
+### Design Rule Check (DRC)
+
+- Design Rule Check (DRC) involves adhering to specific rules during the routing of the design.
+- DRC rules include minimal wire width, wire pitch, and wire spacing, all based on the fabrication process limitations.
+  
+![Wire Width and Spacing](https://user-images.githubusercontent.com/118953917/215035532-aaae220b-4b3d-446c-8eed-5b697367212c.png)
+
+- DRC violations like signal shorts need to be addressed to prevent functional failure.
+- New DRC rules include via width and via spacing based on technology limitations.
+
+![Via Width and Spacing](https://user-images.githubusercontent.com/118953917/215036993-58407624-384b-4965-a9b1-0519dc5a5670.png)
+
+- Parasitic extraction is performed to extract resistances and capacitances of the wires for further processes.
+
+![Parasitic Extraction](https://user-images.githubusercontent.com/118953917/215037259-747e6a52-c7cd-4a01-ab20-209179aef4fe.png)
+
+</details>
+
+### Power Distribution Network and Routing
+
+<details>
+<summary>Lab 1: Lab Steps to Build Power Distribution Network</summary>
+
+### Lab Steps to Build Power Distribution Network
+
+> If exited from OpenLane
+```
+cd work/tools/openlane_working_dir/openlane
+make mount
+pwd
+ls -ltr
+./flow.tcl -interactive
+package require openlane 0.9
+prep -design picorv32a -tag 13-01_14-09
+```
+
+*Note: Use ```prep -design -tag``` to retain configurations from the last OpenLane job and ```prep -design -tag -overwrite``` to create a fresh run with new configurations without changing the tag name.*
+
+> In OpenLane
+```
+echo $::env(CURRENT_DEF)    (Ensure current_def is at the CTS stage)
+gen_pdn                     (Generate power distribution network)
+```
+
+* Error encountered during "gen_pdn" due to current_def not being changed to floorplan.pdn.
+
+![Gen PDN Error](![image](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/19_gen_pdn.png)
+
+
+</details>
+<details>
+	<summary>Routing</summary>
+
+ ![Gen PDN Error](![image](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/routing.png)
+
+	
+</details>
+
