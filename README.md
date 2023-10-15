@@ -5235,7 +5235,9 @@ Understanding DRC errors in terms of geometrical constructs is essential for des
 
 ## Day-18 Pre Layout Timing analysis and Importance of good Clock Tree
 
-**Theory 1: Introduction to Delay Tables**
+<details>
+	
+<summary>Theory 1: Introduction to Delay Tables</summary>
 
 *Introduction:*
 
@@ -5273,9 +5275,10 @@ Clock gating involves using gates for clock nets to prevent dynamic switching an
 
 ![Power-aware CTS](https://github.com/Dhananjay411/Samsungpdtraining/blob/master/samsungpd_%23day19/321.png)
 
+</details>
 
-**Lab 1: Converting Grid Information to Track Information**
-
+<details>
+<summary>Lab 1: Converting Grid Information to Track Information</summary>
 *Steps to convert grid information to track information:*
 
 1. **Understanding Library Exchange Format (LEF):**
@@ -5380,7 +5383,7 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 
 3. Remove the existing synthesis file:
    ```bash
-   cd ~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/13-01_14-09/results/synthesis
+   cd ~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/12-10_05-00/results/synthesis
    rm -rf picorv32a.synthesis.v
    ```
 
@@ -5420,7 +5423,7 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 
 9. Perform additional steps to resolve errors and create the placement result file:
    ```bash
-   cd ~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/13-01_14-09/results/placement
+   cd ~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/12-10_05-00/results/placement
    ```
 
    - Use Magic to read the LEF and DEF files.
@@ -5695,7 +5698,7 @@ pwd
 ls -ltr
 ./flow.tcl -interactive
 package require openlane 0.9
-prep -design picorv32a -tag 13-01_14-09
+prep -design picorv32a -tag 12-10_05-00
 ```
 
 *Note: Use ```prep -design -tag``` to retain configurations from the last OpenLane job and ```prep -design -tag -overwrite``` to create a fresh run with new configurations without changing the tag name.*
@@ -5708,14 +5711,14 @@ gen_pdn                     (Generate power distribution network)
 
 * Error encountered during "gen_pdn" due to current_def not being changed to floorplan.pdn.
 
-![Gen PDN Error](![image](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/19_gen_pdn.png)
+![image](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/19_gen_pdn.png)
 
 
 </details>
 <details>
 	<summary>Routing</summary>
 
- ![Gen PDN Error](![image](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/routing.png)
+![image](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/routing.png)
 
 	
 </details>
