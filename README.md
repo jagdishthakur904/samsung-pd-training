@@ -5232,6 +5232,250 @@ Understanding DRC errors in terms of geometrical constructs is essential for des
 
 ## Day-18 Pre Layout Timing analysis and Importance of good Clock Tree
 
+**Theory 1: Introduction to Delay Tables**
+
+*Introduction:*
+
+Clock gating involves using gates for clock nets to prevent dynamic switching and minimize short-circuit power in the clock tree when the clock is gated, as depicted in the figure below.
+
+![Clock Gating](https://github.com/Dhananjay411/Samsungpdtraining/blob/master/samsungpd_%23day19/123.png)
+
+1. When considering swapping a buffer for a gate, it's crucial to examine the timing characteristics of the buffer.
+2. For each buffering level, an identical buffer should be used, and each node should drive the same node.
+3. It's important to note that the output load varies, affecting the input transition of the following buffer due to load variations in one buffer.
+4. Consequently, a range of delays is observed.
+
+![Buffer and Gate](https://github.com/Dhananjay411/Samsungpdtraining/blob/master/samsungpd_%23day19/1234.png)
+
+1. A delay table is characterized by varying the input transition and output load of a cell against the delay of that cell.
+2. Each cell has its own delay table for different sizes and threshold tables.
+
+![Delay Table](https://github.com/Dhananjay411/Samsungpdtraining/blob/master/samsungpd_%23day19/12345.png)
+
+**Theory 2: Usage of Delay Tables**
+
+*Usage of Delay Tables:*
+
+- Each type of cell has its individual delay table since variations in the internal pmos and nmos width/length ratio change the resistance, consequently affecting the RC constant and the delay of each cell.
+- Values of delay not present in the table are extrapolated based on the available data.
+
+![Delay Table Usage](https://github.com/Dhananjay411/Samsungpdtraining/blob/master/samsungpd_%23day19/32.png)
+
+- Similar to delay tables, there's also a characterization table for input transition.
+- The latency at endpoints is the sum of delays of each individual cell in that path.
+- If the output load driven for a cell varies, there will be a non-zero total skew value between two endpoints, indicating different delay numbers between endpoints. Hence, it's preferable to have nodes at each level driving the same load.
+- To maintain zero skew in the presence of varied load, using a different buffer size at the same level that achieves the same delay based on its delay table is an option.
+- These factors should be considered during the early stages of clock tree design.
+- Power-aware clock tree synthesis (CTS) involves considering endpoints that are active under specific conditions. Clock propagation into inactive cells is unnecessary during their inactive periods.
+
+![Power-aware CTS](https://github.com/Dhananjay411/Samsungpdtraining/blob/master/samsungpd_%23day19/321.png)
+
+
+**Lab 1: Converting Grid Information to Track Information**
+
+*Steps to convert grid information to track information:*
+
+1. **Understanding Library Exchange Format (LEF):**
+   - LEF is an ASCII-based specification representing the physical layout of an integrated circuit.
+   - It contains design rules and abstract information about standard cells.
+   - The information in LEF serves the purpose of the respective CAD tool, covering aspects like input, output, power, and group port, but excluding logic path information.
+
+*Objective:* Extract LEF file from a .mag file and integrate it into the picorv32a flow (previous step involves standard cell library).
+
+*Main Guidelines:*
+   - Ensure input and output ports align at the intersection of vertical and horizontal tracks.
+   - Standard cell width aligns with the track pitch, and the height aligns with the vertical track pitch.
+
+*Steps:*
+   - Open the tracks.info file:
+     ```bash
+     vim ~/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/openlane/sky130_fd_sc_hd/tracks.info
+     ```
+   - Run Magic to open a .mag file using the sky130A.tech technology file:
+     ```bash
+     cd ~/Desktop/work/tools/openlane_working_dir/openlane/vsdstdcelldesign
+     magic -T sky130A.tech sky130_inv.mag
+     ```
+
+*Track Information (Used During Routing Stage):*
+   - Tracks allow routes to pass over them, serving as metal traces.
+
+![Track Information](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/jagdish_inv)
+
+
+**Lab 2: Converting Magic Layout to Standard Cell LEF**
+
+*Steps to convert Magic layout to standard cell LEF:*
+
+- Define layers without ports in the layout, while ports will be defined separately as pins of a macro.
+- Ports definitions are necessary for LEF extraction.
+- Ports are defined through the Magic layout editor, using the Text tool to fill in the required information.
+
+*Example of Defining Ports for Input and Output:*
+- Define classes of ports for further organization.
+- Extract the LEF file and check the saved file.
+
+*Extract LEF File:*
+  ```bash
+  cd ~/Desktop/work/tools/openlane_working_dir/openlane/vsdstdcelldesign
+  save sky130A_inv_jagdish.mag
+  ```
+
+*Check Saved File:*
+  ```bash
+  ls
+  ```
+
+- Use Magic to open the .mag file and then write the LEF file.
+
+*Open Magic and Write LEF:*
+  ```bash
+  magic -T sky130A.tech sky130_inv_jagdish.mag
+  ```
+
+*In Tkcon (Magic Console):*
+  ```bash
+  lef write
+  ```
+
+</details>
+
+
+<details>
+<summary>Configuring Synthesis Settings to Enhance Slack and Include inv_jagdish</summary>
+
+### Introduction
+
+In this lab, we'll configure synthesis settings to improve slack and include the inv_jagdish cell.
+
+### Configuration Steps
+
+1. Navigate to the OpenLane configuration directory:
+   ```bash
+   cd ~/Desktop/work/tools/openlane_working_dir/openlane/configuration
+   vim README.md
+   ```
+
+2. Modify the following synthesis settings in the `README.md` file:
+   - `SYNTH_STRATEGY`: Controls area and timing optimization.
+   - `SYNTH_BUFFERING`: Controls buffering for high fanout nets.
+   - `SYNTH_SIZING`: Controls cell sizing instead of buffering.
+   - `SYNTH_DRIVING_CELL`: Ensures more drive strength for cells driving input.
+
+   ![Synthesis Settings](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/modifications)
+
+   ```bash
+   echo $::env(SYNTH_STRATEGY)
+   set ::env(SYNTH_STRATEGY) "DELAY 0"
+   echo $::env(SYNTH_STRATEGY)
+   echo $::env(SYNTH_BUFFERING)
+   echo $::env(SYNTH_SIZING)
+   set ::env(SYNTH_SIZING) 1
+   echo $::env(SYNTH_SIZING)
+   echo $::env(SYNTH_DRIVING_CELL)
+   ```
+
+3. Remove the existing synthesis file:
+   ```bash
+   cd ~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/13-01_14-09/results/synthesis
+   rm -rf picorv32a.synthesis.v
+   ```
+
+4. Run the synthesis process in the OpenLane terminal:
+   ```bash
+   run_synthesis
+   ```
+
+   ![Synthesis Run](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/synthesis_success)
+
+5. Run the floorplan stage in OpenLane:
+   ```bash
+   run_floorplan
+   ```
+
+ 
+
+6. Modify files in the `openroad` and `tcl_commands` directories:
+   ```bash
+   cd ~/Desktop/work/tools/openlane_working_dir/openlane/scripts/openroad
+   vim or_basic_mp.tcl
+   cd ~/Desktop/work/tools/openlane_working_dir/openlane/scripts/tcl_commands
+   vim floorplan.tcl
+   ```
+
+   - Make necessary modifications in the opened files.
+
+   ![Synthesis Settings](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/modifications)
+
+      ![Synthesis Settings](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/modified_config)
+
+8. Run floorplan and placement again:
+   ```bash
+   run_floorplan
+   run_placement
+   ```
+
+9. Perform additional steps to resolve errors and create the placement result file:
+   ```bash
+   cd ~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/13-01_14-09/results/placement
+   ```
+
+   - Use Magic to read the LEF and DEF files.
+   ```bash
+   magic -T ~/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def
+   ```
+
+   ![Placement Result](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/placement_cmd)
+
+
+  ![Placement Result](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/placement_gui)
+
+  ![Placement Result](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/placement_gui1)
+  
+</details>
+
+
+**Theory 1: Setup Timing Analysis and Introduction to Flip-Flop Setup Time**
+
+*Setup Timing Analysis and Introduction to Flip-Flop Setup Time:*
+
+- In the context of timing analysis, we focus on setup time, particularly concerning flip-flops and clock edges.
+- At time stamp 0, the first clock edge reaches the launch flop, marking the beginning of our analysis.
+- At time stamp T, the second rising edge reaches the capture flop. The analysis interval is between 0 and T.
+- For a combinational circuit to function correctly, the combinational delay must be less than the period T of the clock.
+
+![Clock Edges and Timing Analysis](https://github.com/Dhananjay411/Samsungpdtraining/blob/master/samsungpd_%23day19/xy.png)
+
+- In practical scenarios, the internal flop circuitry introduces a delay between mux 1 and mux 2.
+- These internal delays impose restrictions on the combinational delay requirements.
+- This internal delay is known as the setup time and needs to be subtracted from the total clock period T.
+- This adjustment allows the capture flop enough time to compute and stabilize the data at Q before the second rising edge of the clock reaches.
+
+![Internal Flop Circuitry and Setup Time](https://github.com/Dhananjay411/Samsungpdtraining/blob/master/samsungpd_%23day19/xyz.png)
+
+**Theory 2: Introduction to Clock Jitter and Uncertainty**
+
+*Introduction to Clock Jitter and Uncertainty:*
+
+- Jitter refers to the deviation of a clock edge from its ideal position, usually caused by factors like clock generator circuitry, noise, power supply fluctuations, and interference from neighboring circuitry.
+- Jitter is a critical consideration in design, contributing to the design margin specified for timing closure.
+- Clocks are ideally expected to reach the clock pin at precisely 0 seconds or at Ts (time stamp), but real-world scenarios introduce uncertainty due to the clock source generation having its built-in variations, resulting in jitter.
+- Jitter manifests as temporary variations in the clock period, affecting the combinational delay's stringency. Consequently, we adjust the combinational delay to account for uncertainty arising from jitter.
+
+![Clock Jitter and Combinational Delay](https://github.com/Dhananjay411/Samsungpdtraining/blob/master/samsungpd_%23day19/k1.png)
+
+- The combinational delay of a path is depicted above, reflecting the impact of jitter-induced uncertainty.
+- Timing analysis becomes more challenging when dealing with multiple ideal clocks.
+
+![Timing Analysis with Multiple Ideal Clocks](https://github.com/Dhananjay411/Samsungpdtraining/blob/master/samsungpd_%23day19/k2.png)
+
+
+</details>
+<details>
+	<summary>CTS and signal integrity</summary>
+</details>
+
+
 <details>
 	<summary>Labs</summary>
 
