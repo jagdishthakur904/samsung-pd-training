@@ -5512,9 +5512,7 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 - Run floorplan, placement, and CTS in the OpenLane tool.
 - Modify the OpenLane configuration README.md file.
 
-![Lab 1 Steps](https://user-images.githubusercontent.com/118953917/214867050-6e2e1327-2021-4170-a662-2d7de1940ef4.png)
 
-![OpenLane Configuration](https://user-images.githubusercontent.com/118953917/214873411-922a5676-c00a-4d34-98d2-395b3118ee7f.png)
 
 
 ### Lab 2: Steps to Verify CTS Runs
@@ -5522,9 +5520,6 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 - Modify TCL files for each stage to configure CTS parameters.
 - In OpenLane, display and verify various CTS-related environment variables.
 
-![Lab 2 Steps](https://user-images.githubusercontent.com/118953917/214878521-602486db-c598-459f-8784-92ccae05609c.png)
-
-![CTS Environment Variables](https://user-images.githubusercontent.com/118953917/214886956-73377f5a-213e-403a-a3e5-6ef4934996c4.png)
 
 </details>
 
@@ -5575,11 +5570,7 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 - Use OpenRoad to read the design with TritonCTS and analyze it using the appropriate libraries.
 - Check clock buffers and review timing analysis results.
 
-![OpenSTA Commands](https://user-images.githubusercontent.com/118953917/215010210-b7f01f8d-f0ff-4bc6-ae4d-9bdbcdc3df86.png)
 
-![OpenSTA Report](https://user-images.githubusercontent.com/118953917/215010920-912b1639-6412-4db4-a7dc-8a75afbb3d9f.png)
-
-![OpenSTA Clock Skew](https://user-images.githubusercontent.com/118953917/215011382-00bfd9c5-05cf-4a1d-b14d-c49d2b726ce8.png)
 
 ![image](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/cts_real.png)
 
