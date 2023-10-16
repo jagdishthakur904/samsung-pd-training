@@ -5233,11 +5233,13 @@ Understanding DRC errors in terms of geometrical constructs is essential for des
 </details>
 
 
-## Day-18 Pre Layout Timing analysis and Importance of good Clock Tree
+## Day-18 Pre-Layout Timing analysis and Importance of good Clock Tree
 
 <details>
 	
-<summary>Theory 1: Introduction to Delay Tables</summary>
+<summary>Timing modelling using delay tables</summary>
+
+### Theory 1: Introduction to Delay Tables
 
 *Introduction:*
 
@@ -5257,7 +5259,7 @@ Clock gating involves using gates for clock nets to prevent dynamic switching an
 
 ![Delay Table](https://github.com/Dhananjay411/Samsungpdtraining/blob/master/samsungpd_%23day19/12345.png)
 
-**Theory 2: Usage of Delay Tables**
+### Theory 2: Usage of Delay Tables
 
 *Usage of Delay Tables:*
 
@@ -5275,10 +5277,8 @@ Clock gating involves using gates for clock nets to prevent dynamic switching an
 
 ![Power-aware CTS](https://github.com/Dhananjay411/Samsungpdtraining/blob/master/samsungpd_%23day19/321.png)
 
-</details>
 
-<details>
-<summary>Lab 1: Converting Grid Information to Track Information</summary>
+### Lab 1: Converting Grid Information to Track Information
 *Steps to convert grid information to track information:*
 
 1. **Understanding Library Exchange Format (LEF):**
@@ -5306,10 +5306,11 @@ Clock gating involves using gates for clock nets to prevent dynamic switching an
 *Track Information (Used During Routing Stage):*
    - Tracks allow routes to pass over them, serving as metal traces.
 
-![Track Information](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/jagdish_inv)
+
+![Track Information](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/jagdish_inv.png)
 
 
-**Lab 2: Converting Magic Layout to Standard Cell LEF**
+### Lab 2: Converting Magic Layout to Standard Cell LEF
 
 *Steps to convert Magic layout to standard cell LEF:*
 
@@ -5368,7 +5369,7 @@ In this lab, we'll configure synthesis settings to improve slack and include the
    - `SYNTH_SIZING`: Controls cell sizing instead of buffering.
    - `SYNTH_DRIVING_CELL`: Ensures more drive strength for cells driving input.
 
-   ![Synthesis Settings](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/modifications)
+   ![Synthesis Settings](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/modifications.png)
 
    ```bash
    echo $::env(SYNTH_STRATEGY)
@@ -5392,7 +5393,7 @@ In this lab, we'll configure synthesis settings to improve slack and include the
    run_synthesis
    ```
 
-   ![Synthesis Run](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/synthesis_success)
+   ![Synthesis Run](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/synthesis_success.png)
 
 5. Run the floorplan stage in OpenLane:
    ```bash
@@ -5411,9 +5412,9 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 
    - Make necessary modifications in the opened files.
 
-   ![Synthesis Settings](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/modifications)
+   ![Synthesis Settings](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/modifications.png)
 
-      ![Synthesis Settings](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/modified_config)
+      ![Synthesis Settings](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/modified_config.png)
 
 8. Run floorplan and placement again:
    ```bash
@@ -5431,12 +5432,12 @@ In this lab, we'll configure synthesis settings to improve slack and include the
    magic -T ~/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def
    ```
 
-   ![Placement Result](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/placement_cmd)
+   ![Placement Result](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/placement_cmd.png)
 
 
-  ![Placement Result](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/placement_gui)
+  ![Placement Result](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/placement_gui.png)
 
-  ![Placement Result](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/placement_gui1)
+  ![Placement Result](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/placement_gui1.png)
   
 
 
@@ -5497,12 +5498,9 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 
 ![Buffering Diagram](https://user-images.githubusercontent.com/118953917/214899578-e074127a-75d3-4f4f-80c1-89001cd57860.png)
 
-</details>
 
-<details>
-<summary>Theory 2: Crosstalk and Clock Net Shielding</summary>
 
-### Crosstalk and Clock Net Shielding
+### Theory 2: Crosstalk and Clock Net Shielding
 
 - Clock net shielding is crucial to protect clock nets from crosstalk, ensuring a glitch-free signal.
 - Clock nets are critical, and shielding minimizes glitches and delta delays that can affect design functionality.
@@ -5510,10 +5508,7 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 
 ![Clock Net Shielding](https://user-images.githubusercontent.com/118953917/214894595-17db203b-7643-4333-800c-578284702548.png)
 
-</details>
 
-<details>
-<summary>Lab 1: Steps to Run CTS Using TritonCTS</summary>
 
 ### Lab 1: Steps to Run CTS Using TritonCTS
 
@@ -5525,10 +5520,6 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 
 ![OpenLane Configuration](https://user-images.githubusercontent.com/118953917/214873411-922a5676-c00a-4d34-98d2-395b3118ee7f.png)
 
-</details>
-
-<details>
-<summary>Lab 2: Steps to Verify CTS Runs</summary>
 
 ### Lab 2: Steps to Verify CTS Runs
 
@@ -5544,9 +5535,7 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 <details>
 <summary>Timing Analysis with Real Clocks Using OpenSTA</summary>
 
-### Timing Analysis with Real Clocks Using OpenSTA
-
-#### Theory 1: Setup Timing Analysis Using Real Clocks
+### Theory 1: Setup Timing Analysis Using Real Clocks
 
 - Clock network delays are combined after buffer insertion, considering clock signal integrity.
 - Buffers are inserted into clock paths to maintain signal integrity, adjusting the clock edge arrival times.
@@ -5557,10 +5546,7 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 
 ![Hold Timing Analysis](https://user-images.githubusercontent.com/118953917/214994634-1d64f057-197d-45f4-b7b0-65494f8cb69d.png)
 
-</details>
 
-<details>
-<summary>Theory 2: Hold Timing Analysis Using Real Clocks</summary>
 
 ### Hold Timing Analysis Using Real Clocks
 
@@ -5574,10 +5560,7 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 
 ![Formulas for Setup and Hold Time](https://user-images.githubusercontent.com/118953917/214995599-ba697707-5ed4-463a-8ba0-0deecc7594b3.png)
 
-</details>
 
-<details>
-<summary>Lab 1: Steps to Analyze Timing with Real Clocks Using OpenSTA</summary>
 
 ### Lab 1: Steps to Analyze Timing with Real Clocks Using OpenSTA
 
@@ -5588,10 +5571,7 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 
 ![OpenSTA Report](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/cts_tcl.png)
 
-</details>
 
-<details>
-<summary>Lab 2: Steps to Execute OpenSTA with Right Timing Libraries and CTS Assignment</summary>
 
 ### Lab 2: Steps to Execute OpenSTA with Right Timing Libraries and CTS Assignment
 
@@ -5606,10 +5586,8 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 
 </details>
 
-</details>
 <details>
 	<summary>Labs</summary>
-
 
 ![image](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/cts_real.png)
 
@@ -5628,7 +5606,7 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 
 ## Day-19 Final stage RTL to GDS
 <details>
-<summary>Theory 1: Introduction to Maze Routing using Lee's algorithm</summary>
+<summary>Theory</summary>
 
 ### Introduction to Maze Routing using Lee's Algorithm
 
@@ -5647,10 +5625,7 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 
 ![Lee's Algorithm Steps](https://user-images.githubusercontent.com/118953917/215032150-34401e02-d2db-4d5c-a437-3ca369b4cdec.png)
 
-</details>
 
-<details>
-<summary>Theory 2: Lee's Algorithm Conclusion</summary>
 
 ### Lee's Algorithm Conclusion
 
@@ -5660,10 +5635,7 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 
 ![Lee's Algorithm Comparison](https://user-images.githubusercontent.com/118953917/215033857-8446f957-7d5d-4378-accf-81f824cfbdd9.png)
 
-</details>
 
-<details>
-<summary>Theory 3: Design Rule Check (DRC)</summary>
 
 ### Design Rule Check (DRC)
 
@@ -5683,7 +5655,6 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 
 </details>
 
-### Power Distribution Network and Routing
 
 <details>
 <summary>Lab 1: Lab Steps to Build Power Distribution Network</summary>
@@ -5721,4 +5692,6 @@ gen_pdn                     (Generate power distribution network)
 ![Routing](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/routing.png)
 
 If you encounter any issues, ensure that the URLs provided are direct links to the image files (ending in `.png`, `.jpg`, or similar image extensions). Let me know if you need further assistance!
+
+</details>
 
