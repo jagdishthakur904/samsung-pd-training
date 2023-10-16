@@ -5306,7 +5306,7 @@ Clock gating involves using gates for clock nets to prevent dynamic switching an
 *Track Information (Used During Routing Stage):*
    - Tracks allow routes to pass over them, serving as metal traces.
 
-![Track Information](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/jagdish_inv)
+![Track Information](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/jagdish_inv)
 
 
 **Lab 2: Converting Magic Layout to Standard Cell LEF**
@@ -5368,7 +5368,7 @@ In this lab, we'll configure synthesis settings to improve slack and include the
    - `SYNTH_SIZING`: Controls cell sizing instead of buffering.
    - `SYNTH_DRIVING_CELL`: Ensures more drive strength for cells driving input.
 
-   ![Synthesis Settings](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/modifications)
+   ![Synthesis Settings](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/modifications)
 
    ```bash
    echo $::env(SYNTH_STRATEGY)
@@ -5392,7 +5392,7 @@ In this lab, we'll configure synthesis settings to improve slack and include the
    run_synthesis
    ```
 
-   ![Synthesis Run](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/synthesis_success)
+   ![Synthesis Run](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/synthesis_success)
 
 5. Run the floorplan stage in OpenLane:
    ```bash
@@ -5411,9 +5411,9 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 
    - Make necessary modifications in the opened files.
 
-   ![Synthesis Settings](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/modifications)
+   ![Synthesis Settings](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/modifications)
 
-      ![Synthesis Settings](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/modified_config)
+      ![Synthesis Settings](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/modified_config)
 
 8. Run floorplan and placement again:
    ```bash
@@ -5431,12 +5431,12 @@ In this lab, we'll configure synthesis settings to improve slack and include the
    magic -T ~/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def
    ```
 
-   ![Placement Result](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/placement_cmd)
+   ![Placement Result](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/placement_cmd)
 
 
-  ![Placement Result](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/placement_gui)
+  ![Placement Result](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/placement_gui)
 
-  ![Placement Result](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/placement_gui1)
+  ![Placement Result](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/placement_gui1)
   
 
 
@@ -5611,18 +5611,18 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 	<summary>Labs</summary>
 
 
-![image](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/cts_real.png)
+![image](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/cts_real.png)
 
 
-![image](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/cts_real1.png)
+![image](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/cts_real1.png)
 
-![image](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/cts_real_setup.png)
-
-
-![image](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/cts_real_timing.png)
+![image](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/cts_real_setup.png)
 
 
-![image](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/real_timing.png)
+![image](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/cts_real_timing.png)
+
+
+![image](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/real_timing.png)
 
 </details>
 
@@ -5714,11 +5714,11 @@ gen_pdn                     (Generate power distribution network)
 
 ### Power Distribution Network (PDN)
 
-![Power Distribution Network](https://github.com/jagdishthakur904/samsung-pd-training/master/Images/Day18/19_gen_pdn.png)
+![Power Distribution Network](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/19_gen_pdn.png)
 
 ### Routing
 
-![Routing](https://github.com/jagdishthakur904/samsung-pd-training/master/Images/Day18/routing.png)
+![Routing](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/routing.png)
 
 If you encounter any issues, ensure that the URLs provided are direct links to the image files (ending in `.png`, `.jpg`, or similar image extensions). Let me know if you need further assistance!
 
