@@ -5670,11 +5670,11 @@ gen_pdn                     (Generate power distribution network)
 
 ![Power Distribution Network](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/19_gen_pdn.png)
 
+
 ### Routing
 
 ![Routing](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/routing.png)
 
-If you encounter any issues, ensure that the URLs provided are direct links to the image files (ending in `.png`, `.jpg`, or similar image extensions). Let me know if you need further assistance!
 
 </details>
 
