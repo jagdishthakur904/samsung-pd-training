@@ -5563,9 +5563,10 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 - Use OpenRoad to read and analyze the synthesized design with OpenSTA, considering clock libraries and SDC.
 - Review the checks and analyze the timing paths.
 
-![OpenSTA Commands](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/cts_run.png)
+![OpenSTA Commands](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/cts_run.png)
 
-![OpenSTA Report](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/cts_tcl.png)
+
+![OpenSTA Report](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/cts_tcl.png)
 
 
 
@@ -5648,7 +5649,7 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 
 
 <details>
-<summary>Lab 1: Lab Steps to Build Power Distribution Network</summary>
+<summary>Labs</summary>
 
 ### Lab Steps to Build Power Distribution Network
 
