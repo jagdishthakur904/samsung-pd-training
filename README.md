@@ -5480,11 +5480,7 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 <details>
 	<summary>CTS and signal integrity</summary>
 
-
-<details>
-<summary>Theory 1: Clock Tree Synthesis and Buffering Using H-Tree Algorithm</summary>
-
-### Clock Tree Synthesis and Buffering Using H-Tree Algorithm
+### Theory 1: Clock Tree Synthesis and Buffering Using H-Tree Algorithm
 
 - Clock tree synthesis is vital for propagating clock signals to all clock pins in the design.
 - A well-designed clock tree considers skew between clock pins due to long routing.
@@ -5583,11 +5579,6 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 ![OpenSTA Report](https://user-images.githubusercontent.com/118953917/215010920-912b1639-6412-4db4-a7dc-8a75afbb3d9f.png)
 
 ![OpenSTA Clock Skew](https://user-images.githubusercontent.com/118953917/215011382-00bfd9c5-05cf-4a1d-b14d-c49d2b726ce8.png)
-
-</details>
-
-<details>
-	<summary>Labs</summary>
 
 ![image](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/cts_real.png)
 
