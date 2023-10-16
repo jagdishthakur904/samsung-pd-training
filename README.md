@@ -5250,12 +5250,12 @@ Clock gating involves using gates for clock nets to prevent dynamic switching an
 3. It's important to note that the output load varies, affecting the input transition of the following buffer due to load variations in one buffer.
 4. Consequently, a range of delays is observed.
 
-![Buffer and Gate](https://raw.githubusercontent.com/Dhananjay411/Samsungpdtraining/blob/master/samsungpd_%23day19/1234.png)
+![Buffer and Gate](https://github.com.com/Dhananjay411/Samsungpdtraining/blob/master/samsungpd_%23day19/1234.png)
 
 1. A delay table is characterized by varying the input transition and output load of a cell against the delay of that cell.
 2. Each cell has its own delay table for different sizes and threshold tables.
 
-![Delay Table](https://raw.githubusercontent.com/Dhananjay411/Samsungpdtraining/blob/master/samsungpd_%23day19/12345.png)
+![Delay Table](https://github.com.com/Dhananjay411/Samsungpdtraining/blob/master/samsungpd_%23day19/12345.png)
 
 **Theory 2: Usage of Delay Tables**
 
@@ -5264,7 +5264,7 @@ Clock gating involves using gates for clock nets to prevent dynamic switching an
 - Each type of cell has its individual delay table since variations in the internal pmos and nmos width/length ratio change the resistance, consequently affecting the RC constant and the delay of each cell.
 - Values of delay not present in the table are extrapolated based on the available data.
 
-![Delay Table Usage](https://raw.githubusercontent.com/Dhananjay411/Samsungpdtraining/blob/master/samsungpd_%23day19/32.png)
+![Delay Table Usage](https://github.com.com/Dhananjay411/Samsungpdtraining/blob/master/samsungpd_%23day19/32.png)
 
 - Similar to delay tables, there's also a characterization table for input transition.
 - The latency at endpoints is the sum of delays of each individual cell in that path.
@@ -5273,7 +5273,7 @@ Clock gating involves using gates for clock nets to prevent dynamic switching an
 - These factors should be considered during the early stages of clock tree design.
 - Power-aware clock tree synthesis (CTS) involves considering endpoints that are active under specific conditions. Clock propagation into inactive cells is unnecessary during their inactive periods.
 
-![Power-aware CTS](https://raw.githubusercontent.com/Dhananjay411/Samsungpdtraining/blob/master/samsungpd_%23day19/321.png)
+![Power-aware CTS](https://github.com.com/Dhananjay411/Samsungpdtraining/blob/master/samsungpd_%23day19/321.png)
 
 </details>
 
@@ -5306,7 +5306,7 @@ Clock gating involves using gates for clock nets to prevent dynamic switching an
 *Track Information (Used During Routing Stage):*
    - Tracks allow routes to pass over them, serving as metal traces.
 
-![Track Information](https://raw.githubusercontent.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/jagdish_inv)
+![Track Information](https://github.com.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/jagdish_inv)
 
 
 **Lab 2: Converting Magic Layout to Standard Cell LEF**
@@ -5368,7 +5368,7 @@ In this lab, we'll configure synthesis settings to improve slack and include the
    - `SYNTH_SIZING`: Controls cell sizing instead of buffering.
    - `SYNTH_DRIVING_CELL`: Ensures more drive strength for cells driving input.
 
-   ![Synthesis Settings](https://raw.githubusercontent.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/modifications)
+   ![Synthesis Settings](https://github.com.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/modifications)
 
    ```bash
    echo $::env(SYNTH_STRATEGY)
@@ -5392,7 +5392,7 @@ In this lab, we'll configure synthesis settings to improve slack and include the
    run_synthesis
    ```
 
-   ![Synthesis Run](https://raw.githubusercontent.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/synthesis_success)
+   ![Synthesis Run](https://github.com.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/synthesis_success)
 
 5. Run the floorplan stage in OpenLane:
    ```bash
@@ -5411,9 +5411,9 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 
    - Make necessary modifications in the opened files.
 
-   ![Synthesis Settings](https://raw.githubusercontent.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/modifications)
+   ![Synthesis Settings](https://github.com.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/modifications)
 
-      ![Synthesis Settings](https://raw.githubusercontent.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/modified_config)
+      ![Synthesis Settings](https://github.com.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/modified_config)
 
 8. Run floorplan and placement again:
    ```bash
@@ -5431,12 +5431,12 @@ In this lab, we'll configure synthesis settings to improve slack and include the
    magic -T ~/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def
    ```
 
-   ![Placement Result](https://raw.githubusercontent.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/placement_cmd)
+   ![Placement Result](https://github.com.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/placement_cmd)
 
 
-  ![Placement Result](https://raw.githubusercontent.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/placement_gui)
+  ![Placement Result](https://github.com.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/placement_gui)
 
-  ![Placement Result](https://raw.githubusercontent.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/placement_gui1)
+  ![Placement Result](https://github.com.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/placement_gui1)
   
 
 
@@ -5449,14 +5449,14 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 - At time stamp T, the second rising edge reaches the capture flop. The analysis interval is between 0 and T.
 - For a combinational circuit to function correctly, the combinational delay must be less than the period T of the clock.
 
-![Clock Edges and Timing Analysis](https://raw.githubusercontent.com/Dhananjay411/Samsungpdtraining/blob/master/samsungpd_%23day19/xy.png)
+![Clock Edges and Timing Analysis](https://github.com.com/Dhananjay411/Samsungpdtraining/blob/master/samsungpd_%23day19/xy.png)
 
 - In practical scenarios, the internal flop circuitry introduces a delay between mux 1 and mux 2.
 - These internal delays impose restrictions on the combinational delay requirements.
 - This internal delay is known as the setup time and needs to be subtracted from the total clock period T.
 - This adjustment allows the capture flop enough time to compute and stabilize the data at Q before the second rising edge of the clock reaches.
 
-![Internal Flop Circuitry and Setup Time](https://raw.githubusercontent.com/Dhananjay411/Samsungpdtraining/blob/master/samsungpd_%23day19/xyz.png)
+![Internal Flop Circuitry and Setup Time](https://github.com.com/Dhananjay411/Samsungpdtraining/blob/master/samsungpd_%23day19/xyz.png)
 
 **Theory 2: Introduction to Clock Jitter and Uncertainty**
 
@@ -5467,12 +5467,12 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 - Clocks are ideally expected to reach the clock pin at precisely 0 seconds or at Ts (time stamp), but real-world scenarios introduce uncertainty due to the clock source generation having its built-in variations, resulting in jitter.
 - Jitter manifests as temporary variations in the clock period, affecting the combinational delay's stringency. Consequently, we adjust the combinational delay to account for uncertainty arising from jitter.
 
-![Clock Jitter and Combinational Delay](https://raw.githubusercontent.com/Dhananjay411/Samsungpdtraining/blob/master/samsungpd_%23day19/k1.png)
+![Clock Jitter and Combinational Delay](https://github.com.com/Dhananjay411/Samsungpdtraining/blob/master/samsungpd_%23day19/k1.png)
 
 - The combinational delay of a path is depicted above, reflecting the impact of jitter-induced uncertainty.
 - Timing analysis becomes more challenging when dealing with multiple ideal clocks.
 
-![Timing Analysis with Multiple Ideal Clocks](https://raw.githubusercontent.com/Dhananjay411/Samsungpdtraining/blob/master/samsungpd_%23day19/k2.png)
+![Timing Analysis with Multiple Ideal Clocks](https://github.com.com/Dhananjay411/Samsungpdtraining/blob/master/samsungpd_%23day19/k2.png)
 
 
 </details>
@@ -5584,9 +5584,9 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 - Use OpenRoad to read and analyze the synthesized design with OpenSTA, considering clock libraries and SDC.
 - Review the checks and analyze the timing paths.
 
-![OpenSTA Commands](https://raw.githubusercontent.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/cts_run.png)
+![OpenSTA Commands](https://github.com.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/cts_run.png)
 
-![OpenSTA Report](https://raw.githubusercontent.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/cts_tcl.png)
+![OpenSTA Report](https://github.com.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/cts_tcl.png)
 
 </details>
 
@@ -5611,18 +5611,18 @@ In this lab, we'll configure synthesis settings to improve slack and include the
 	<summary>Labs</summary>
 
 
-![image](https://raw.githubusercontent.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/cts_real.png)
+![image](https://github.com.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/cts_real.png)
 
 
-![image](https://raw.githubusercontent.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/cts_real1.png)
+![image](https://github.com.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/cts_real1.png)
 
-![image](https://raw.githubusercontent.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/cts_real_setup.png)
-
-
-![image](https://raw.githubusercontent.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/cts_real_timing.png)
+![image](https://github.com.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/cts_real_setup.png)
 
 
-![image](https://raw.githubusercontent.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/real_timing.png)
+![image](https://github.com.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/cts_real_timing.png)
+
+
+![image](https://github.com.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day18/real_timing.png)
 
 </details>
 
@@ -5714,11 +5714,11 @@ gen_pdn                     (Generate power distribution network)
 
 ### Power Distribution Network (PDN)
 
-![Power Distribution Network](https://raw.githubusercontent.com/jagdishthakur904/samsung-pd-training/master/Images/Day18/19_gen_pdn.png)
+![Power Distribution Network](https://github.com.com/jagdishthakur904/samsung-pd-training/master/Images/Day18/19_gen_pdn.png)
 
 ### Routing
 
-![Routing](https://raw.githubusercontent.com/jagdishthakur904/samsung-pd-training/master/Images/Day18/routing.png)
+![Routing](https://github.com.com/jagdishthakur904/samsung-pd-training/master/Images/Day18/routing.png)
 
 If you encounter any issues, ensure that the URLs provided are direct links to the image files (ending in `.png`, `.jpg`, or similar image extensions). Let me know if you need further assistance!
 
