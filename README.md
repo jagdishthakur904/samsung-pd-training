@@ -5675,6 +5675,6 @@ gen_pdn                     (Generate power distribution network)
 
 ![Routing](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day18/routing.png)
 
-
+![Error](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/error.png)
 </details>
 
