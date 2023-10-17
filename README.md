@@ -37,6 +37,8 @@
 
 - [Day-19-Final steps RTL to GDS](#day-19-Final-steps-RTL-to-GDS)
 
+- [Day-20-Floorplanning and Powerplanning in ICC2](#day-20-Floorplanning-and-Powerplanning-in-ICC2)
+
   
 ## Day-0-Installation
 <details>
@@ -5678,3 +5680,215 @@ gen_pdn                     (Generate power distribution network)
 ![Error](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/error.png)
 </details>
 
+## Day-20 Floorplanning and POwerplanning in ICC2
+
+<details>
+	<summary>Theory</summary>
+
+### Physical Design Flow
+
+The **Physical Design Flow**  refers to the process of converting a synthesized netlist, design restrictions, and a standard library into a physical layout based on the design rules provided by the foundry. This layout is then sent to the foundry for the creation of the chip.
+
+This flow is governed by specific objectives, including wire length reduction, achieving minimum area, and optimizing power consumption.
+
+![Physical Design Flow Image](https://user-images.githubusercontent.com/118953917/215411723-547f98c2-d8ac-446c-92b2-19e020ed9f1c.png)
+
+### Main Steps in the Physical Design Flow
+
+1. **Create a Gate-Level Netlist (After Synthesis):**
+   - The netlist is the result of the synthesis process and serves as the foundation for physical design.
+   - Synthesis translates RTL (Register-Transfer Level) designs written in VHDL or Verilog HDL into gate-level specifications understood by subsequent tools.
+   - It lists the cells used, their interconnections, area utilization, and other crucial parameters.
+
+2. **Floorplanning:**
+   - In this step, the dimensions of all blocks are calculated, and they are placed in appropriate positions on the chip.
+   - Blocks with high connectivity are positioned close to each other to facilitate efficient connections.
+
+3. **Partitioning:**
+   - Partitioning involves dividing the chip into separate functional chunks, aiding in placement and routing.
+   - It helps distinguish distinct functional blocks and facilitates modular design.
+
+4. **Placement:**
+   - Placement involves optimally positioning standard cells within the core boundary to achieve minimal congestion and optimal timing.
+   - The tool optimizes the placement based on various criteria such as timing, congestion, area, and power.
+   - The tool may also add buffers/inverters and place physical-only cells to meet timing, drive (DRV), and foundry requirements.
+
+5. **Static Timing Analysis (STA):**
+   - STA validates the timing performance of the design by checking all possible timing paths for violations.
+   - It calculates signal propagation delays along each path and checks for violations of timing constraints.
+   - STA is efficient and thorough compared to dynamic simulation, checking all timing paths.
+
+6. **Clock Tree Synthesis (CTS):**
+   - CTS is a crucial step in the physical design flow used to reduce skew and insertion delay in the clock distribution network.
+   - It ensures the even distribution of the clock signal among all sequential elements in the design.
+
+7. **Routing:**
+   - Routing involves creating connections between cells and blocks.
+   - Global routing assigns routing resources and keeps track of network assignment.
+   - Detailed routing makes the actual connections based on the results of global routing.
+
+8. **Physical Verification:**
+   - This step ensures that the produced layout design is valid and adheres to technological prerequisites, density requirements, and other rules.
+   - It involves density verification and checks for correctness in the layout.
+
+
+![Physical Design Flow Image](https://user-images.githubusercontent.com/118953917/215418212-f6a6c325-c64d-43c9-8628-ef15c05ae168.png)
+
+*Source: [ChipEdge](https://chipedge.com/steps-in-vlsi-physical-design-flow/#:~:text=VLSI%20Physical%20Design%20Flow%20is,the%20creation%20of%20the%20chip.)*
+</details>
+<details>
+	<summary>Labs</summary>
+Sure, I'll rephrase and arrange the content while ensuring that all the information and images are included with appropriate links.
+
+---
+
+### Physical Design Flow
+
+#### Sources
+1. [Getting Started with VSDBabySoC](https://github.com/Devipriya1921/VSDBabySoC_ICC2#getting-started-with-vsdbabysoc)
+
+#### Setup Commands
+```bash
+cd /home/j.thakur/vlsi/day20
+git clone https://github.com/manili/VSDBabySoC.git
+git clone https://github.com/Devipriya1921/VSDBabySoC_ICC2.git
+git clone https://github.com/bharath19-gs/synopsys_ICC2flow_130nm.git
+git clone https://github.com/kunalg123/icc2_workshop_collaterals.git
+git clone https://github.com/google/skywater-pdk-libs-sky130_fd_sc_hd.git
+git clone https://github.com/kunalg123/sky130RTLDesignAndSynthesisWorkshop.git
+```
+
+
+**vsdbabysoc.tcl**
+
+- Modify the file as per the given path and remove -lib in read_lib commands. Replace MYCLK with clk since the clock used in the design is {clk}.
+- All commands have been inserted in gvim and will be executed one at a time.
+
+![vsdbabysoc.tcl](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/vsdbabysoc_tcl.png)
+
+
+
+#### Shell Commands
+```bash
+cd /home/j.thakur/vlsi/day20/
+dc_shell
+source vsdbabysoc.tcl
+```
+
+![Shell Commands](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/source_babysoc_tcl.png)
+
+
+
+#### Reports
+
+- **Report Area**
+
+![Report Area](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/report_area.png)
+
+- **Report Power**
+
+![Report Power](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/report_power.png)
+
+- **Report Timing**
+
+![Report Timing](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/report_timing.png)
+
+
+### Output Schematic
+
+![Output Schematic](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/synth_gui.png)
+
+
+
+### Performing Physical Design
+
+#### Modifying Files
+
+- **top.tcl**
+
+![top.tcl](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/top_tcl_modifications.png)
+
+- **icc2_common_setup.tcl**
+
+![icc2_common_setup.tcl](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/icc2_common_setup_modifications.png)
+
+![icc2_common_setup.tcl](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/icc2_common_setup_modifications2.png)
+
+- **icc2_dp_setup.tcl**
+
+![icc2_dp_setup.tcl](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/icc2_db_setup_modifications.png)
+
+- **init_design.read_parasitic_tech_example.tcl**
+
+![init_design.read_parasitic_tech_example.tcl](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/init_design_parasitic_modifications.png)
+
+- **init_design.mcmm_example.auto_expanded.tcl**
+
+![init_design.mcmm_example.auto_expanded.tcl](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/init_design_mcmm.png)
+
+- **pns_example.tcl**
+
+![pns_example.tcl](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/pns_example.png)
+
+#### Output Layout
+
+> Invoking icc2_shell
+```bash
+cd /home/j.thakur/vlsi/day20/run0
+icc2_shell
+source top.tcl
+```
+
+![Output Layout](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/top_run.png)
+
+![Output Layout 2](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/gui1.png)
+
+![Output Layout 3](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/dac_gui.png)
+
+![Output Layout 3](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/pll_gui.png)
+
+> In icc2_shell
+```bash
+set_propagated_clock [all_clocks]             (Converting clock object from ideal clock to propagated clock)
+report_timing
+estimate_timing
+report_constraints -all_violators -nosplit -verbose -significant_digits 4 > /home/j.thakur/vlsi/day20/run0/violators.rpt
+```
+
+![Timing and Constraints](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/timing_7_per.png)
+
+* estimate_timing report could not be generated since there are no estimate timing rules detected on nets
+
+![No Estimate Timing](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/estimate_tming.png)
+
+**violators.rpt**
+
+```bash
+gvim //home/j.thakur/vlsi/day20/run0/violators.rpt    (Reviewing violations report within the design)
+```
+
+![Violators Report](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/violators.png)
+
+
+#### Modifying Constraints
+
+```bash
+gvim /home/j.thakur/vlsi/day20/vsdbabysoc.tcl
+```
+
+![Constraints Modification](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/modifications_in_sdc.png)
+
+* Rerun the script in dc_shell and generate reports
+
+**Generated vsdbabysoc.sdc after synthesis**
+
+
+
+#### Slacks
+
+* The slack seems to be decreased from the previous run
+
+![Slacks](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/timing_after_clock.png)
+
+
+</details>
