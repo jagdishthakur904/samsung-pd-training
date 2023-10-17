@@ -5738,9 +5738,7 @@ This flow is governed by specific objectives, including wire length reduction, a
 </details>
 <details>
 	<summary>Labs</summary>
-Sure, I'll rephrase and arrange the content while ensuring that all the information and images are included with appropriate links.
 
----
 
 ### Physical Design Flow
 
