@@ -5808,21 +5808,21 @@ source vsdbabysoc.tcl
 
 - **icc2_common_setup.tcl**
 
-![icc2_common_setup.tcl](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/icc2_common_setup_modifications.png)
+![icc2_common_setup.tcl](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/icc2_common_setup_modifications.PNG)
 
-![icc2_common_setup.tcl](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/icc2_common_setup_modifications2.png)
+![icc2_common_setup.tcl](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/icc2_common_setup_modifications2.PNG)
 
 - **icc2_dp_setup.tcl**
 
-![icc2_dp_setup.tcl](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/icc2_db_setup_modifications.png)
+![icc2_dp_setup.tcl](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/icc2_db_setup_modifications.PNG)
 
 - **init_design.read_parasitic_tech_example.tcl**
 
-![init_design.read_parasitic_tech_example.tcl](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/init_design_parasitic_modifications.png)
+![init_design.read_parasitic_tech_example.tcl](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/init_design_parasitic_modifications.PNG)
 
 - **init_design.mcmm_example.auto_expanded.tcl**
 
-![init_design.mcmm_example.auto_expanded.tcl](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/init_design_mcmm.png)
+![init_design.mcmm_example.auto_expanded.tcl](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/init_design_mcmm.PNG)
 
 - **pns_example.tcl**
 
@@ -5857,7 +5857,7 @@ report_constraints -all_violators -nosplit -verbose -significant_digits 4 > /hom
 
 * estimate_timing report could not be generated since there are no estimate timing rules detected on nets
 
-![No Estimate Timing](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/estimate_tming.png)
+![No Estimate Timing](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/estimate_timing.png)
 
 **violators.rpt**
 
@@ -5886,7 +5886,7 @@ gvim /home/j.thakur/vlsi/day20/vsdbabysoc.tcl
 
 * The slack seems to be decreased from the previous run
 
-![Slacks](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/timing_after_clock.png)
+![Slacks](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/triming_after_clock.png)
 
 
 </details>
