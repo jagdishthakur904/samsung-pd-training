@@ -39,6 +39,8 @@
 
 - [Day-20-Floorplanning and Powerplanning in ICC2](#day-20-Floorplanning-and-Powerplanning-in-ICC2)
 
+- [Day-21-Placement and CTS Labs](#day-21-Placement-and-CTS-Labs)
+
   
 ## Day-0-Installation
 <details>
@@ -5887,6 +5889,252 @@ gvim /home/j.thakur/vlsi/day20/vsdbabysoc.tcl
 * The slack seems to be decreased from the previous run
 
 ![Slacks](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/triming_after_clock.png)
+
+
+</details>
+
+## Day-21 Placement and CTS Labs
+
+<details>
+<summary>Theory</summary>
+
+
+### Pre-Placement in VLSI Physical Design
+
+In the VLSI physical design flow, "pre-placement" refers to the initial stage where components like cells are placed on the chip layout before detailed routing. Here are key elements associated with pre-placement:
+
+1. **Physical Cells**: These are library cells that typically only connect to power and ground rails. They serve essential functions like power distribution and grounding in the design.
+
+2. **Well Taps**: These are structures that ensure a stable power supply by connecting to the substrate and providing a low-impedance path to the power grid.
+
+3. **End Cap Cell**: An end cap cell is placed at the boundary of the design to handle any abrupt changes in the routing pattern.
+
+4. **Special Cells**: These cells might have specific functions critical to the design. They are placed strategically to optimize the design's performance and reduce power consumption.
+
+5. **Spare Cells**: These are additional cells placed strategically in the layout. They can be used later during the design process for optimizations, repairs, or other modifications.
+
+6. **Decap Cells**: Decoupling capacitor cells are placed to manage voltage fluctuations, ensuring stable and noise-free power distribution.
+
+7. **Cell Padding**: Reserved space around cells to prevent routing congestion and to provide flexibility for future modifications.
+
+### Pre-Placement Optimization
+
+Before the detailed placement, optimization strategies are applied to enhance the design's quality. Here are the main areas of optimization in pre-placement:
+
+1. **Routability**: This involves ensuring that the design is easily routable, meaning that routing wires can be efficiently placed without excessive congestion or detours. Proper cell placement and floorplanning are crucial to achieve good routability.
+
+2. **Performance (Timing)**: Optimizations are performed to meet timing constraints and improve performance. This includes minimizing delays in critical paths, balancing delays across the design, and optimizing clock distribution.
+
+3. **Power Optimization**: Techniques are employed to optimize power consumption, as power is a critical concern in modern VLSI designs. This involves strategies like power gating, voltage scaling, and minimizing switching activities.
+
+
+
+### Placement in VLSI Physical Design
+
+**What is Placement?**
+
+Placement in VLSI physical design is the process of determining the optimal location for each standard cell and other components on the chip layout. It involves positioning the cells in such a way that it enhances the design's performance and makes subsequent routing more efficient.
+
+**Key Aspects of Placement:**
+
+1. **Optimization**: Placement is not just about arranging cells; it's about optimizing the design for various factors, including timing, power, and area. It's a critical step in achieving a balance between these factors.
+
+2. **Routability**: Placement significantly impacts the routability of the design. Efficient placement ensures that the subsequent routing of interconnections can be accomplished with minimal congestion and delay.
+
+**Goals and Objectives of Placement:**
+
+1. **Timing, Power, and Area Optimization**: Achieving the best balance between timing, power consumption, and chip area to meet design goals.
+
+2. **Minimum Congestion**: Ensuring that the routing paths are clear and unobstructed, minimizing congestion that can impede signal flow.
+
+3. **Minimum Cell Density and Pin Density**: Avoiding overly dense placement of cells and pins to enhance the ease of routing and overall design manageability.
+
+**Inputs for Placement:**
+
+1. **Technology Files (.tf)**: Files containing information about the manufacturing technology and design rules.
+
+2. **Netlist**: The logical representation of the design in terms of interconnected components.
+
+3. **Synopsys Design Constraints (.sdc)**: Specifies timing, area, and other constraints for the design.
+
+4. **Library Files (.lib)**: Contains information about standard cells and their characteristics.
+
+5. **Library Exchange Format (.lef)**: Contains information about cell geometries and pin locations.
+
+6. **Design Exchange Format (.def)**: Contains floor planning and power planning information.
+
+**Placement Methods:**
+
+1. **Timing Driven Placement**: Focuses on optimizing placement to meet timing constraints and reduce critical paths.
+
+2. **Congestion Driven Placement**: Optimizes placement to reduce congestion, ensuring smoother routing paths.
+
+
+### Steps in Placement Phase
+
+**1. Design Constraints:**
+   - Define constraints related to timing, area, power, and other design parameters that guide the placement process.
+
+**2. Reading Gate-Level Netlist from Synthesis:**
+   - Obtain the gate-level netlist generated during the synthesis process, which serves as the foundation for the placement stage.
+
+**3. Global Placement:**
+   - Place the cells in the chip area in a coarse manner, considering high-level connectivity and rough positions to meet initial constraints.
+
+**4. Detailed Placement:**
+   - Fine-tune the placement by optimizing cell positions to achieve better performance, reduce wirelength, and adhere to design rules.
+
+**5. Placement Optimization:**
+   - Iteratively refine the placement to enhance various design metrics such as timing, power, area, and routability.
+
+### Outputs of Placement
+
+**1. Physical Layout Information:**
+   - Detailed information about the physical layout, including positions and orientations of each cell, placement of I/O pads, and macros.
+
+**2. Cell Placement Location:**
+   - Precise coordinates and positions of each cell within the chip area, ensuring minimal congestion and meeting timing requirements.
+
+**3. Physical Layout, Timing, and Technology Information of Reference Libraries:**
+   - Information about the physical layout, timing characteristics, and technology specifics of the standard cell libraries used in the design.
+
+
+
+### Placement Stages
+
+**1. Global Placement:**
+   - Initial placement of cells in a chip area, ensuring high-level connectivity and meeting initial constraints.
+
+**2. Detailed/Legal Placement:**
+   - Fine-tuning the placement to ensure legal placement of cells, adhering to design rules and constraints.
+
+**3. Placement Optimization:**
+   - Iterative refinement of the placement to enhance various design metrics such as timing, power, area, and routability.
+
+**4. Cell Sizing:**
+   - Adjusting the sizes of cells to optimize performance, power, or area while maintaining design requirements.
+
+**5. Cloning:**
+   - Creating copies (clones) of certain cells to improve performance, reduce congestion, or meet specific design objectives.
+
+**6. Buffering:**
+   - Adding buffers strategically in the design to enhance signal quality, optimize timing, and manage loads.
+
+**7. Re-Buffering:**
+   - Fine-tuning buffer insertion based on the results from initial buffering, aiming for better timing and performance.
+
+
+### CTS - Pre-CTS Optimization
+
+**1. Perform High Fanout Net Synthesis (HFNS):**
+   - Identifying and performing synthesis on high fanout nets to optimize their structure before CTS.
+
+**2. Set CTS Routing Rules:**
+   - Defining specific routing rules and guidelines for the CTS process to ensure efficient clock signal distribution.
+
+**3. Shielding:**
+   - Implementing shielding techniques to minimize clock skew and optimize clock distribution in the design.
+
+**4. Non-Default Rules (NDR):**
+   - Incorporating non-default routing rules where necessary to address specific design requirements and constraints.
+
+**5. Set RC Delay Models:**
+   - Configuring RC (Resistance-Capacitance) delay models to account for resistance and capacitance effects, optimizing signal delays.
+
+**6. Double Spacing:**
+   - Increasing the space between certain elements to avoid congestion and improve routing efficiency.
+
+**7. Double Width:**
+   - Increasing the width of certain critical nets or paths to enhance signal integrity and minimize delays.
+
+**8. Ground Shielding:**
+   - Employing shielding techniques on the ground plane to reduce noise and enhance the integrity of the clock signal.
+
+
+
+### Clock Tree Synthesis (CTS)
+
+**Definition:**
+- Clock Tree Synthesis (CTS) involves distributing the clock signal throughout the chip while balancing the load to ensure uniform clock arrival times at each sequential element.
+
+**Key Components:**
+1. **Clock Buffer:**
+   - Elements used to amplify and distribute the clock signal across the chip efficiently.
+   
+2. **Normal Buffer:**
+   - Standard buffers employed to improve the strength and integrity of the clock signal.
+
+**Goals:**
+- **Meeting Clock Tree Design Rule Constraints:**
+  - Adhering to specified design rules for the clock tree to ensure optimal performance and reliability.
+
+- **Meeting Clock Tree Targets:**
+  - Achieving set targets for clock distribution, including signal integrity and timing requirements.
+
+**Main Concerns of CTS:**
+- **Skew:**
+  - Keeping clock skew (variation in arrival times of clock signals) within acceptable limits to maintain synchronization.
+
+- **Noise:**
+  - Mitigating noise during clock distribution to avoid signal degradation and ensure accurate clocking.
+
+- **Power:**
+  - Optimizing power consumption during clock distribution, considering its substantial impact on overall chip power usage.
+
+- **Delay:**
+  - Minimizing clock delay to meet timing requirements and ensure efficient functioning of the design.
+
+
+</details>
+
+<details>
+<summary>Labs</summary>
+
+Certainly! Let's structure and elaborate on the provided information about observing for 40% utilization and the subsequent steps in the design process.
+
+### Observing for 40% of Utilization
+
+In this phase, we aim to observe the design with a targeted core utilization of 40%. The steps involve modifying constraints, adjusting the core utilization in the design, generating reports, and examining the CTS schematic.
+
+1. **Modifying Constraints:**
+   - The process begins by modifying constraints to achieve the desired core utilization of 40%. This involves adjusting various parameters and configurations within the design script.
+
+
+2. **Generated vsdbabysoc.sdc after Synthesis:**
+   - The Synopsys Design Constraints (SDC) file is updated to reflect the modifications made to the design constraints after synthesis, considering the target utilization.
+
+   ![Generated vsdbabysoc.sdc](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day20/modifications_in_sdc.png)
+
+3. **Modifying Core Utilization = 40% in top.tcl:**
+   - The core utilization is adjusted to 40% in the design script (top.tcl) to reflect the desired core density.
+
+   ![Modify Core Utilization](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day21/top_modifi1.png)
+
+4. **Output Layout with 40% Core Utilization:**
+   - The resulting output layout is observed, and it's noted that the core of the Digital-to-Analog Converter (DAC) is visibly larger compared to the previous run with 7% core utilization.
+
+   ![Output Layout 1](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day21/40_per_gui.png)
+   ![Output Layout 2](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day21/dac_gui.png)
+    ![Output Layout 3](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day21/pll_gui.png)
+
+
+
+5. **Reports Generated from the Run:**
+   - Various reports are generated to assess the design's performance and adherence to constraints. These reports include pre-pin placement warnings and post-estimated timing information.
+
+   ![Pre-Pin Placement Warnings](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day21/timing_for_40_per)
+   ![Post-Estimated Timing Report](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day21/report_power_40_per.png)
+
+7. **CTS Schematic Design:**
+   - The Clock Tree Synthesis (CTS) schematic is showcased, emphasizing the transformation from ideal clocks to propagated clocks.
+
+   ![CTS Schematic ](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day21/cts_schematic.png)
+   ![CTS Schematic After](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day21/cts_sche_full.png)
+
+   ![CTS Gui ](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day21/gui_cts_new.png)
+
+    ![CTS Gui1 ](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day21/gui_cts_new.png)
+
 
 
 </details>
