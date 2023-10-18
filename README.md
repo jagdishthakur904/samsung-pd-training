@@ -6089,9 +6089,6 @@ Placement in VLSI physical design is the process of determining the optimal loca
 
 <details>
 <summary>Labs</summary>
-
-Certainly! Let's structure and elaborate on the provided information about observing for 40% utilization and the subsequent steps in the design process.
-
 ### Observing for 40% of Utilization
 
 In this phase, we aim to observe the design with a targeted core utilization of 40%. The steps involve modifying constraints, adjusting the core utilization in the design, generating reports, and examining the CTS schematic.
