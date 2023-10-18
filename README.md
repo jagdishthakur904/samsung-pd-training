@@ -6108,18 +6108,17 @@ In this phase, we aim to observe the design with a targeted core utilization of 
    ![Modify Core Utilization](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day21/top_modifi1.png)
 
 4. **Output Layout with 40% Core Utilization:**
-   - The resulting output layout is observed, and it's noted that the core of the Digital-to-Analog Converter (DAC) is visibly larger compared to the previous run with 7% core utilization.
-
-   ![Output Layout 1](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day21/40_per_gui.png)
-   ![Output Layout 2](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day21/dac_gui.png)
-    ![Output Layout 3](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day21/pll_gui.png)
+   - The resulting output layout is observed, and it's noted that the core of the Digital-to-Analog Converter (DAC) is visibly larger compared to the previous run with 7% core utilization, cause the total core area got reduced.
+![Output Layout 1](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day21/40_per_gui.png)
+![Output Layout 2](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day21/dac_40_per.png)
+![Output Layout 3](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day21/pll_40_per.png)
 
 
 
 5. **Reports Generated from the Run:**
    - Various reports are generated to assess the design's performance and adherence to constraints. These reports include pre-pin placement warnings and post-estimated timing information.
 
-   ![Pre-Pin Placement Warnings](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day21/timing_for_40_per)
+   ![Pre-Pin Placement Warnings](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day21/timing_for_40_per.png)
    ![Post-Estimated Timing Report](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day21/report_power_40_per.png)
 
 7. **CTS Schematic Design:**
@@ -6130,7 +6129,7 @@ In this phase, we aim to observe the design with a targeted core utilization of 
 
    ![CTS Gui ](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day21/gui_cts_new.png)
 
-    ![CTS Gui1 ](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day21/gui_cts_new.png)
+    ![CTS Gui1 ](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day21/gui_cts_new1.png)
 
 
 
