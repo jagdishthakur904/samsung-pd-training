@@ -6156,7 +6156,7 @@ The main goal of Clock Tree Synthesis (CTS) is to address two critical aspects:
 
 2. **Minimizing Insertion Delay:** Insertion delay is the additional time introduced by the clock tree as the clock signal propagates through buffers. Minimizing insertion delay helps maintain good timing performance and overall chip efficiency.
 
-     ![cts ](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day22/cts_image.png)
+     ![cts](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day22/cts_image.jpeg)
 
 
 
