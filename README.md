@@ -6235,8 +6235,7 @@ These checks are part of the clock tree synthesis process to validate the clock 
 
 <details>
 	<summary>Labs</summary>
-In the ICC2 terminal, the provided commands are used to perform various checks and generate reports related to clock tree synthesis and timing analysis. Here's a brief explanation of each command and the corresponding images:
-
+In the ICC2 terminal, the provided commands are used to perform various checks and generate reports related to clock tree synthesis and timing analysis.
 1. `check_clock_tree`:
    - This command is used to check for issues that can adversely impact the Quality of Results (QoR) of the design, especially the clock tree structure, constraints, and clock tree exceptions.
    - It helps identify problems that could affect the effectiveness of Clock Tree Synthesis (CTS).
