@@ -41,6 +41,8 @@
 
 - [Day-21-Placement and CTS Labs](#day-21-Placement-and-CTS-Labs)
 
+- [Day-22-CTS Analysis Labs](#day-22-CTS-Analysis-Labs)
+
   
 ## Day-0-Installation
 <details>
@@ -6133,4 +6135,173 @@ In this phase, we aim to observe the design with a targeted core utilization of 
 
 
 
+</details>
+
+## Day-22 CTS Analysis Labs
+
+<details>
+	<summary>Theory</summary>
+
+Clock Tree Synthesis (CTS) is an essential technique in the field of physical design. Its primary purpose is to ensure that the clock signal, which synchronizes all sequential elements (such as flip-flops) in a VLSI chip, is distributed uniformly and efficiently.
+
+Key aspects of CTS include:
+
+1. **Equal Clock Distribution:** CTS aims to distribute the clock signal equally to all sequential components across the chip. This uniform distribution ensures that each part of the chip receives the clock simultaneously.
+
+2. **Balancing Delays:** Achieving equal clock distribution requires balancing the delays encountered by the clock signal as it travels from the source (the clock generation point) to all the different sequential elements. This balancing minimizes variations in clock arrival times at various parts of the chip, which is vital to avoid setup and hold time violations.
+
+The main goal of Clock Tree Synthesis (CTS) is to address two critical aspects:
+
+1. **Minimizing Skew:** Skew refers to the variation in the arrival times of the clock signal at different locations on the chip. By minimizing skew, CTS ensures that the clock signal reaches all sequential elements simultaneously. Reducing skew is essential to prevent timing violations and maintain reliable chip operation.
+
+2. **Minimizing Insertion Delay:** Insertion delay is the additional time introduced by the clock tree as the clock signal propagates through buffers. Minimizing insertion delay helps maintain good timing performance and overall chip efficiency.
+
+     ![cts ](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day22/cts_image.png)
+
+
+
+
+### Various algo's used for CTS
+In Clock Tree Synthesis (CTS), several algorithms and techniques are used to achieve optimal clock distribution. Some of the commonly employed clock wise CTS algorithms include:
+
+1. **Conventional CTS (Clock Tree Synthesis):** This is the traditional and most widely used CTS method. It involves building a binary tree structure, where the clock signal source is at the root, and it fans out to leaf nodes which connect to sequential elements. This method is relatively simple but may lead to longer clock routes and potential skew issues.
+
+2. **Multisource CTS:** In Multisource CTS, multiple clock sources are used to distribute the clock signal. This approach aims to reduce clock skew and improve clock distribution efficiency by having multiple sources of the clock tree. This can be particularly useful in large designs where conventional CTS may lead to excessive clock skew.
+
+3. **H-tree CTS:** The H-tree structure is a more balanced and efficient clock distribution tree compared to the conventional binary tree. In an H-tree, the clock signal is distributed in a hierarchical pattern that minimizes clock skew and maintains a more uniform clock arrival time to different parts of the chip. It's often used in high-performance designs to achieve better clock distribution.
+
+4. **Mesh CTS:** Mesh CTS, also known as Grid-based CTS, uses a grid-like structure to distribute the clock signal. This approach is efficient in minimizing clock skew, especially in designs with a grid-like architecture. It ensures that the clock signal is distributed uniformly across the chip.
+
+    ![mesh cts ](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day22/clock_mesh.png)
+
+ *Source: [vlsi-backend-adventure](https://www.vlsi-backend-adventure.com/cts.html)*
+
+
+
+
+
+Each CTS algorithm has its advantages and is selected based on the specific requirements of the design, chip architecture, and performance goals. Designers may choose the most suitable algorithm to ensure reliable and efficient clock distribution in their VLSI designs.
+
+
+### H-Tree algorithm
+
+The H-tree algorithm is a clock tree synthesis technique used to distribute the clock signal in a balanced and efficient manner. The algorithm follows a hierarchical pattern, and here's how it works step by step:
+
+1. **Identify Flip-Flops:** The first step is to identify all the flip-flops (sequential elements) in the design. These are the elements that need to be clocked and are part of the clock domain.
+
+2. **Calculate Center:** Find the center point of all the identified flip-flops. This center point is often considered the centroid of these flip-flops' positions.
+
+3. **Trace Clock Port:** Starting from the clock source (input port), trace the clock signal to the center point of these flip-flops.
+
+4. **Divide the Core:** Divide the core area around the center point into two equal parts. This division can be horizontal, vertical, or both, depending on the specific implementation.
+
+5. **Trace to New Centers:** From the center point, trace the clock signal to the new center points created in the previous step. This hierarchical structure ensures that clock signals propagate in a balanced way, minimizing clock skew.
+
+6. **Recursive Division:** Continue this process of dividing the area into two equal parts and tracing the clock signal to new centers recursively until you reach the clock pin of each flip-flop. This hierarchical approach ensures that the clock signal travels efficiently, and clock skew is minimized.
+
+    ![h tree ](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day22/h_tree.JPG)
+
+*Source: [Physicaldesign4u](https://www.physicaldesign4u.com/2020/03/clock-tree-routing-algorithms.html)*
+
+
+
+The H-tree algorithm aims to distribute the clock signal uniformly, especially in designs with a grid-like structure. By following this hierarchical pattern and dividing the area into balanced segments, it helps achieve a clock tree with reduced clock skew, leading to better overall design performance. This is particularly important in high-performance VLSI designs where maintaining synchronized clocks is critical.
+
+
+### Various CTS checks
+
+Various checks are performed during Clock Tree Synthesis (CTS) to ensure the clock distribution meets the required specifications and to guarantee the proper operation of the design. Here are some of the key CTS checks:
+
+1. **Skew Check:** This check ensures that the clock signals reaching all sequential elements (flip-flops) are well-balanced in terms of arrival time. It's essential to minimize clock skew to prevent timing violations.
+
+2. **Pulse Width Check:** It verifies that the clock signals' pulse widths (high and low phases) meet the specified requirements. Clock signals should have a sufficient duty cycle to guarantee proper operation.
+
+3. **Duty Cycle Check:** Duty cycle refers to the ratio of the clock's high time to the total clock period. This check ensures that the duty cycle is within the specified bounds to prevent issues like setup and hold time violations.
+
+4. **Latency Check:** In this check, the latency introduced by the clock tree is assessed. The goal is to ensure that the clock distribution doesn't introduce excessive delays that might impact the design's performance.
+
+5. **Power Check:** This check focuses on power consumption. It's important to ensure that clock buffers and the clock distribution network are designed to minimize power usage while meeting performance requirements.
+
+6. **Crosstalk Quality Check:** This check evaluates the potential for crosstalk, where the clock signal on one wire affects nearby wires, potentially causing signal integrity issues. Minimizing crosstalk is essential for reliable operation.
+
+7. **Delta Delay Quality Check:** This check assesses the differences in delay between various branches of the clock tree. Large delta delays can lead to clock skew and, therefore, need to be minimized.
+
+8. **Glitch Quality Check:** Glitches can occur during clock signal transitions and may lead to unexpected behavior. This check ensures that clock buffers are designed to minimize or eliminate glitches in the clock tree.
+
+These checks are part of the clock tree synthesis process to validate the clock distribution network's quality and performance. Ensuring that the clock signal reaches all parts of the design reliably and consistently is crucial for the overall functionality and performance of the integrated circuit.
+
+</details>
+
+
+<details>
+	<summary>Labs</summary>
+In the ICC2 terminal, the provided commands are used to perform various checks and generate reports related to clock tree synthesis and timing analysis. Here's a brief explanation of each command and the corresponding images:
+
+1. `check_clock_tree`:
+   - This command is used to check for issues that can adversely impact the Quality of Results (QoR) of the design, especially the clock tree structure, constraints, and clock tree exceptions.
+   - It helps identify problems that could affect the effectiveness of Clock Tree Synthesis (CTS).
+
+![check clock tree](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day22/check_clock_tree.png)
+
+
+2. `check_legality`:
+   - This command checks the legality of the current placement in the design.
+   - It reports violation statistics related to placement legality.
+   - The goal is to ensure that the placement adheres to the design rules and constraints.
+![check legality](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day22/check_legality.png)
+
+
+3. `report_clock_timing -type summary`:
+   - This command generates a summary report related to clock timing.
+   - The summary report provides an overview of key timing information and metrics for the clock network.
+![clk_summary](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day22/clk_timing_summary.png)
+
+
+4. `report_clock_timing -type skew`:
+   - This command generates a report specifically focused on clock skew.
+   - It provides details on skew-related timing information, which is essential for ensuring synchronized clock signals.
+
+![clk_summary](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day22/clk_timing_skew.png)
+
+  
+
+
+5. `report_clock_timing -type latency`:
+   - This command generates a report that focuses on clock latency.
+   - It provides information about latency-related aspects of the clock network, which can impact overall design performance.
+
+![clk_summary](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day22/clk_timing_latency.png)
+
+
+6. `report_clock_timing -type transition`:
+   - This command generates a report related to clock signal transitions.
+   - It offers insights into how clock signals transition between different elements of the design.
+![clk_summary](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day22/clk_timing_transition.png)
+
+
+The `synthesize_clock_trees -clocks clk` command in ICC2 Compiler is used to initiate the synthesis of clock trees for the specified clock domain, which is identified by the clock named "clk" in this case.
+
+![clk_summary](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day22/cts_step_9.png)
+
+before running `synthesize_clock_trees -clocks clk` command the clock GUI window looks like
+![clk_summary](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day22/before_cts.png)
+
+after running `synthesize_clock_trees -clocks clk` command the clock GUI window looks like
+
+![clk_summary](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day22/after_cts.png)
+![clk_summary](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day22/pll_after_cts.png)
+![clk_summary](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day22/after_cts_gui.png)
+
+
+report generated after route_opt
+![clk_summary](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day22/route_opt_qor.png)
+
+
+
+
+
+
+
+
+ 
 </details>
