@@ -6484,7 +6484,7 @@ During the Clock Tree Synthesis (CTS) stage in the physical design flow, I encou
 4. **Modifying MCMM File:** To address the voltage mismatch issue,I ensured that the library cells and the design setup both had the correct voltage settings. This typically involves editing the MCMM setup file associated with the design.
 
 
-5. **Re-Running the Flow:** After making the necessary changes to the MCMM file, you re-ran the CTS step. This time, the CTS process completed successfully without the "cannot find usable buffers or inverters" error.
+5. **Re-Running the Flow:** After making the necessary changes to the MCMM file, I re-ran the CTS step. This time, the CTS process completed successfully without the "cannot find usable buffers or inverters" error.
 
 After running `place_opt`
 
