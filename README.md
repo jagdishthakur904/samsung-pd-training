@@ -43,6 +43,8 @@
 
 - [Day-22-CTS Analysis Labs](#day-22-CTS-Analysis-Labs)
 
+- [Day-23-Clock Gating Technique](#day-23-Clock-Gating-Technique)
+
   
 ## Day-0-Installation
 <details>
@@ -6297,10 +6299,225 @@ report generated after route_opt
 
 
 
-
-
-
-
-
  
 </details>
+
+
+## Day-23 Clock Gating Technique
+
+<details>
+	<summary>Theory</summary>
+
+ ### Hierarchical Clock Tree Synthesis for Complex Designs
+
+In the context of digital designs with a large number of flip-flops and diverse clock domains, a hierarchical approach to clock tree synthesis is a valuable strategy. It involves segmenting the chip into smaller, manageable regions, each with its own localized clock tree, which are then interconnected to form a comprehensive routed clock tree for the entire chip. This hierarchical strategy offers several benefits:
+
+1. **Local Clock Trees**: Divide and Conquer
+   - The design is partitioned into smaller regions, each with its dedicated local clock tree.
+   - These local trees are optimized to minimize clock skew and insertion delay within their respective regions.
+   - The division of the chip into smaller sections makes it more manageable and aids in achieving timing goals.
+
+2. **Global Clock Tree**: Coordinating the Regions
+   - The local clock trees within different regions are interconnected via a global clock tree.
+   - The global tree coordinates clock signals between these regions, ensuring proper synchronization.
+   - It allows for efficient signal distribution across the entire chip.
+
+3. **Optimized Timing and Performance**
+   - By focusing on each local tree individually, the hierarchical approach helps in achieving lower skew and reduced insertion delay.
+   - This optimization enhances the overall timing and performance of the design, even for million-flop clock endpoints.
+
+4. **Complexity Management**
+   - Managing a single enormous clock tree in a complex design can be challenging and result in poor performance.
+   - Hierarchical CTS simplifies the problem by breaking it down into more manageable parts, allowing for better control over the design.
+
+5. **Customization**
+   - Each local clock tree can be customized to the specific requirements of its region.
+   - This enables the efficient handling of various clock domains and constraints within the design.
+
+6. **Reduction of Skew**
+   - Controlling clock skew, especially in large designs, is a crucial aspect of hierarchical CTS.
+   - The approach allows for targeted skew reduction within individual regions before merging them into the global tree.
+
+7. **Ensuring Timing Objectives**
+   - The hierarchical approach offers a structured strategy to meet the timing and performance objectives for million-flop designs.
+  
+### Power-Aware Clock Tree Synthesis: Balancing Performance and Energy Efficiency
+
+Clock tree synthesis (CTS) has traditionally focused on areas such as reducing clock skew and meeting timing constraints. However, as the demand for energy-efficient and low-power devices grows, power-aware CTS has emerged as an important component of the design process. Here's why power-aware CTS is crucial:
+
+1. **Energy Efficiency Matters**: Excessive power consumption can lead to reduced battery life, increased heat dissipation, and environmental concerns. In applications like mobile devices, IoT, and data centers, energy efficiency is paramount.
+
+2. **Balancing Performance and Power**: Power-aware CTS strikes a balance between performance (meeting timing constraints) and minimizing power consumption. It aims to distribute the clock signal efficiently while consuming less energy.
+
+3. **Avoiding Over-Buffering**: Over-buffering is a common issue in CTS, where extra buffers are inserted to meet timing constraints. Power-aware CTS takes a more holistic approach, minimizing over-buffering and reducing the power overhead.
+
+4. **Voltage Scaling**: Dynamic voltage scaling (DVS) is a power-saving technique that adjusts the voltage and frequency of the clock signal to reduce power consumption during periods of low activity. Power-aware CTS can facilitate DVS by optimizing the clock tree structure.
+
+5. **Global vs. Local Optimization**: Power-aware CTS can involve both global and local optimization strategies. At the global level, it looks at the entire clock distribution network, considering factors like the clock mesh structure and skew. Locally, it optimizes buffers to reduce unnecessary power wastage.
+
+6. **Optimal Sizing and Location**: By determining the optimal size and location of buffers, power-aware CTS minimizes the power needed for signal distribution. It considers factors such as signal capacitance and the load on buffers.
+
+7. **Leakage Power Reduction**: CTS also addresses leakage power, which is a significant contributor to a chip's overall power consumption. By strategically turning off sections of the clock tree when not in use, it helps reduce leakage power.
+
+8. **Comprehensive Analysis**: Power-aware CTS incorporates tools and methodologies for power analysis, such as estimating switching activity and dynamic power consumption. This information guides the CTS process to minimize power usage.
+
+9. **Trade-offs with Timing**: While focusing on power reduction, power-aware CTS ensures that timing constraints are not compromised. It balances power optimization with meeting the required clock frequencies.
+
+10. **Environmental Impact**: In an era of increasing environmental awareness, power-aware CTS contributes to more sustainable and eco-friendly electronic devices.
+
+
+### Clock Gating with AND, OR, and Universal NAND Gate: Reducing Power Consumption
+
+Clock gating (CG) is a well-established technique in digital design to minimize power consumption, particularly in sequential circuits that spend a considerable amount of time in idle or low-activity states. It aims to reduce dynamic power, which is a significant contributor to a chip's overall power usage. CG achieves this through the use of logic gates, primarily AND, OR, and Universal NAND gates, which are strategically placed in the clock tree. Here's an overview of clock gating and how it helps conserve power:
+
+1. **The Dynamic Power Challenge**: Dynamic power is the power consumed by integrated circuits when they switch between logic states. In many designs, a significant portion of dynamic power originates from the clock distribution network. This is why CG is crucial; it targets this substantial source of power consumption.
+
+2. **Idle and Active States**: In typical digital circuits, not all components are active simultaneously. Many components remain idle, waiting for specific conditions or inputs. During these idle periods, the clock signal can be 'gated' or disabled using logic gates.
+
+3. **How CG Works**: Clock gating works by inserting logic gates (AND, OR, or Universal NAND) in the clock path. These gates evaluate specific conditions. If the conditions are met, the clock is allowed to propagate through the gate, enabling the clocked element. If not, the clock is 'gated' or blocked, preventing the clock signal from reaching the element. This effectively stops the idle or unnecessary clock pulses from propagating through the circuit.
+
+4. **Reducing Transitions**: In digital circuits, each clock transition results in a power dissipation, known as dynamic power. By gating the clock signal when it's not needed, CG reduces the number of clock transitions, thus reducing power consumption.
+
+5. **Conditional Activation**: CG allows conditional activation of circuit elements. For instance, in a microprocessor, certain execution units may be clock-gated when not in use. Similarly, in a complex SoC (System on Chip), specific IP blocks may be clock-gated when the related functionality is not required.
+
+6. **Types of CG**: There are different types of CG techniques, such as positive-edge CG, negative-edge CG, and level-sensitive CG. The choice depends on the design requirements and the specific conditions under which clock gating should occur.
+
+7. **Design Trade-offs**: While CG can significantly reduce power consumption, it can also introduce complexity and potential issues like signal glitches. Engineers must carefully design and verify the conditions under which clock gating is applied.
+
+8. **Power Savings**: The power savings achieved through clock gating can be substantial. It directly impacts the chip's energy efficiency and extends battery life in applications like mobile devices.
+
+
+**Clock Gating in VLSI Design: When and Where It's Implemented**
+**1. Synthesis Stage:**
+
+- **Purpose**: Clock gating can be introduced during the synthesis stage of VLSI design. The primary aim here is to ensure that the logical structure of the design takes into account the potential power savings offered by clock gating.
+
+- **Types of Clock Gating**: During synthesis, the designer specifies the types of clock gating to be used. This can include AND gates, OR gates, or universal NAND gates, depending on the design requirements.
+
+- **Insertion Logic**: In this stage, the designer defines the conditions under which the clock signal should be gated. These conditions are usually related to the activity or idleness of specific functional blocks within the design.
+
+- **Logical Representation**: The synthesis tool generates logical representations of clock gating based on the specified conditions. These representations are then used to guide the physical implementation of clock gating in the later stages of design.
+
+**2. Physical Implementation Stage:**
+
+- **Purpose**: While the logical structure of clock gating is introduced during synthesis, it is physically realized during the implementation stage of VLSI design. This is where the design is translated into an actual layout and the physical connections are established.
+
+- **Clock Tree Synthesis (CTS)**: In this stage, clock gating is implemented as part of the overall clock tree synthesis process. The logical gates that were specified during synthesis are placed within the clock distribution network. These gates allow or block the clock signal from reaching specific parts of the design, depending on the predefined conditions.
+
+- **Optimization**: The physical implementation also involves optimization of the clock gating structures to ensure that they are efficient in terms of area, power, and timing.
+
+- **Verification**: Verification tools are used to ensure that the clock gating logic is correctly implemented and that it meets the design requirements without introducing issues like glitches or excessive delay.
+
+**3. Post-Implementation Verification:**
+
+- **Purpose**: After the physical implementation, thorough verification and validation are carried out to ensure that the clock gating operates as expected and delivers the intended power savings.
+
+- **Testing**: Extensive testing is performed to verify the functionality of the clock gating logic under various operational conditions. This includes testing under real-world scenarios where the design transitions between active and idle states.
+
+- **Analysis**: Detailed analysis is conducted to quantify the power savings achieved through clock gating. This analysis helps to determine the overall energy efficiency and performance of the design.
+
+### Routing in Physical Design Flow
+
+In the physical design flow of integrated circuits (ICs), routing is the final and critical step. It involves making physical connections between various signal pins of the components that constitute the IC. These connections are established using different metal layers within the IC's layout. Here's the key aspects of the routing process:
+
+**1. Types of Routing:**
+
+Routing is categorized into several types based on the purpose and the signals involved. The three main types of routing are:
+
+**a. Power/Ground (P/G) Routing:** This type of routing focuses on connecting the power and ground pins of various components in the IC. It is crucial for ensuring that every component has access to a stable power supply and ground connection.
+
+**b. Clock Routing:** Clock signals play a pivotal role in synchronous digital circuits. Clock routing involves creating the physical connections for clock signals, ensuring minimal skew and stable clock distribution throughout the IC.
+
+**c. Signal Routing:**
+
+- **Global Routing:** Global routing establishes high-level connections between different blocks or regions of the IC. It determines the general paths for signal interconnections but does not provide the fine details of the routing.
+
+- **Detailed Routing:** Detailed routing is where the intricate connections between individual pins, gates, and blocks are established. It involves optimizing the paths for critical signals to meet timing, power, and area constraints. Detailed routing is a highly complex and critical aspect of the routing process.
+
+**2. Routing Optimization:**
+
+Routing is a complex and resource-intensive process. To ensure that the design meets its specifications and constraints, various optimization techniques are employed. These techniques aim to minimize congestion, reduce signal delays, and ensure signal integrity. Some of the routing optimization techniques include:
+
+- **Layer Assignment:** Deciding which metal layers to use for routing different signals based on their speed and characteristics.
+
+- **Track Assignment:** Allocating specific tracks or routing channels to different signals and ensuring proper spacing and separation.
+
+- **Wire Sizing:** Adjusting the width and spacing of wires to balance performance, area, and power consumption.
+
+- **Obstacle Avoidance:** Managing and routing around physical obstacles such as other wires or components on the IC.
+
+- **Clock Tree Synthesis (CTS):** Optimizing the routing for clock signals to minimize skew and power consumption.
+
+**3. Final Routing Process:**
+
+The last step of the physical design flow typically involves executing the final routing process. This process is often initiated with a command such as `route_opt`. During this phase, the tool uses the routing information generated in previous steps to create the actual physical connections on the layout. It considers all routing rules, optimization objectives, and constraints specified in the design.
+
+Routing can be a time-consuming and resource-intensive phase, but it is essential for ensuring that the IC operates as intended, meeting performance, power, and area requirements. The output of the routing process is a fully routed design that is ready for manufacturing.
+
+
+
+</details>
+<details>
+	<summay>Labs</summay>
+**Resolving "No Inverters and Buffers Available" Error in CTS**
+
+During the Clock Tree Synthesis (CTS) stage in the physical design flow, I encountered an error indicating that there were "no inverters and buffers available." This error occured due to a mismatch between the voltage settings in the library cells and the voltage used for setup in the design. Below are the steps taken to resolve this issue:
+
+
+1. **Identifying the Issue:** The first step was to identify the cause of the error. The error message pointed to a lack of available inverters and buffers, which are essential components in clock tree construction.
+
+![before_cts](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/place_opt_failed.png)
+
+2. **Using `check_bufferability` Command:** To gain further insights into the issue, I executed the `check_bufferability` command. This command is a valuable tool for identifying and diagnosing issues related to bufferability in the design.
+
+`check_bufferability -nets CLK -verbose`
+
+![check_bufferability](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/check_bufferability_1.png)
+
+
+3. **Voltage Mismatch Detected:** The `check_bufferability` command revealed that the error was linked to a voltage mismatch. This mismatch occurred between the library cells used in the design and the voltage setting specified in the design setup.
+
+![check_bufferability](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/check_bufferability_2.png)
+
+4. **Modifying MCMM File:** To address the voltage mismatch issue,I ensured that the library cells and the design setup both had the correct voltage settings. This typically involves editing the MCMM setup file associated with the design.
+
+![mcmm_modification](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/mcmm_modification.png)
+
+
+
+5. **Re-Running the Flow:** After making the necessary changes to the MCMM file, you re-ran the CTS step. This time, the CTS process completed successfully without the "no inverters and buffers available" error.
+
+After running `place_opt`
+
+   ![place_opt_success](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/place_opt_success.png)
+   
+gui window
+
+   ![before_cts](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/before_cts.png)
+
+
+After running `clock_opt`
+
+   ![cts_success](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/cts_success.png)
+
+gui window
+      ![final_gui](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/final_gui.png)
+
+   ![gui_after_cts](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/gui_after_cts.png)
+
+Timing after cts
+
+   ![Timing_after_cts](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/timing_after_cts.png)
+
+after running `route_opt`
+
+   ![route_opt](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/route_opt_qor.png)
+
+For clock gating, `compile_ultra -incremental -gate_clock` command is used at synthesis stage, the def and gate-level netlist generated after synthesis is given as input to the flow here ICGs are inserted in the design
+   ![report_clock_gating](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/report_clock_gating.png)
+ ICGs insertion can be seen here 
+   ![report_clock_gating](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/ICG.png)
+
+
+
+</details>/
