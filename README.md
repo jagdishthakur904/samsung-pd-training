@@ -6458,9 +6458,8 @@ Routing can be a time-consuming and resource-intensive phase, but it is essentia
 
 </details>
 
-<details> 
-	
-<summay>Labs</summay>
+<details>
+	<summary>Labs</summary>
 
 **Resolving "No Inverters and Buffers Available" Error in CTS**
 
@@ -6522,6 +6521,5 @@ For clock gating, `compile_ultra -incremental -gate_clock` command is used at sy
  ICGs insertion can be seen here 
  
    ![report_clock_gating](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/ICG.PNG)
-
 
 </details>
