@@ -6458,9 +6458,9 @@ Routing can be a time-consuming and resource-intensive phase, but it is essentia
 
 </details>
 
-<details>
+<details> 
 	
-	<summay>Labs</summay>
+<summay>Labs</summay>
 
 **Resolving "No Inverters and Buffers Available" Error in CTS**
 
@@ -6483,9 +6483,6 @@ During the Clock Tree Synthesis (CTS) stage in the physical design flow, I encou
 ![check_bufferability](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/check_bufferlability_2.PNG)
 
 4. **Modifying MCMM File:** To address the voltage mismatch issue,I ensured that the library cells and the design setup both had the correct voltage settings. This typically involves editing the MCMM setup file associated with the design.
-
-![mcmm_modification](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/mcmm_modification.PNG)
-
 
 
 5. **Re-Running the Flow:** After making the necessary changes to the MCMM file, you re-ran the CTS step. This time, the CTS process completed successfully without the "no inverters and buffers available" error.
@@ -6525,7 +6522,6 @@ For clock gating, `compile_ultra -incremental -gate_clock` command is used at sy
  ICGs insertion can be seen here 
  
    ![report_clock_gating](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/ICG.PNG)
-
 
 
 </details>
