@@ -6457,8 +6457,10 @@ Routing can be a time-consuming and resource-intensive phase, but it is essentia
 
 
 </details>
+
 <details>
 	<summay>Labs</summay>
+
 **Resolving "No Inverters and Buffers Available" Error in CTS**
 
 During the Clock Tree Synthesis (CTS) stage in the physical design flow, I encountered an error indicating that there were "no inverters and buffers available." This error occured due to a mismatch between the voltage settings in the library cells and the voltage used for setup in the design. Below are the steps taken to resolve this issue:
@@ -6466,22 +6468,22 @@ During the Clock Tree Synthesis (CTS) stage in the physical design flow, I encou
 
 1. **Identifying the Issue:** The first step was to identify the cause of the error. The error message pointed to a lack of available inverters and buffers, which are essential components in clock tree construction.
 
-![before_cts](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/place_opt_failed.png)
+![before_cts](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/place_opt_failed.PNG)
 
 2. **Using `check_bufferability` Command:** To gain further insights into the issue, I executed the `check_bufferability` command. This command is a valuable tool for identifying and diagnosing issues related to bufferability in the design.
 
 `check_bufferability -nets CLK -verbose`
 
-![check_bufferability](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/check_bufferability_1.png)
+![check_bufferability](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/check_bufferability_1.PNG)
 
 
 3. **Voltage Mismatch Detected:** The `check_bufferability` command revealed that the error was linked to a voltage mismatch. This mismatch occurred between the library cells used in the design and the voltage setting specified in the design setup.
 
-![check_bufferability](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/check_bufferability_2.png)
+![check_bufferability](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/check_bufferability_2.PNG)
 
 4. **Modifying MCMM File:** To address the voltage mismatch issue,I ensured that the library cells and the design setup both had the correct voltage settings. This typically involves editing the MCMM setup file associated with the design.
 
-![mcmm_modification](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/mcmm_modification.png)
+![mcmm_modification](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/mcmm_modification.PNG)
 
 
 
@@ -6489,7 +6491,7 @@ During the Clock Tree Synthesis (CTS) stage in the physical design flow, I encou
 
 After running `place_opt`
 
-   ![place_opt_success](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/place_opt_success.png)
+   ![place_opt_success](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/place_opt_success.PNG)
    
 gui window
 
@@ -6498,12 +6500,12 @@ gui window
 
 After running `clock_opt`
 
-   ![cts_success](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/cts_success.png)
+   ![cts_success](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/cts_success.PNG)
 
 gui window
-      ![final_gui](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/final_gui.png)
+      ![final_gui](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/final_gui.PNG)
 
-   ![gui_after_cts](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/gui_after_cts.png)
+   ![gui_after_cts](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/gui_after_cts.PNG)
 
 Timing after cts
 
@@ -6511,13 +6513,13 @@ Timing after cts
 
 after running `route_opt`
 
-   ![route_opt](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/route_opt_qor.png)
+   ![route_opt](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/route_opt_qor.PNG)
 
 For clock gating, `compile_ultra -incremental -gate_clock` command is used at synthesis stage, the def and gate-level netlist generated after synthesis is given as input to the flow here ICGs are inserted in the design
-   ![report_clock_gating](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/report_clock_gating.png)
+   ![report_clock_gating](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/report_clock_gating.PNG)
  ICGs insertion can be seen here 
-   ![report_clock_gating](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/ICG.png)
+   ![report_clock_gating](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/ICG.PNG)
 
 
 
-</details>/
+</details>
