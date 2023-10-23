@@ -6461,9 +6461,9 @@ Routing can be a time-consuming and resource-intensive phase, but it is essentia
 <details>
 	<summary>Labs</summary>
 
-**Resolving "No Inverters and Buffers Available" Error in CTS**
+**Resolving "cannot find usable buffers or inverters" Error in CTS**
 
-During the Clock Tree Synthesis (CTS) stage in the physical design flow, I encountered an error indicating that there were "no inverters and buffers available." This error occured due to a mismatch between the voltage settings in the library cells and the voltage used for setup in the design. Below are the steps taken to resolve this issue:
+During the Clock Tree Synthesis (CTS) stage in the physical design flow, I encountered an error indicating that there were "cannot find usable buffers or inverters." This error occured due to a mismatch between the voltage settings in the library cells and the voltage used for setup in the design. Below are the steps taken to resolve this issue:
 
 
 1. **Identifying the Issue:** The first step was to identify the cause of the error. The error message pointed to a lack of available inverters and buffers, which are essential components in clock tree construction.
@@ -6484,7 +6484,7 @@ During the Clock Tree Synthesis (CTS) stage in the physical design flow, I encou
 4. **Modifying MCMM File:** To address the voltage mismatch issue,I ensured that the library cells and the design setup both had the correct voltage settings. This typically involves editing the MCMM setup file associated with the design.
 
 
-5. **Re-Running the Flow:** After making the necessary changes to the MCMM file, you re-ran the CTS step. This time, the CTS process completed successfully without the "no inverters and buffers available" error.
+5. **Re-Running the Flow:** After making the necessary changes to the MCMM file, you re-ran the CTS step. This time, the CTS process completed successfully without the "cannot find usable buffers or inverters" error.
 
 After running `place_opt`
 
