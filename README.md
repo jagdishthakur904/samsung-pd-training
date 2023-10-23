@@ -6459,6 +6459,7 @@ Routing can be a time-consuming and resource-intensive phase, but it is essentia
 </details>
 
 <details>
+	
 	<summay>Labs</summay>
 
 **Resolving "No Inverters and Buffers Available" Error in CTS**
@@ -6474,12 +6475,12 @@ During the Clock Tree Synthesis (CTS) stage in the physical design flow, I encou
 
 `check_bufferability -nets CLK -verbose`
 
-![check_bufferability](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/check_bufferability_1.PNG)
+![check_bufferability](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/check_bufferlability_1.PNG)
 
 
 3. **Voltage Mismatch Detected:** The `check_bufferability` command revealed that the error was linked to a voltage mismatch. This mismatch occurred between the library cells used in the design and the voltage setting specified in the design setup.
 
-![check_bufferability](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/check_bufferability_2.PNG)
+![check_bufferability](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/check_bufferlability_2.PNG)
 
 4. **Modifying MCMM File:** To address the voltage mismatch issue,I ensured that the library cells and the design setup both had the correct voltage settings. This typically involves editing the MCMM setup file associated with the design.
 
@@ -6515,9 +6516,14 @@ after running `route_opt`
 
    ![route_opt](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/route_opt_qor.PNG)
 
+### Clock Gating Lab
+
 For clock gating, `compile_ultra -incremental -gate_clock` command is used at synthesis stage, the def and gate-level netlist generated after synthesis is given as input to the flow here ICGs are inserted in the design
-   ![report_clock_gating](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/report_clock_gating.PNG)
+
+   ![report_clock_gating](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/clock_gating.PNG)
+
  ICGs insertion can be seen here 
+ 
    ![report_clock_gating](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/ICG.PNG)
 
 
