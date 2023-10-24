@@ -6522,4 +6522,9 @@ For clock gating, `compile_ultra -incremental -gate_clock` command is used at sy
  
    ![report_clock_gating](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/ICG.PNG)
 
+In below snapshot you can see the ICG cell, its ref_name is SNPS_CLOCK_GATE_HIGH_core_21, it contains latch from sky130 lib
+
+   ![ICG_cell](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/ICG_cell.PNG)
+
+
 </details>
