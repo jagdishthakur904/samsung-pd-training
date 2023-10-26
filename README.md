@@ -45,6 +45,8 @@
 
 - [Day-23-Clock Gating Technique](#day-23-Clock-Gating-Technique)
 
+- [Day-24-Timing Violations and ECO](#day-24-Timing-Violations-and-ECO)
+
   
 ## Day-0-Installation
 <details>
@@ -6517,6 +6519,11 @@ gui window
 
    ![gui_after_cts](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/gui_after_cts.PNG)
 
+The below image shows the buffer cell added in design
+   ![clkbuf_cell](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/clkbuf_cell.png)
+
+
+
 After doing the man for `clock_opt` command
 ![check legality](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/clock_opt_man.png)
 
@@ -6546,4 +6553,12 @@ In below snapshot you can see the ICG cell, its ref_name is SNPS_CLOCK_GATE_HIGH
    ![ICG_cell](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/ICG_cell.PNG)
 
 
+</details>
+
+## Day-24 Timing Violations and ECO
+
+<details>
+	<summary>Labs</summary>
+
+ 
 </details>
