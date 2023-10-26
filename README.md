@@ -6558,7 +6558,110 @@ In below snapshot you can see the ICG cell, its ref_name is SNPS_CLOCK_GATE_HIGH
 ## Day-24 Timing Violations and ECO
 
 <details>
-	<summary>Labs</summary>
+	<summary>Theory</summary>
+	
+**What is ECO?**
+- **Purpose:** ECO is a vital process in the semiconductor design flow that allows engineers to make adjustments or fixes to a chip's design even after significant stages of the design flow have been completed. These changes could be due to issues, design improvements, or the need to meet specific requirements.
 
+- **Typical Stage:** ECO is generally carried out on the gate-level netlist of the design. This means that engineers work with the low-level representation of the design's logical elements (gates and flip-flops). Changes made to the gate-level netlist are also typically mirrored in the RTL (Register Transfer Level) description, ensuring that the logical functionality remains consistent.
+
+- **Verification:** ECO is a complex process and involves thorough verification. Engineers need to ensure that the changes made during ECO do not introduce new design problems, violations, or bugs. Verification processes, including formal verification and functional simulation, are an integral part of ECO.
+
+**Why ECO?**
+- **PPA Tradeoff:** ECO enables designers to explore different trade-offs between Power (considering aspects like dynamic power, short-circuit power, and leakage power), Performance (meeting timing constraints), and Area (chip size). The ability to make changes at this stage allows for fine-tuning the design to optimize these parameters.
+
+- **Tool Limitations:** Despite the power and capabilities of modern EDA (Electronic Design Automation) tools, they may not automatically resolve all design issues. Manual intervention is required to address complex or corner-case design challenges.
+
+- **Verification Assurance:** Design verification processes often identify issues and bugs in the design. Performing ECO to address these problems helps ensure that the chip is free from errors without requiring a full redesign, which can be time-consuming and costly.
+
+- **Sign-off Checks:** During the initial Physical Design (PD) phase, some sign-off checks might not be completed or addressed. ECO offers the opportunity to finalize these sign-off checks, ensuring the design meets all the required criteria.
+
+**ECO Strategies in Detail**
+The ECO process typically involves the following steps:
+
+1. **Investigate the Problem:** The process begins by thoroughly examining the identified problem or the need for a design change using the latest design database and information.
+
+2. **ECO Generation:** Based on the analysis, an ECO plan is created to address the problem. This plan specifies what changes should be made to the design.
+
+3. **ECO Implementation:** Once the ECO plan is established, engineers make the necessary changes to the design using the most recent design database. This includes modifying the gate-level netlist, adding or removing logic elements, or making other adjustments.
+
+4. **Database Update:** After implementing the ECO changes, the updated design is saved in the database. This new database becomes the basis for subsequent design stages.
+
+![image](https://github.com/jagdishthakur904/samsung-pd-training/assets/142480250/d3d1b453-09cb-4864-a445-4bc0fc19476d)
+
+**Various ECO Strategies**
+- **Margin-Based Fixing:** This strategy focuses on resolving issues related to Design Rule Violations (DRV) and setup/hold time violations. Engineers may consider both max and min margins to address these issues.
+
+- **Selective Endpoint Biased Fixing:** Engineers can opt to fix issues with and without margins, or they may choose to work within specific slack (timing) ranges to optimize the design's performance.
+
+- **Slack-Based Fixing:** Slack is a measure of how much time a signal can be delayed without violating timing constraints. Engineers can target specific slack values, such as setup and hold target slack, or aim to minimize maximum slack violations.
+
+- **Fix 'n' Number of Paths:** This strategy involves setting limits on the number of paths to be fixed. Engineers can specify the maximum number of paths to fix per group or per endpoint.
+
+- **Group-Based and Path-Based Fixing:** This approach allows for fixes to be made at the group or individual path level, depending on the specific requirements of the design.
+
+- **Full Chip vs. Reg2Reg Fixing:** Designers must decide whether to apply fixes globally across the entire chip or focus on specific register-to-register paths.
+
+- **Leakage Fixing Using HVT:** High-Voltage Transistors (HVT) are employed to address leakage power concerns, optimizing power consumption.
+
+- **Hierarchical ECO:** This strategy determines how fixes are applied in hierarchical designs, whether they are concentrated at the top level, applied individually within replicated hierarchies, or a combination of approaches.
+
+- **Physical-Aware ECO:** Engineers consider physical design aspects during the ECO process. This can involve addressing routing congestion issues and ensuring that newly added logic fits within the available space on the chip.
+
+ECO is a critical phase in semiconductor design, allowing engineers to fine-tune the design while ensuring it meets all required criteria for power, performance, and area. The success of ECO relies on careful planning, thorough verification, and a variety of strategies to address different design challenges.
+
+
+</details>
+
+<details>
+	<summary>Labs</summary>
+	
+**Post-CTS Slack Improvement:**
+1. After performing CTS with clock buffers, it's observed that the slack has improved, but it still doesn't meet the design requirements.
+2. Setup and hold analysis is performed to identify areas of concern.
+![setup](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day24/timing26.txt)
+
+**Schematic Analysis:**
+1. The schematic of the worst clock path is analyzed in the GUI to identify critical areas.
+![worst_path](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day24/worst_path_gui.png)
+
+![worst_path](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day24/schematic_before_sizing.png)
+
+**Upsizing for Delay Reduction:**
+1. To meet the slack requirements, the decision is made to upsize specific cells, increasing their drive strength to reduce delay.
+2. The `size_cell` command is used to increase the size of selected cells.
+
+![size_cell](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day24/size_cell.png)
+
+**Slack Improvement:**
+1. By upsizing the cells, the `report_timing -delay max` slack is met, addressing setup violations.
+![setup](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day24/timing_diff_setup.png)
+**Hold Slack Violation:**
+1. Although the setup slack is now met, the hold slack is not. It is violating by a small margin.
+![hold](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day24/timing_diff_hold.png)
+
+**Downsizing to Meet Hold Slack:**
+1. To meet the hold slack requirement, the decision is made to downsize specific cells.
+2. The `size_cell` command is used to reduce the size of selected cells to meet hold constraints.
+
+
+**Comparing Before and After ECO:**
+1. The QoR before and after ECO is compared using the `report_qor` command.
+2. The analysis shows that the area has increased due to cell resizing, and some violations have been resolved.
+   ![QOR](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day24/qor_diff.png)
+
+**Fixing Transition and Capacitance Violations:**
+1. The design has transition and capacitance violations. These are identified using `report_constraints -max_transition -all_violators`.
+2. The violations are fixed by analyzing the affected nets and increasing the drive strength of the relevant cells using the `size_cell` command.
+
+**Power Analysis:**
+1. Power analysis is performed before and after ECO using the `report_power` command.
+2. It is observed that power has increased due to higher drive strength.
+![Power](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day24/power_diff.png)
+**Adding Decaps:**
+1. The ECO process includes adding decaps to the design to improve power distribution and signal integrity.
+   ![Decap](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day24/decap_insertion.png)
+
+    ![Decap](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day24/decap_gui.png)
  
 </details>
