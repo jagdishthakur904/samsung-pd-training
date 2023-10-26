@@ -6250,6 +6250,8 @@ In the ICC2 terminal, the provided commands are used to perform various checks a
    - It reports violation statistics related to placement legality.
    - The goal is to ensure that the placement adheres to the design rules and constraints.
 ![check legality](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day22/check_legality.png)
+   - After doing the man for `check_legality` command
+![check legality](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day22/check_legality_man.png)
 
 
 3. `report_clock_timing -type summary`:
@@ -6279,10 +6281,18 @@ In the ICC2 terminal, the provided commands are used to perform various checks a
    - It offers insights into how clock signals transition between different elements of the design.
 ![clk_summary](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day22/clk_timing_transition.png)
 
+  - After doing the man for `report_clock_timing` command
+![check legality](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day22/report_clock_timing_man.png)
+
+
 
 The `synthesize_clock_trees -clocks clk` command in ICC2 Compiler is used to initiate the synthesis of clock trees for the specified clock domain, which is identified by the clock named "clk" in this case.
 
 ![clk_summary](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day22/cts_step_9.png)
+
+After doing the man for `synthesize_clock_trees` command
+![check legality](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day22/synthesize_clock_trees_man.png)
+
 
 before running `synthesize_clock_trees -clocks clk` command the clock GUI window looks like
 ![clk_summary](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day22/before_cts.png)
@@ -6494,6 +6504,9 @@ gui window
 
    ![before_cts](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/before_cts.png)
 
+After doing the man for `place_opt` command
+![check legality](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/place_opt_man.png)
+
 
 After running `clock_opt`
 
@@ -6504,6 +6517,9 @@ gui window
 
    ![gui_after_cts](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/gui_after_cts.PNG)
 
+After doing the man for `clock_opt` command
+![check legality](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/clock_opt_man.png)
+
 Timing after cts
 
    ![Timing_after_cts](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/timing_after_cts.png)
@@ -6511,6 +6527,9 @@ Timing after cts
 after running `route_opt`
 
    ![route_opt](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/route_opt_qor.PNG)
+
+After doing the man for `route_opt` command
+![check legality](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day23/route_opt_man.png)
 
 ### Clock Gating Lab
 
