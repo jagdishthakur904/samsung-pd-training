@@ -1,0 +1,52 @@
+****************************************
+Report : power
+        -significant_digits 2
+Design : vsdbabysoc
+Version: T-2022.03-SP3-VAL
+Date   : Thu Oct 26 18:08:50 2023
+****************************************
+Information: Activity for scenario func1 was cached, no propagation required. (POW-005)
+Mode: func1
+Corner: func1
+Scenario: func1
+Voltage: 1.80
+Temperature: 25.00
+
+Voltage Unit         : 1V
+Capacitance Unit     : 1pF
+Time Unit            : 1ns
+Temperature Unit     : 1C
+Dynamic Power Unit   : 1nW
+Leakage Power Unit   : 1nW
+
+Switched supply net power scaling:
+scaling for leakage power
+
+Supply nets:
+VDD (power) probability 1.00 (default)
+VSS (ground) probability 1.00 (default)
+
+  Cell Internal Power    = 3.85e+06 nW ( 62.9%)
+  Net Switching Power    = 2.27e+06 nW ( 37.1%)
+Total Dynamic Power      = 6.12e+06 nW (100.0%)
+
+Cell Leakage Power       = 2.47e+02 nW
+
+
+  Attributes
+  ----------
+      u  -  User defined power group
+      i  -  Includes clock pin internal power
+
+Power Group         Internal Power        Switching Power          Leakage Power            Total Power    (   %  )    Attrs
+-----------------------------------------------------------------------------------------------------------------------------
+io_pad                    0.00e+00               0.00e+00               0.00e+00               0.00e+00    (  0.0%)         
+memory                    0.00e+00               0.00e+00               0.00e+00               0.00e+00    (  0.0%)         
+black_box                 0.00e+00               7.52e+05               2.28e+02               7.52e+05    ( 12.3%)         
+clock_network             3.65e+06               1.14e+06               4.51e-01               4.79e+06    ( 78.3%)        i
+register                  9.81e+04               6.09e+04               1.25e+01               1.59e+05    (  2.6%)         
+sequential                0.00e+00               0.00e+00               0.00e+00               0.00e+00    (  0.0%)         
+combinational             1.00e+05               3.16e+05               5.85e+00               4.16e+05    (  6.8%)         
+-----------------------------------------------------------------------------------------------------------------------------
+Total                     3.85e+06 nW            2.27e+06 nW            2.47e+02 nW            6.12e+06 nW
+1
