@@ -6636,13 +6636,12 @@ ECO is a critical phase in semiconductor design, allowing engineers to fine-tune
 **Slack Improvement:**
 1. By upsizing the cells, the `report_timing -delay max` slack is met, addressing setup violations.
 ![setup](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day24/timing_diff_setup.png)
-**Hold Slack Violation:**
-1. Although the setup slack is now met, the hold slack is not. It is violating by a small margin.
-![hold](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day24/timing_diff_hold.png)
 
 **Downsizing to Meet Hold Slack:**
 1. To meet the hold slack requirement, the decision is made to downsize specific cells.
 2. The `size_cell` command is used to reduce the size of selected cells to meet hold constraints.
+
+![hold](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day24/timing_diff_hold.png)
 
 
 **Comparing Before and After ECO:**
