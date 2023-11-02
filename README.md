@@ -47,6 +47,10 @@
 
 - [Day-24-Timing Violations and ECO](#day-24-Timing-Violations-and-ECO)
 
+- [Day-26-Introduction to Mixed Signal Flows](#day-26-introduction-to-mixed-signal-flows)
+
+- [Day-27-Introduction to Crosstalk-Glitch and Delta delay](#day-27-introduction-to-crosstalk-glitch-and-delta-delay)
+
   
 ## Day-0-Installation
 <details>
@@ -6663,4 +6667,87 @@ ECO is a critical phase in semiconductor design, allowing engineers to fine-tune
 
     ![Decap](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day24/decap_gui.png)
  
+</details>
+
+## Day-26 Introduction to Mixed Signal FLow
+<details>
+	<summary>Theory</summary>
+
+### Mixed Signal Design: A Brief Introduction
+
+**What is Mixed Signal Design?**
+
+- Electronic signals are messages encoded by changing the voltage of an electric current, serving to communicate within devices.
+- There are two main types of electronic signals: analog and digital.
+- Analog signals are more prevalent in nature, while microcontrollers and microprocessors primarily understand and use digital signals (1s and 0s).
+- To bridge the gap between digital and analog, Analog-to-Digital Converters (ADCs) and Digital-to-Analog Converters (DACs) are employed.
+
+**Characteristics of Mixed-Signal Chips:**
+
+- Mixed-signal chips deal with input signals where precise values matter. This category includes RF, Analog, Analog-to-Digital, and Digital-to-Analog conversion.
+- Modern mixed-signal chips may require high-precision signal measurement, which demands different design and process technology compared to regular digital circuits.
+
+### Analog and Mixed Signal (AMS) Flow
+
+- AMS, or Analog and Mixed Signal, involves the design and integration of both digital and analog components.
+- The AMS flow encompasses various stages, as shown below:
+
+![AMS Flow](https://user-images.githubusercontent.com/118953917/218935017-b6e05d14-a790-4607-8612-a27c89c5b98b.png)
+
+### A Practical Example: VSDBabySoC
+
+- VSDBabySoC serves as an example of a mixed-signal design, comprising different components:
+  - RVMYTH processor (digital block)
+  - PLL (analog block)
+  - DAC (analog block, used for digital-to-analog conversion)
+
+### Introduction to Key Files in the Design Process
+
+**LEF (Library Exchange Format) File:**
+- Contains physical properties such as width and height for standard cells.
+- It is crucial for defining the layout of components.
+
+**LIBerty File:**
+- Contains timing information for the cells, including setup times, hold times, and delay information.
+
+**GDSII and OASIS Files:**
+- GDSII and OASIS are file formats for layout design that enable the transfer of design data between parties.
+- They are crucial for handoffs from IP owners to PD teams and foundries for fabrication.
+
+![Files Overview](https://user-images.githubusercontent.com/118953917/218978973-19dae4f1-8f5a-4916-acdc-a9cfdf711425.png)
+
+**PnR Tool:**
+- The Place-and-Route (PnR) tool is used for optimal placement of standard cells to minimize congestion, improve timing, area, and power.
+
+**Why Are These Files Necessary?**
+- LEF, LIB, and TF files are essential to provide crucial information for the physical design of the chip.
+
+![Physical Design Flow](https://user-images.githubusercontent.com/118953917/218981759-27c9b056-ae06-481c-8ac1-826549041f43.png)
+
+**Sources of These Files:**
+- These files are sourced from various parties and are vital for different stages in the design process.
+
+![File Sources](https://user-images.githubusercontent.com/118953917/218983204-5a925e58-9748-4ec4-902d-9c804e265cbd.png)
+
+### Exploring IP Cores
+
+**What Are IP Cores?**
+- IP cores are blocks of logic or data used in semiconductor chips.
+- They are often the intellectual property of a specific entity and are crucial for FPGA and ASIC designs.
+- IP cores can be customized and mapped to different process technologies, offering flexibility.
+- IP cores come in different categories, including hard IP cores and soft IP cores.
+
+**IP Core Integration in Semiconductor Industry:**
+- IP cores play a significant role in semiconductor chip development, as they facilitate design reusability and improve efficiency.
+
+![IP Core Integration](https://user-images.githubusercontent.com/118953917/218985408-52ba048f-00c0-49bf-b1af-694b6094a823.png)
+
+
+</details>
+
+## Day-27 Introduction to Crosstalk-Glitch and Delta Delay
+
+<details>
+	<summary>Theory</summary>
+
 </details>
