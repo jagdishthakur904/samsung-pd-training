@@ -7027,7 +7027,7 @@ These commands will provide information about the crosstalk analysis settings in
    ```tcl
    current_design
    ```
- ![current_design](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day27/current_design.png)
+ ![current_design](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day27/cuurent_design.png)
    - This command displays information about the currently loaded and linked design.
 
 These PT-Shell commands are part of the process of setting up design environment, importing the design, and associating it with the necessary libraries to perform various analyses and optimizations in the physical design stage.
@@ -7062,7 +7062,7 @@ Certainly, here are the provided commands structured more clearly:
    - This command initiates a timing check, which evaluates the timing constraints and identifies any violations or issues related to signal integrity.
 
 
-    ![check_timing](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day27/check_design.png)
+    ![check_timing](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day27/check_timing.png)
 
 These commands are typically used during the physical design process to set constraints, enable SI analysis, and incorporate parasitic information into the design environment for accurate analysis and optimization.
 
