@@ -6750,4 +6750,359 @@ ECO is a critical phase in semiconductor design, allowing engineers to fine-tune
 <details>
 	<summary>Theory</summary>
 
+ **Introduction to the Chip Design Cycle**
+
+In the chip design process, we strive to achieve three main objectives:
+
+1. **Power Efficiency:** Our first goal is to minimize power consumption, ensuring that the chip operates efficiently and conserves energy.
+
+2. **Performance Enhancement:** We aim to improve the chip's performance in terms of speed and functionality.
+
+3. **Compact Size:** We seek to create smaller chip devices, as smaller size can be advantageous in modern electronics.
+
+**Crosstalk Noise Origins**
+
+One significant factor contributing to crosstalk noise in chip design is high routing density and the use of a large number of standard cells. This is particularly noticeable in processes with channel lengths of 0.25 um and 0.1 um.
+
+- **Channel Length Reduction:** To achieve smaller chip sizes, designers often reduce the channel length of MOSFETs. This reduction not only shrinks the MOSFET size but also leads to smaller combinational logic cells. As a result, more circuits can be accommodated in the same chip area. For example, a chip designed for sending and receiving messages can now host multiple instances, each handling different functions.
+
+- **Interference Due to Reduced Size:** However, reducing component size can introduce interference issues, especially in processes with channel lengths of 0.1 um or less. In these scenarios, wires and nets are placed closely together, which can lead to crosstalk. Initially, when dealing with larger components, there might be 20 standard cells. As the component size decreases, the number of standard cells significantly increases, leading to denser routing. This density can result in functional failures within the design, often referred to as crosstalk.
+
+So, while the reduction in component size allows for more functionality within a chip's area, it also brings about challenges related to crosstalk.
+
+[Note: The source of this information is attributed to a figure from a lecture video in a Udemy course(https://www.udemy.com/course/vlsi-academy-crosstalk/learn/lecture/1614424#overview).]
+
+![image](https://user-images.githubusercontent.com/118953917/219541836-b80e0fa7-52ce-45a3-898b-161ecf48c703.png)
+
+**Dominant Lateral Capacitance**
+
+- **Two Types of Capacitance:** There are two key types of capacitance involved in chip design:
+  - **Interlayer Capacitance:** These are capacitors situated between two consecutive different layers in the chip.
+  - **Lateral Capacitance:** These capacitors are placed between two wires at the same level within a metal layer.
+
+![image](https://user-images.githubusercontent.com/118953917/219543759-59aad67d-c6f8-4d67-86ee-1182b9c4804c.png)
+
+- **Increasing Lateral Capacitance:** One of the contributing factors to crosstalk noise is the increase in lateral capacitance, which occurs as the number of metal layers in the chip design increases. Lateral capacitance is particularly problematic as it predominantly exists within the same layer.
+
+- **Reasons for Increased Lateral Capacitance:**
+  - **Resistance Reduction:** Breaking the chip into multiple metal layers serves to decrease resistance. This lower resistance is crucial for improving the chip's efficiency.
+  - **Overlap Area:** The overlap area between metal layer 1 and metal layer 2, as depicted in the figure below, becomes extensive. This substantial overlap leads to an increase in lateral capacitance. In processes with channel lengths of 0.25 um and above, interlayer capacitance is more dominant.
+
+![image](https://user-images.githubusercontent.com/118953917/219565374-c89b697d-bab2-4759-a627-b5930a383fb4.png)
+
+- **Challenges Due to Reduced MOSFET Size:** As the MOSFET size is reduced, the number of standard cells increases, leading to a greater number of connections. Consequently, the routing becomes denser. To address this, chip designers reduce the width of the metal. However, this alone may not suffice as the demand for routing resources in the area remains high.
+
+- **Altered Connection Strategies:** In such scenarios, designers must adopt different connection strategies. For instance, a method that makes the signal travel in a straight line across a single metal layer without transferring the signal to a different metal layer. This adaptation is driven by the limited routing resources in a compact chip area.
+
+- **Notable Changes:** Key changes that arise due to these factors include the reduction of metal width and an increase in the number of metal layers.
+
+- **Lateral Capacitance Challenges:** The most significant drawback of lateral capacitance is that it primarily exists within the same layer. This close proximity can lead to immediate coupling of signals between different components of the same layer, resulting in the adverse impact of any switching activity.
+
+![image](https://user-images.githubusercontent.com/118953917/219570032-d95aae1c-0f77-487d-83da-dc47820dd052.png)
+
+**Introduction to Noise Margin**
+
+- **Reduced Supply Voltage and Noise Margin:** Another important aspect to consider in chip design is the impact of lower supply voltage on noise margin.
+
+- **Inverter Functionality:** In a basic inverter operation, low-level input results in high-level output and vice versa.
+
+- **Graphical Representation:** This behavior is graphically represented, where when Vin (input voltage) is low, Vout (output voltage) is high, and vice versa. The critical transition point occurs at half the voltage (Vdd/2).
+
+- **Varying Input Voltage:** As the input voltage transitions from low to high, the output voltage follows suit, gradually decreasing until it reaches a low level.
+
+- **Ideal vs. Practical Behavior:** In an ideal scenario, this transition should be instantaneous, but practical scenarios introduce delays due to capacitances and resistances. The curve, while not perfectly smooth, approaches zero voltage.
+
+- **Defining Key Voltages:**
+  - **Input Low Voltage (VIL):** The range of input voltage recognized as a low logic level.
+  - **Output High Voltage (VOH):** The output voltage corresponding to a high logic state.
+  - **Input High Voltage (VIH):** The input voltage level above which the output is expected to be low.
+  - **Output Low Voltage (VOL):** The output voltage at a high input level.
+
+![image](https://user-images.githubusercontent.com/118953917/219579883-a91f6c08-72de-45c6-bbfc-483c7ff29838.png)
+
+**Noise Margin Summary**
+
+- **Defining Logic Levels:**
+  - Any voltage between VOL (Output Low Voltage) and VIL (Input Low Voltage) is considered as logic 0.
+  - In the range between VIL and VIH (Input High Voltage), the voltage is in an undefined region. It can transition from logic 1 to logic 0 or vice versa within this range, making it a critical zone.
+  - Voltages between VIH and VOH (Output High Voltage) are consistently treated as logic 1.
+  - It's essential to prevent voltages from entering the undefined region as it becomes impossible to distinguish between logic 0 and logic 1 in this case.
+
+- **Challenge of Large Physical Distances:** This issue becomes pronounced when there is a significant physical distance between the main power supply and the circuit. 
+
+- **Noise Margin Significance:** Noise margin plays a vital role in defining the input voltage range and output voltage behavior. Essentially, it varies the input voltage. It helps to identify how the input voltage should be categorized.
+  - **Noise Margin:** Any voltage within the range defined by VOH and VIH is detected as logic 1 and should be placed within the inputs and outputs of the circuit.
+  - Any voltage within the Noise Margin Low (NML) range is recognized as logic 0. Noise in this range can usually be managed or disregarded.
+
+![image](https://user-images.githubusercontent.com/118953917/219953157-00f6b3c5-2728-4346-8112-c546254744ca.png)  
+![image](https://user-images.githubusercontent.com/118953917/219952384-7bce91e1-b507-41d1-8706-82f6d5ea487c.png)
+
+- **Lower Supply Voltage Impact:** A decrease in the supply voltage leads to a reduction in noise margin. As an example, in the figure below, the margin on the left-hand side (LHS) becomes less than 200 mV, and on the right-hand side (RHS), the noise margin falls below 100 mV.
+
+![image](https://user-images.githubusercontent.com/118953917/219953486-88c0dbd4-6321-4b8c-85f9-2f88e0b85201.png)
+
+**Noise Margin Summary**
+
+- **Defining Logic Levels:**
+  - Any voltage between VOL (Output Low Voltage) and VIL (Input Low Voltage) is considered as logic 0.
+  - In the range between VIL and VIH (Input High Voltage), the voltage is in an undefined region. Within this range, the logic can transition from logic 1 to logic 0 or vice versa. This undefined region is a critical area.
+  - Voltages between VIH and VOH (Output High Voltage) are consistently treated as logic 1.
+  - It's crucial to prevent voltages from entering the undefined region because it becomes impossible to distinguish whether the voltage is in logic 1 or logic 0 within this zone.
+
+- **Challenge of Large Physical Distances:** This issue becomes pronounced when there is a significant physical distance between the main power supply and the circuit.
+
+- **Noise Margin Significance:** Noise margin plays a vital role in defining the input voltage range and output voltage behavior. Essentially, it varies the input voltage.
+  - **Noise Margin:** Any voltage within the range defined by VOH and VIH is detected as logic 1 and should be placed within the inputs and outputs of the circuit.
+  - Any voltage level in the Noise Margin Low (NML) range is recognized as logic 0. Noise in this range can usually be managed or disregarded.
+
+- **Lower Supply Voltage Impact:** A decrease in the supply voltage leads to a reduction in noise margin. As an example, in the figure below, the margin on the left-hand side (LHS) becomes less than 200 mV, and on the right-hand side (RHS), the noise margin falls below 100 mV.
+
+![image](https://user-images.githubusercontent.com/118953917/219953486-88c0dbd4-6321-4b8c-85f9-2f88e0b85201.png)
+
+**Introduction to Signal Integrity and Glitch**
+
+  
+### Signal Integrity and Crosstalk
+  
+* Signal Integrity and Crosstalk are the Quality checks of the clock routes.
+  
+* **Signal integrity**: It refers to the ability of an electrical signal to reliably carry information and resist the disruptive effects of high-frequency electromagnetic interference from nearby signals.
+  
+* **Crosstalk**: This is an unwanted electrical interaction that occurs between two or more physically adjacent signal pathways due to capacitive cross-coupling. Crosstalk is a type of noise signal that interferes with the intended signal while it's being transmitted through the communication medium.
+  
+**Aggressor and Victim Nets**
+  
+* A signal pathway that experiences undesirable cross-coupling effects from a neighboring pathway is referred to as the victim pathway.
+  
+* The neighboring pathway that causes these effects in a victim pathway is known as the aggressor pathway.
+  
+### Crosstalk-Glitch
+  
+* Crosstalk noise, or simply crosstalk, occurs when one signal pathway is switching (changing state), and another pathway remains in a constant state. This switching signal can induce voltage spikes in the constant pathway due to the presence of coupling capacitance (Cc) between the two pathways.
+
+* Types of Glitches --> These glitches can include Rise, Fall, Overshoot, and Undershoot, depending on how the voltage changes in the affected signal.
+
+![image](https://user-images.githubusercontent.com/118953917/220038938-9c354627-8e3e-454a-8ee6-e855a5eaf6da.png)
+  
+### Performing Crosstalk Delay Analysis
+
+1. Enable PrimeTime SI by using the command: `set_app_var si_enable_analysis true`.
+
+2. Back-annotate the design with cross-coupling capacitance information in a SPEF or GPD file. Replace `file_name.spf` with the actual file name: `read_parasitics -keep_capacitive_coupling file_name.spf`.
+
+### Using `check_timing` Command
+
+To check specific aspects related to crosstalk analysis, you can use the following types:
+
+- `no_driving_cell`
+- `ideal_clocks`
+- `partial_input_delay`
+- `unexpandable_clocks`
+
+### Generating Timing Reports
+
+You can generate various timing reports related to crosstalk analysis using commands like:
+
+- `report_timing`
+- `report_si_bottleneck`
+- `report_delay_calculation –crosstalk`
+- `report_si_double_switching`
+- `report_noise`
+
+For example, to view the Crosstalk Analysis Report, use the following command:
+
+```shell
+report_timing -crosstalk_delta
+report_si_bottleneck
+report_delay_calculation –crosstalk
+report_si_double_switching
+report_noise
+report_timing -transition_time -crosstalk_delta -input_pins -significant_digits 4
+```
+
+### Bottleneck Reports
+
+Generate bottleneck reports with commands like:
+
+- `report_si_bottleneck`
+- `report_bottleneck`
+- `delta_delay`
+- `delta_delay_ratio`
+- `total_victim_delay_bump`
+- `delay_bump_per_aggressor`
+
+For example, to get a list of all the victim nets with a delay violation or within 2.0 time units of a violation, listed in order of delta delay:
+
+```shell
+report_si_bottleneck -cost_type delta_delay -slack_lesser_than 2.0
+```
+
+### Crosstalk Net Delay Calculation
+
+To calculate the delay for a specific net affected by crosstalk, you can use the following command. Replace `g1/Z` and `g2/A` with the actual pins or nets:
+
+```shell
+report_delay_calculation -crosstalk -from [get_pins g1/Z] -to [get_pins g2/A]
+```
+
+### Reporting Crosstalk Settings
+
+To check your crosstalk settings and configurations, you can use the following commands:
+
+- `report_si_delay_analysis`
+- `report_si_noise_analysis`
+- `report_si_aggressor_exclusion`
+
+These commands will provide information about the crosstalk analysis settings in your design.
+
+</details>
+
+<details>
+	<summary>Labs</summary>
+
+
+### ICC2 Shell Commands
+
+1. **Source a Tcl Script:**
+   ```tcl
+   source /home/j.thakur/vlsi/day20/run2/top.tcl
+   ```
+   - This command executes the `top.tcl` script, which likely contains instructions for your IC design.
+
+2. **Update Timing Information:**
+   ```tcl
+   update_timing
+   ```
+   - This command updates the timing information within your design, recalculating timing constraints and delays.
+
+3. **Write Parasitic Information in SPEF Format:**
+   ```tcl
+   write_parasitics -format spef -output vsdbabysoc_spef
+   ```
+   - This command writes parasitic information in the Standard Parasitic Exchange Format (SPEF) and saves it as `vsdbabysoc_spef`.
+      ![spef](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day27/write_spef.png)
+
+ ![spef](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day27/spef_file.png)
+
+4. **Decompress a GZIP-Compressed File:**
+   ```tcl
+   gzip -d /home/j.thakur/vlsi/day20/run2/write_data_dir/vsdbabysoc/vsdbabysoc.pt.v.gz
+   ```
+   - This command decompresses the GZIP-compressed file named `vsdbabysoc.pt.v.gz`.
+
+5. **Copy a File to Another Location:**
+   ```tcl
+   cp /home/j.thakur/vlsi/day20/run2/write_data_dir/vsdbabysoc/vsdbabysoc.pt.v /home/j.thakur/vlsi/day20/run2/
+   ```
+   - This command copies the decompressed `vsdbabysoc.pt.v` file to another location within your project directory.
+
+
+### PT-Shell Commands
+
+1. **Set Target Libraries:**
+   ```tcl
+   set target_library "/home/j.thakur/vlsi/day20/run2/avsddac.db /home/j.thakur/vlsi/day20/run2/avsdpll.db /home.j.thakur/vlsi/day20/run2/sky130_fd_sc_hd__tt_025C_1v80.db"
+   ```
+   - This command sets the target library, including multiple library files, for use in your design.
+
+2. **Set Linked Libraries:**
+   ```tcl
+   set link_library [list /home/j.thakur/vlsi/day20/run2/avsddac.db /home/j.thakur/vlsi/day20/run2/avsdpll.db /home/j.thakur/vlsi/day20/run2/sky130_fd_sc_hd__tt_025C_1v80.db]
+   ```
+   - This command sets up a list of linked libraries, referencing the same library files as the target libraries.
+
+3. **Read Verilog File:**
+   ```tcl
+   read_verilog /home/j.thakur/vlsi/day20/run2/vsdbabysoc.pt.v
+   ```
+   - This command reads and imports the Verilog file `vsdbabysoc.pt.v` into your PT-Shell environment.
+
+4. **Link the Design:**
+   ```tcl
+   link_design
+   ```
+   - This command links and associates the imported design with the specified libraries and linked libraries.
+
+5. **View Current Design:**
+   ```tcl
+   current_design
+   ```
+ ![current_design](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day27/current_design.png)
+   - This command displays information about the currently loaded and linked design.
+
+These PT-Shell commands are part of the process of setting up design environment, importing the design, and associating it with the necessary libraries to perform various analyses and optimizations in the physical design stage.
+
+
+Certainly, here are the provided commands structured more clearly:
+
+### Commands for SDC, SI Analysis, and Parasitics
+
+1. **Read SDC File:**
+   ```tcl
+   read_sdc /home/j.thakur/vlsi/day20/run2/func1.sdc
+   ```
+   - This command reads and imports the SDC (Synopsys Design Constraints) file `func1.sdc` into your design environment.
+
+2. **Enable Signal Integrity (SI) Analysis:**
+   ```tcl
+   set_app_var si_enable_analysis true
+   ```
+   - This command sets an application variable to enable Signal Integrity (SI) analysis, allowing you to perform SI checks on your design.
+
+3. **Read Parasitics with Capacitive Coupling:**
+   ```tcl
+   read_parasitics -keep_capacitive_coupling /home/j.thakur/vlsi/day20/run2/vsdbabysoc_spef.temp1_25.spef
+   ```
+   - This command reads parasitic information from the specified SPEF (Standard Parasitic Exchange Format) file and retains information related to capacitive coupling.
+
+4. **Check Timing:**
+   ```tcl
+   check_timing
+   ```
+   - This command initiates a timing check, which evaluates the timing constraints and identifies any violations or issues related to signal integrity.
+
+
+    ![check_timing](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day27/check_design.png)
+
+These commands are typically used during the physical design process to set constraints, enable SI analysis, and incorporate parasitic information into the design environment for accurate analysis and optimization.
+
+
+1. **Report SI Bottleneck:**
+   ```tcl
+   report_si_bottleneck
+   ```
+   - This command generates a report listing the nets with the largest crosstalk effects. These are the nets that may be most affected by crosstalk noise.
+
+2. **Report Bottleneck:**
+   ```tcl
+   report_bottleneck
+   ```
+   - This command generates a report that includes information about multiple minimum and maximum delay violations in your design.
+
+3. **Report SI Delay Analysis:**
+   ```tcl
+   report_si_delay_analysis
+   ```
+   - This command generates a report that provides insights into the delay analysis specific to Signal Integrity, helping you understand timing characteristics.
+
+     ![current_design](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day27/report_bottleneck1.png)
+
+4. **Report SI Aggressor Exclusion:**
+   ```tcl
+   report_si_aggressor_exclusion
+   ```
+   - This command generates a report related to excluding aggressor nets from crosstalk analysis, which can help you fine-tune your SI analysis.
+
+5. **Report SI Noise Analysis:**
+   ```tcl
+   report_si_noise_analysis
+   ```
+   ![current_design](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day27/report_aggressor.png)
+   - This command generates a report focused on noise analysis, helping you understand the impact of noise on your design.
+
+These reports can be useful for diagnosing and optimizing your design with respect to Signal Integrity, especially in scenarios where crosstalk and timing violations need to be addressed.
+
+![current_design](https://github.com/jagdishthakur904/samsung-pd-training/tree/master/Images/Day27/report_constraints.png)
+
+ 
 </details>
