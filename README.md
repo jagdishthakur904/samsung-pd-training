@@ -51,6 +51,8 @@
 
 - [Day-27-Introduction to Crosstalk-Glitch and Delta delay](#day-27-introduction-to-crosstalk-glitch-and-delta-delay)
 
+- [Day-28-Introduction to DRC/LVS](#day-28-Introduction-to-DRC/LVS)
+
   
 ## Day-0-Installation
 <details>
@@ -7105,4 +7107,319 @@ These reports can be useful for diagnosing and optimizing your design with respe
 ![current_design](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day27/report_constraints.png)
 
  
+</details>
+
+## Day-28 Introduction to DRC/LVS
+
+<details>
+	<summary>Theory</summary>
+
+### Introduction to SkyWater SKY130
+
+#### SkyWater PDK Overview
+
+The SkyWater Open Source PDK is a collaborative effort between Google and SkyWater Technology Foundry. It offers a fully open-source Process Design Kit (PDK) and associated resources. The PDK includes documentation, available at [SkyWater PDK Docs](https://skywater-pdk.readthedocs.io/en/main/), and is hosted on GitHub at [SkyWater PDK Repository](https://github.com/google/skywater-pdk). There's also an active community at [SkyWater Community](https://invite.skywater.tools/).
+
+The "130" in SKY130 denotes the feature size, representing the length of the smallest transistor achievable in this process.
+
+#### Open-Source EDA Tools and Open_PDKs
+
+Open_PDKs is a Makefile-based installer designed to adapt files from SkyWater PDKs for a range of open-source EDA (Electronic Design Automation) tools. These tools include Magic, Klayout, Openlane, Xschem, Netgen, Ngspice, IVerilog, qflow, IRSIM, and xcircuit.
+
+The supported libraries by open_pdks encompass digital standard cells (sky130_fd_sc_hd), primitive devices/analog (sky130_fd_pr), I/O cells (sky130_fd_io), and third-party libraries (sky130_ml_xx_hd).
+
+The installation structure follows a common format, with SkyWater PDKs located under `/usr/share/pdk/sky130A/`. Within this directory, there are two subdirectories: `libs.tech` for open-source tool setup and `libs.ref` for reference libraries.
+
+#### Physical Verification and Design Flow
+
+Physical verification is crucial and involves two major steps:
+
+1. **Design Rule Checking (DRC):** This step ensures that the layout adheres to all the rules stipulated by the foundry for the specific process.
+
+2. **Layout Vs. Schematic (LVS):** LVS is performed to verify that the layout netlist matches the schematic netlist.
+
+This systematic approach ensures the reliability and accuracy of the chip design process.
+
+</details>
+
+<details>
+	<summary>Labs</summary>
+
+ ### Opensource EDA Tools: Check Tool Installations
+
+#### Magic
+
+To invoke the Magic interface, use the command `magic` in the command prompt:
+
+```bash
+magic
+```
+
+This command opens a layout window and a console window for executing layout commands. You can also invoke the Tcl interpreter in the terminal with the option `-noconsole`:
+
+```bash
+magic -noconsole
+```
+
+To run Magic in batch mode without a graphics layout window, use the following command:
+
+```bash
+magic -dnull -noconsole filename.tcl
+```
+
+#### Netgen
+
+Invoke Netgen in the terminal with the command:
+
+```bash
+netgen
+```
+
+Netgen is command-driven and lacks a graphics interface. You can also run Netgen in batch mode:
+
+```bash
+netgen -batch source filename.tcl
+```
+
+Netgen provides a GUI window in Python, accessible with:
+
+```bash
+/usr/local/lib/netgen/python/lvs_manager.py
+```
+
+#### Xschem
+
+To invoke Xschem, use the command:
+
+```bash
+xschem
+```
+
+This opens a schematic window. Unlike Netgen and Magic, Xschem uses the native command line terminal for Tcl commands. Run Xschem in batch mode with:
+
+```bash
+xschem --tcl filename.tcl -q
+```
+
+#### Ngspice
+
+To invoke Ngspice in Linux, use the command:
+
+```bash
+ngspice
+```
+
+Ngspice has its own prompt and runs its own set of interpreter commands that aren't based on Tcl. Run Ngspice in batch mode with:
+
+```bash
+ngspice -b
+```
+
+### Creating Sky130 Device Layout In Magic
+
+```bash
+cd /home/j.thakur/Desktop
+mkdir inverter
+cd inverter
+mkdir xschem
+mkdir mag
+mkdir netgen
+```
+
+
+```bash
+cd xschem
+ln -s /usr/share/pdk/sky130A/libs.tech/xschem/xschemrc
+ln -s /usr/share/pdk/sky130A/libs.tech/ngspice/spinit .spiceinit
+cd ../mag/
+ln -s /usr/share/pdk/sky130A/libs.tech/magic/sky130A.magicrc .magicrc
+cd ../netgen/
+ln -s /usr/share/pdk/sky130A/libs.tech/netgen/sky130A_setup.tcl setup.tcl
+```
+
+#### xschem
+
+```bash
+cd inverter/xschem/
+xschem
+```
+
+This opens an xschem display with various example schematics. SKY130 devices are accessible in xschem, and examples can be explored by pressing "E" after clicking the relevant rectangle. To return to the menu, press "CTRL+E". Resizing the schematic to fit the window can be done with the "F" key.
+
+![Xschem Devices](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day28/example3.PNG)
+
+#### magic
+
+```bash
+cd ../mag/
+magic
+magic -d XR     # To invoke a cairo graphics package for better rendering
+magic -d -OGL   # An OpenGL-based graphics package
+```
+
+This opens two magic windows, with the layout window displaying "Technology: sky130A" along with various colors and icons representing available layers in this technology.
+
+![Magic Layout](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day28/magic4.PNG)
+
+Useful Magic shortcuts include adjusting the cursor box, zooming, selecting layers, and more. For example, left and right mouse buttons adjust the cursor box, Shift+Z zooms out, and the middle mouse button or "P" key selects a layer.
+
+To edit Devices drop-down buttons, click on Devices 1 -> nmos (MOSFET). Select nmos (MOSFET) under "Devices 1" and set the width to 2 um, length to 0.5 um, and fingers to 3.
+
+![Magic Device Parameters](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day28/param5.PNG)
+
+Change the device type to `sky130_fd_pr__nfet_g5v0d10v5` for further customization.
+
+![Magic Device Type](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day28/magic_nmos6.PNG)
+
+
+### Creating Simple Schematic In Xschem
+
+```bash
+cd ../xschem/
+xschem
+```
+
+- Press the "Insert" key to open the Choose Symbol window. Select the SkyWater library directory path to access SkyWater components and choose the `fd_pr` library. To create an inverter, select the `nfet` and `pfet` devices from the insert window and place them anywhere in the schematic.
+
+![Inserting Components]()
+
+- Pins are found under the `xschem` library in the insert window and are named as `ipin.sym`, `opin.sym`, and `iopin.sym`. Place the pins and use the "M" key to move the components around on the schematic window. Use the "C" key to copy the components and the "Del" key to erase components. Use the "W" key to insert wires between components and make connections.
+
+- Rename each pin to something sensible using the "Q" key to bring up the parameter window. Select the components by clicking on them and use the "Q" key to bring up the parameter windows to configure the properties of the devices.
+
+- For **nfet**, change the length to 0.18, set the number of fingers to 3, and the width of each finger to 1.5. Since there are 3 fingers, the total width in the parameter window must be set to 4.5.
+
+- Similarly, for **pfet**, adjust the parameters to 3 fingers, width of 1 per finger, and a length of 0.18. Specify that the body is connected to the Vdd pin as it is a 3-pin pfet.
+
+![Configuring Components](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day28/9inverter_pfet.PNG)
+![Configuring Components](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day28/10inverter_nfet.PNG)
+
+- Save the design by clicking "File" -> "Save As" -> "inverter.sch".
+
+### Creating Symbol And Exporting Schematic In Xschem
+
+- To functionally validate the schematic, create a testbench that is separated from the schematic. Firstly, create a symbol for the schematic as the schematic will appear as a symbol in the testbench. Click on the "Symbol" menu and select "Make symbol from schematic". Then, create a testbench schematic using the new schematic option and insert the generated symbol from the local directory using the "Insert" key.
+
+- Select the new schematic in the "File" tab and choose "inverter.sch" under the home directory. Paste it on the schematic window.
+
+- The testbench will be simple, where a ramp input is generated, and the output response is observed after connecting the power supplies. Insert 2 voltage sources from the default xschem library, one for the input and one for the supply. Connect these and add a GND node to the supply connections. Create "ipins" and "opins" for the input and output signals to observe in Ngspice.
+
+- Set the supply voltage to 1.8 V. For the input voltage, set the supply to a piece-wise linear function (PWL) to get a ramp. The PWL function has voltage and time values that state the supply will start at 0V, then ramp up from 20 ns until it reaches its final value at 900 ns of 1.8 V.
+
+- Place two more statements for ngspice, but as these aren't specific to any component, they must be placed in text boxes. To place a text box, select the `code_shown.sym` component under the `xschem` library.
+
+- The first text box will specify the location of the device models used in the device schematic, using a `.lib` statement that selects a top-level file that tells ngspice where to find all the models and specifying a simulation corner for all the models.
+
+- For the second block, specify:
+  ```bash
+  value = ".control
+  tran 1n 1u
+  plot V(in) V(out)
+  .endc"
+  ```
+
+- This will tell ngspice to run a transient simulation for 1 ns and monitor voltages for the in and out pins. Save this as "inverter_tb.sch".
+
+![Testbench Schematic](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day28/11inverter_tb.PNG)
+
+- To generate the netlist, click on the "Netlist" button, then simulate it in Ngspice by clicking the "Simulate" button.
+
+- The waveform confirms that the schematic behaves as an inverter.
+
+![Simulation Waveform](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day28/12inverter_simulation.PNG)
+
+- After verifying the schematic, create a layout for it. To do this, go back to the inverter schematic.
+
+- Click on the "Simulation" menu and select "LVS netlist: Top Level is a .subckt". Wait a few seconds and check the Simulation menu to see if a tick mark appears beside the aforementioned option. This verifies if you have properly defined a sub-circuit for creating a layout cell with pins in the layout.
+
+- Finally, generate a netlist for the schematic by clicking the "Netlist" button and exit Xschem.
+
+### Importing Schematic to Layout and Inverter Layout Steps
+
+```bash
+cd ../mag/
+magic -d XR
+```
+
+- Import the schematic to the layout in Magic by running the `magic`, then click on "File" -> "Import SPICE," and select the `inverter.spice` file from the `xschem` directory. If done correctly, the layout should be opened up in Magic.
+
+![Layout Import](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day28/13layout_before.PNG)
+
+- The schematic import does not know how to do analog placing and routing as it is very complicated. Therefore, components must be placed in the best positions and wired manually.
+
+- Firstly, place the `pfet` device above the `nfet` and adjust the placement of the input, output, and supply pins.
+
+![Component Placement](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day28/14layout_after.PNG)
+
+- Set some parameters that are only adjustable in the layout which will make it more convenient to wire the whole layout. Use the "S" key to pop out the parameter editing section, press the "I" key to select the object, then use "CTRL+P" to open up the parameter options for the selected device.
+
+- Set the "Top guard ring via coverage" to 100. This will put a local interconnect to metal1 via at the top of the guard ring. Next, for "Source via coverage," put +40, and for "Drain via coverage," put -40. This will split the source and drain contacts, making it easy to connect them with a wire.
+
+- For `nfet`, set the "Bottom guard ring via coverage" to 100, while the source and drain via coverages are set to +40 and -40, respectively, like the `pfet`.
+
+- Start painting the wires using metal1 layers by connecting the source of the `pfet` to Vdd and the source of the `nfet` to Vss. Next, connect the drains of both MOSFETs to the output. Finally, connect the input to all the poly contacts of the gate.
+
+![Wiring Layout](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day28/15extract.PNG)
+
+- Save the file and select the "autowrite" option.
+
+- Run the following commands in the Magic console:
+
+```bash
+extract do local    # Ensuring that Magic writes all results to the local directory
+extract all         # Performing the actual extraction
+ext2spice lvs       # Simulating and setting up the netlist to hierarchical spice output in Ngspice format with no parasitic components
+ext2spice           # Generating the spice netlist
+```
+
+![Extraction and Spice Generation](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day28/16remove_unwanted.PNG)
+
+```bash
+rm *.ext                                          # Clear any unwanted files; .ext files are just intermediate results from the extraction
+/usr/share/pdk/bin/cleanup_unref.py -remove .     # Clean up extra .mag files; files containing parameterized cells that were created and saved but not used in the design
+netgen -batch lvs "../mag/inverter.spice inverter" "../xschem/inverter.spice inverter"    # Run LVS by entering the Netgen subdirectory
+```
+
+- Always use the layout netlist first and schematic netlist second in the Netgen command as in side by side, resulting in the layout on the left and the schematic on the right. Each netlist is represented by a pair of keywords in quotes, where the first is the location of the netlist file, and the second is the name of the subcircuit to compare.
+
+- As seen from the result, there was an issue in the wiring, and the netlists do not match. This is due to wiring errors in the layout.
+
+![LVS Result](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day28/17lvs.PNG)
+
+**Debugging Errors in Netlist, Rerun, and Save Layout**
+
+```bash
+extract do local
+extract all
+ext2spice lvs
+ext2spice cthresh 0     # Tells Magic to add all the parasitic capacitances to the spice netlist
+ext2spice
+```
+
+- Referring to the netlist file, there are multiple lines beginning with `C`, which detail the parasitic capacitances.
+
+```bash
+vim inverter.spice 
+```
+
+![Netlist with Parasitic Capacitances](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day28/.PNG)
+
+```bash
+cp ../xschem/inverter_tb.spice .
+vim inverter_tb.spice
+```
+
+- Modify the testbench netlist file.
+
+![Testbench Netlist](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day28/18tb_spice.PNG)
+
+```bash
+/usr/share/pdk/bin/cleanup_unref.py -remove .
+cp ../xschem/.spiceinit .
+ngspice inverter_tb.spice
+```
+
+- The result is almost the same as in the previous simulation in Xschem.
+
+![Simulation Result](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day28/19final.PNG)
 </details>
