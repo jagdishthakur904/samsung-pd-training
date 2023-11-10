@@ -7402,7 +7402,7 @@ ext2spice
 vim inverter.spice 
 ```
 
-![Netlist with Parasitic Capacitances](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day28/.PNG)
+![Netlist with Parasitic Capacitances](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day28/inverter_spice.PNG)
 
 ```bash
 cp ../xschem/inverter_tb.spice .
@@ -7422,4 +7422,5 @@ ngspice inverter_tb.spice
 - The result is almost the same as in the previous simulation in Xschem.
 
 ![Simulation Result](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day28/19final.PNG)
+
 </details>
