@@ -51,7 +51,7 @@
 
 - [Day-27-Introduction to Crosstalk-Glitch and Delta delay](#day-27-introduction-to-crosstalk-glitch-and-delta-delay)
 
-- [Day-28-Introduction to DRC/LVS](#day-28-Introduction-to-DRC/LVS)
+- [Day-28-Introduction to DRC/LVS](#day-28-Introduction-to-drc-/-lvs)
 
   
 ## Day-0-Installation
@@ -7320,7 +7320,7 @@ xschem
 
 - This will tell ngspice to run a transient simulation for 1 ns and monitor voltages for the in and out pins. Save this as "inverter_tb.sch".
 
-![Testbench Schematic](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day28/11inverter_tb.PNG)
+![Testbench Schematic](https://github.com/jagdishthakur904/samsung-pd-training/blob/master/Images/Day28/11inveter_tb.PNG)
 
 - To generate the netlist, click on the "Netlist" button, then simulate it in Ngspice by clicking the "Simulate" button.
 
