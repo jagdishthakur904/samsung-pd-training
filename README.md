@@ -51,7 +51,7 @@
 
 - [Day-27-Introduction to Crosstalk-Glitch and Delta delay](#day-27-introduction-to-crosstalk-glitch-and-delta-delay)
 
-- [Day-28-Introduction to DRC/LVS](#day-28-Introduction-to-drc/lvs)
+- [Day-28-Introduction to DRC/LVS](#day-28-introduction-to-drc/lvs)
 
   
 ## Day-0-Installation
